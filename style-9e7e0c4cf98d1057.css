@@ -1,0 +1,1003 @@
+:root {
+  color-scheme: dark;
+  --bg: #16181d;
+  --bg-alt: #1c1f26;
+  --panel: #20242c;
+  --border: #2c3038;
+  --text: #e6e8ec;
+  --text-dim: #9096a2;
+  --accent: #7c9eff;
+  --danger: #f15b5b;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+}
+
+.sidebar {
+  background: var(--bg-alt);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* KB-172: separator moved to `.sidebar-self-row` below -- that row (not
+     this one) now sits directly above the "DM" list. */
+}
+
+.sidebar-header h1 {
+  font-size: 16px;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* KB-156: "Harmonia" is now a button (opens SettingsOverlay) — styled to
+   read as the same header text it replaced, not a generic button. */
+.sidebar-header-title-button {
+  font-size: 16px;
+  margin: 0;
+  letter-spacing: 0.02em;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* KB-172: username/hex-id + identicon row, underneath the header's
+   separator line and just above the "DM" list (was still inside
+   `.sidebar-header`, beside/under the "Harmonia" title, before this card).
+   The gradient backdrop now spans this entire row -- all the way to the
+   sidebar's right edge, underneath the identicon too -- instead of being
+   scoped to just the username span. */
+.sidebar-self-row {
+  position: relative;
+  /* KB-146: see .chat-header — isolate so the -1 z-indexed ::before below
+     doesn't escape to an ancestor stacking context and vanish behind an
+     opaque sibling background. */
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-self-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gateway-gradient, transparent);
+  /* KB-149: brighter than the 0.35 KB-148 landed with -- bumped further so
+     the gradient reads clearly as the row's backdrop. */
+  opacity: 0.6;
+  z-index: -1;
+}
+
+.header-title-block {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* KB-171/KB-172: Blockie identicon, to the right of the username block, on
+   the same gradient backdrop. Fixed pixel size matches the
+   `blockie_svg(seed, 8, 4)` call in header/src/lib.rs (8 cells * 4px scale
+   = 32px). */
+.header-identicon {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.header-identicon svg {
+  display: block;
+}
+
+.gateway-id {
+  /* KB-149: black text for contrast against the gradient backdrop -- the
+     default light `--text` color washed out on it. */
+  color: #000;
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1.15;
+  cursor: pointer;
+}
+.gateway-id-name {
+  font-size: 1em;
+}
+.gateway-id-sub {
+  /* KB-149: `<xxx>-<yyy>` moved under the username at half size, instead
+     of `<username>.<xxx>-<yyy>` on one line. */
+  font-size: 0.5em;
+  opacity: 0.75;
+}
+.gateway-id-input {
+  font-size: 1em;
+  color: #000;
+  padding: 0 2px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+.status-dot.connected { background: #4fd18b; }
+.status-dot.failed { background: var(--danger); }
+
+/* KB-156: header-dot mesh-link toggle. Click cycles connected <-> disconnected; the two
+   in-flight states ("disconnecting" while leaving, "connecting" while (re)joining) blink so
+   the pending action is visibly distinct from either settled state. */
+.status-dot.mesh-link-dot {
+  cursor: pointer;
+}
+.status-dot.mesh-link-dot.connected { background: #4fd18b; }
+.status-dot.mesh-link-dot.disconnected { background: var(--danger); }
+.status-dot.mesh-link-dot.connecting {
+  background: #4fd18b;
+  animation: mesh-link-blink 0.8s ease-in-out infinite;
+}
+.status-dot.mesh-link-dot.disconnecting {
+  background: var(--danger);
+  animation: mesh-link-blink 0.8s ease-in-out infinite;
+}
+@keyframes mesh-link-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+.section {
+  padding: 12px 16px;
+}
+
+.section h2 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin: 0 0 8px 0;
+}
+
+.channel-list, .participant-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.channel-item, .participant-item {
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+}
+
+/* KB-152: red X to remove a DM channel / contact from its sidebar list.
+   `margin-left: auto` pushes it to the far right of the row's flex box. */
+.row-remove-btn {
+  margin-left: auto;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  padding: 2px 4px;
+  flex-shrink: 0;
+}
+.row-remove-btn:hover {
+  opacity: 0.75;
+}
+
+/* KB-183 task 3: crown marking the channel owner's row in the "Channel"
+   participants list (participant-item), sitting before the presence dot. */
+.owner-crown {
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.channel-item:hover, .participant-item:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+.channel-item.active {
+  background: rgba(124,158,255,0.15);
+  color: var(--text);
+}
+
+.dot {
+  /* KB-183 task 4: doubled from 8px -> 16px when the gradient background
+     was swapped for an inline Blockies-style identicon SVG (see
+     participant_row_view in participants/src/lib.rs). */
+  width: 16px;
+  height: 16px;
+  /* final-review minor: match .header-identicon's 4px convention -- 50%
+     clipped the blockie's square corners. */
+  border-radius: 4px;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+.dot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* KB-183 task 5: pastel-green username text (contacts list only) replaces
+   the old KB-100 green ring-around-dot presence indicator. Applied via
+   `.username-online` on the id-label-backdrop span in
+   participant_row_view_with_presence (participants/src/lib.rs) when
+   `is_online()` is true -- that helper only ever returns true for the
+   "nearby contacts" call site (mesh_peers is Some there), so channel-member
+   mention rows and the plain DM-contacts list (mesh_peers: None) never get
+   this class regardless. */
+.username-online {
+  color: #9be8b4;
+}
+
+/* KB-183 task 5: dark-grey glow behind username/channel-name text, shared by
+   sidebar rows (channel-item/participant-item name spans) and the channel
+   header banner (.chat-header h2, selector below) so names stay legible
+   over both the id-gradient backdrop and the channel-gradient header. */
+.username-glow, .chat-header h2 {
+  /* KB-183 follow-up: 0 0 3px rgba(40,40,40,0.6) was barely-there against
+     this dark theme (light text on #16181d) -- not enough contrast for the
+     shadow color itself to read as a glow. Stack a tight near-black outline
+     plus a softer glow so it's clearly visible against dark/gradient
+     backdrops alike. */
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.75), 0 1px 1px rgba(0, 0, 0, 0.85);
+}
+
+/* KB-183 follow-up: sidebar contact-row hover overlay -- centered popup with
+   a 2x identicon + username + hex id, shown on hover of the whole row (not
+   just the name span). Pure CSS hover, no signal; markup renders
+   unconditionally in participant_row_view_with_presence (participants/src/lib.rs). */
+.contact-hover-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 32px;
+  border-radius: 12px;
+  background: var(--id-gradient);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.12s;
+}
+.participant-item:hover .contact-hover-card {
+  opacity: 1;
+  visibility: visible;
+}
+.contact-hover-card-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.contact-hover-card-avatar svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.contact-hover-card-name {
+  font-size: 2em;
+  color: #000;
+}
+.contact-hover-card-id {
+  font-size: 0.6em;
+  opacity: 0.65;
+  color: #000;
+}
+
+/* KB-102: subtle 2-tone backdrop behind an id label, colored by the same
+   deterministic gradient as its status dot (format::participant_gradient_css
+   / gradient_css_from_hex). --id-gradient is set inline per-row. */
+.id-label-backdrop {
+  position: relative;
+  /* KB-146: see .chat-header — isolate so the -1 z-indexed ::before below
+     doesn't escape to an ancestor stacking context and vanish behind an
+     opaque sibling background. */
+  isolation: isolate;
+  border-radius: 4px;
+  padding: 1px 4px;
+  margin: -1px -4px;
+}
+.id-label-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--id-gradient);
+  opacity: 0.15;
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.id-sub-label {
+  display: block;
+  font-size: 0.75em;
+  opacity: 0.65;
+}
+
+.kind-badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--border);
+  color: var(--text-dim);
+  margin-left: auto;
+}
+
+input[type="text"], input[type="password"], textarea, select {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 7px 9px;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+textarea { resize: vertical; }
+
+button {
+  background: var(--accent);
+  color: #10131a;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+button.secondary {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+button.link {
+  background: transparent;
+  color: var(--accent);
+  padding: 4px 0;
+  font-weight: 500;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.inline-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  margin-top: 8px;
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* KB-120: channel-id gradient backdrop + dark overlay, so the banner text
+   stays legible over any gradient. --channel-gradient is set inline
+   (format::gradient_css_from_hex on the channel's hex_suffix). */
+.chat-header {
+  position: relative;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  overflow: hidden;
+  /* KB-146: this used to be two negative-z-index ::before/::after layers.
+     Without a stacking context of its own, negative-z-index descendants
+     escape to the nearest ancestor stacking context and paint behind
+     opaque sibling backgrounds (e.g. html/body's --bg) -- the gradient CSS
+     var resolved fine, it just never got painted. `isolation: isolate`
+     would fix that, but `.chat-header` has a `position: fixed` descendant
+     (`ParticipantsOverlay` / `.participants-overlay`, KB-121/133) whose
+     z-index:20 needs to compete in the *page's* stacking context, not get
+     trapped inside a local one. So instead of pseudo-elements + z-index,
+     composite both layers directly into this element's own `background`
+     (multiple layers paint top-to-bottom, no z-index or stacking context
+     needed at all): the dark overlay on top, the id gradient underneath.
+     --channel-gradient is set inline (format::gradient_css_from_hex on the
+     channel's hex_suffix). */
+  background: linear-gradient(rgba(40, 40, 40, 0.25), rgba(40, 40, 40, 0.25)), var(--channel-gradient);
+}
+
+/* final-review minor: text-shadow moved into .username-glow's rule below
+   (selector grouped there) instead of being duplicated here. */
+.chat-header h2 {
+  margin: 0;
+  font-size: 15px;
+}
+.chat-header .members { font-size: 12px; color: var(--text-dim); }
+
+/* KB-97: private/public toggle to the left of a custom channel's name */
+.channel-privacy-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  margin-right: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  vertical-align: middle;
+  user-select: none;
+}
+.channel-privacy-toggle.private { background: #c0392b; }
+.channel-privacy-toggle.public { background: #2980b9; }
+
+.messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* KB-89: centered date divider above the first message of each local day. */
+.date-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.date-divider::before,
+.date-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border, currentColor);
+  opacity: 0.3;
+}
+
+.message {
+  display: flex;
+  gap: 10px;
+  max-width: 70%;
+  /* KB-182: was 400px, silently clipping long multi-line messages with no
+     scrollbar/indication. Large fixed cap (not `none`) keeps the KB-175
+     max-height->0 collapse transition working while never being reached by
+     real content. */
+  max-height: 10000px;
+  overflow: hidden;
+  /* KB-182 follow-up: `.messages` is a column flex container, so without
+     this a `.message` flex item's automatic minimum size is its content
+     size -- but `overflow: hidden` resets that automatic minimum to 0,
+     which lets the flexbox algorithm shrink a tall message down below its
+     real content height to make everything fit the container instead of
+     the container scrolling. Measured: a 1500-line message's offsetHeight
+     was squashed to 574px (scrollHeight 30462px) while `.messages` itself
+     reported no overflow at all, so no scrollbar ever appeared. flex-shrink:
+     0 stops messages from being compressed; `.messages`'s own scrollHeight
+     then correctly exceeds its clientHeight and the existing
+     `overflow-y: auto` (KB-179) takes over. */
+  flex-shrink: 0;
+  transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+}
+
+/* KB-175: a deleted message fades and collapses to zero height in-place so
+   the messages below slide up to fill the gap -- the row is never removed
+   from the underlying `messages` signal (KB-173 soft-delete stays
+   append-only), this is purely a CSS-driven visual collapse. */
+.message.removing {
+  opacity: 0;
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+/* KB-84: sent (mine) right-aligned to window edge, received (theirs)
+   left-aligned. Alignment is driven by `format::is_own_message`, keyed on
+   the local SELF participant id — never node_fp — so a message from a
+   co-hosted local agent (not the SELF participant) still renders theirs. */
+.message.mine {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message.mine .message-meta {
+  flex-direction: row-reverse;
+}
+
+.message.theirs {
+  align-self: flex-start;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #10131a;
+}
+
+.message-body { flex: 1; }
+
+.message-meta {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.message-author { color: var(--text); font-weight: 600; }
+.message-time { color: var(--text-dim); font-size: 11px; font-weight: 400; }
+/* KB-XX: inbox-only channel/peer tag sits in `.message-meta` alongside
+   author+time (InboxPanel merges DMs/channels into one flat feed, so the
+   origin needs to stay visible even though ChatPanel never needs it). */
+.channel-tag {
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 400;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  opacity: 0.8;
+}
+
+.message-content {
+  font-size: 14px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.message-content.message-deleted {
+  color: #c0392b;
+  font-style: italic;
+}
+
+/* KB-173: hidden by default, fades in on hover of the message row; two-click
+   arm/confirm delete — first click turns the background orange (armed),
+   second click while armed actually deletes. Auto-reverts after 5s. */
+.message-delete-x {
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+  color: #c0392b;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+.message:hover .message-delete-x {
+  opacity: 0.7;
+}
+
+.message-delete-x:hover {
+  opacity: 1;
+}
+
+.message-delete-x.armed {
+  opacity: 1;
+  background: #e67e22;
+  color: #fff;
+}
+
+.typing {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-style: italic;
+  padding: 0 20px 8px;
+}
+
+.composer {
+  position: relative;
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.composer textarea {
+  flex: 1;
+  min-height: 42px;
+  max-height: 160px;
+}
+
+/* KB-55: bottom-up mention dropdown, rendered above the composer and
+   left-aligned with the `@` the user is typing. The inline `left` px is
+   always set from JS (`caret_offset_px`, base offset + measured caret-x);
+   this CSS `left: 0` is a pre-JS layout default only, not the documented
+   fallback — the fallback (if `measureText` proves unreliable) is the
+   computed `base` offset (textarea's offsetLeft + its own left border and
+   padding), not literal `left: 0`, since `.composer`'s own left padding
+   sits between `left: 0` and the textarea's actual left text-origin. */
+.mention-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+  list-style: none;
+  margin-left: 0;
+  padding: 4px 0;
+  background: var(--bg-elevated, #1a1e29);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 10;
+}
+
+.mention-candidate {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.mention-candidate.selected {
+  background: rgba(124,158,255,0.15);
+  color: var(--text);
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.error-banner {
+  background: rgba(241,91,91,0.15);
+  color: var(--danger);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.add-to-channel {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px;
+  min-width: 200px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* KB-133: `.participants-overlay` (KB-121) never had a CSS rule at all —
+   the component's own inline `style:display=block|none` toggle was the
+   only styling it ever got, so it rendered as an unstyled block flowing
+   inside `.add-to-channel` (position: relative, squeezed into the
+   chat-header). Per KB-121's "free-standing overlay" intent: a viewport-
+   centered fixed panel, not anchored to the trigger button like the old
+   `.dropdown`. NOTE: the component still sets `style:display` inline
+   (block/none) on the root, which always wins over any `display` set
+   here — so this rule deliberately does not set `display`, and the
+   header/lists/input below get their own flex/spacing instead of relying
+   on the root being a flex container. */
+.participants-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  width: min(420px, 90vw);
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.participants-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* KB-138: two-column current/available table, replacing the old stacked
+   `<ul>` lists above. */
+.participants-overlay-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5em;
+  margin-bottom: 8px;
+}
+.participants-overlay-column-header {
+  font-weight: bold;
+  opacity: 0.8;
+}
+.participants-overlay-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.participants-overlay-empty {
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.participants-overlay input[type="text"] {
+  width: 100%;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 6px 8px;
+}
+
+/* KB-156: SettingsOverlay — same fixed/centered panel treatment as
+   .participants-overlay (see the comment on that rule above for why
+   `display` is deliberately not set here either). */
+.settings-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  width: min(360px, 90vw);
+  max-height: min(70vh, 480px);
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.settings-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.settings-overlay-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-overlay-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-overlay-field select {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 6px 8px;
+}
+
+/* KB-56: an op still in the outbox. Grey means "on its way". Generic
+   selector so it also covers .participant-item.pending (Task 9), which
+   had no rule until now. */
+.pending {
+  opacity: 0.55;
+}
+
+/* Red means "still retrying, but you should know" — never "given up". */
+.message.pending.failed {
+  opacity: 1;
+  color: #c0392b;
+}
+
+/* KB-172 final review M-2: first-run onboarding (`OnboardingForm`) and the
+   `Root`-level loading state had zero CSS anywhere in the app -- unstyled raw
+   HTML. Minimal, readable styling: centered card, basic spacing, and an
+   unmissable error color, using the same tokens as the rest of the app. */
+.onboarding {
+  max-width: 420px;
+  margin: 10vh auto;
+  padding: 2em;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+}
+
+.onboarding h1 {
+  margin-top: 0;
+  font-size: 1.4em;
+}
+
+.onboarding p {
+  color: var(--text-dim);
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.onboarding label {
+  display: block;
+  margin: 0.9em 0;
+  font-size: 0.9em;
+  color: var(--text-dim);
+}
+
+.onboarding label input {
+  display: block;
+  width: 100%;
+  margin-top: 0.35em;
+  padding: 0.6em 0.7em;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 1em;
+}
+
+.onboarding label input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.onboarding button {
+  width: 100%;
+  margin-top: 1em;
+  padding: 0.7em;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  color: #10121a;
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.onboarding button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.onboarding-error {
+  margin-bottom: 1em;
+  padding: 0.6em 0.8em;
+  border-radius: 6px;
+  background: rgba(241, 91, 91, 0.12);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  font-size: 0.9em;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: var(--text-dim);
+  font-size: 1em;
+}
+
+/* KB-196 Task 10: animated placeholder for an item referenced by the current
+   view but not yet present in the local cache (e.g. an author id whose
+   Participant hasn't converged over the mesh yet). Mutually exclusive with
+   the ⛓️‍💥 pending-send marker below -- this is "don't know yet", not
+   "known and queued". */
+.loading-dots {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.loading-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.3;
+  animation: loading-dots-pulse 1.2s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading-dots-pulse {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* KB-196 Task 10: marks a locally-cached item with a mutation queued in the
+   offline outbox, not yet acknowledged by the server. */
+.pending-send-marker {
+  margin-right: 0.3em;
+}
