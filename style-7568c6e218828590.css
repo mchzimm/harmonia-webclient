@@ -197,6 +197,25 @@ html, body {
   display: block;
 }
 
+/* KB-223: header self-row + user-switch-dropdown rows reuse the SAME
+   `.contact-hover-card` overlay the participant list already has (see the
+   KB-183 follow-up comment above) instead of a second implementation --
+   just two more ancestor-hover triggers, keyed on each row's own
+   `--id-gradient`. */
+/* KB-223 advisor fix: the user-switch dropdown renders INSIDE
+   `.sidebar-self-row` (it's the `<Show>` block for other users nested in
+   that row), so a bare `.sidebar-self-row:hover` would also satisfy
+   `.user-switch-row`'s own card and both would paint stacked/centered at
+   once. Scope the self-row rule to its own direct-child card only -- the
+   header's card is already a direct child of `.sidebar-self-row`, and each
+   dropdown row's card is a direct child of its own `.user-switch-row`, so
+   `>` disambiguates them without changing either row's markup. */
+.sidebar-self-row:hover > .contact-hover-card,
+.user-switch-row:hover .contact-hover-card {
+  opacity: 1;
+  visibility: visible;
+}
+
 .status-dot {
   width: 8px;
   height: 8px;
@@ -362,9 +381,15 @@ html, body {
   opacity: 1;
   visibility: visible;
 }
+/* KB-223 advisor fix: 64px read as barely-bigger-than-the-32px header icon,
+   not an "enlarged" identicon -- bumped to 176px (matches the 8x8/scale-24
+   SVG this card actually renders at, per blockie_svg(seed, 8, 24) call
+   sites in header/src/lib.rs and participants/src/lib.rs) so the hover
+   overlay genuinely enlarges the identicon instead of just relocating it.
+   Applies to all three trigger points since they share this one card. */
 .contact-hover-card-avatar {
-  width: 64px;
-  height: 64px;
+  width: 176px;
+  height: 176px;
   border-radius: 8px;
   overflow: hidden;
   flex-shrink: 0;

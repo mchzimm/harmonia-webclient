@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Harmonia</title>
-    <link rel="stylesheet" href="/harmonia-webclient/style-e47f663dfddbbed7.css" integrity="sha384-NZotvhBosLhrsrDt3YhYHOHBJH6CuTsvC7gJb5HQ3z+MiUmJcUvctywR2ovlPVUu"/>
+    <link rel="stylesheet" href="/harmonia-webclient/style-7568c6e218828590.css" integrity="sha384-qlXE8kHac3vRQpFgyplPWEYVPC7CjcewjoG2ylpGqGrOeS2/Luq2wl+0Fx/LMCGb"/>
     <script>
       // Optional ?port=NNNN query param overrides window.__HARMONIA_PORT__
       // before the wasm module loads, so the same UI build can point at
@@ -18,11 +18,11 @@
         }
       })();
     </script>
-  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-a660c10e5485af10.js" crossorigin="anonymous" integrity="sha384-u/6lEn5rxbA/wSzUCTmf3z4YJDSQAv1R8mYfcQrs3cShV7K5Y2VgsbZh69oiZduH"><link rel="preload" href="/harmonia-webclient/harmonia-ui-a660c10e5485af10_bg.wasm" crossorigin="anonymous" integrity="sha384-Pr6tOo0eDkO/ak/7wLPhgQJuay8WIT1hLTIJDXhPxfDOjYFwy1bA5bDjBMxCq9eL" as="fetch" type="application/wasm"></head>
+  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-3bd2142cdfdb5dd8.js" crossorigin="anonymous" integrity="sha384-aQLF+6QhvokWInKFJYuKKDacV0Zc/g8qUJhHsleASjHibxBsQmtLADlkxEqpHAVY"><link rel="preload" href="/harmonia-webclient/harmonia-ui-3bd2142cdfdb5dd8_bg.wasm" crossorigin="anonymous" integrity="sha384-PBAnTVfbNkSafXGBmshks7idpcJ5kXB0IQ3GX6DoiyUQnJaPSzSVKmhttJu7PN4c" as="fetch" type="application/wasm"></head>
   <body>
 <script type="module">
-import init, * as bindings from '/harmonia-webclient/harmonia-ui-a660c10e5485af10.js';
-const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-a660c10e5485af10_bg.wasm' });
+import init, * as bindings from '/harmonia-webclient/harmonia-ui-3bd2142cdfdb5dd8.js';
+const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-3bd2142cdfdb5dd8_bg.wasm' });
 
 
 window.wasmBindings = bindings;
