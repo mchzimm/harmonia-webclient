@@ -347,6 +347,10 @@ function __wbg_get_imports() {
         __wbg_deleteContents_36e397c0f955b365: function() { return handleError(function (arg0) {
             arg0.deleteContents();
         }, arguments); },
+        __wbg_delete_f5f770c2c3985b22: function(arg0, arg1, arg2) {
+            var v0 = getCachedStringFromWasm0(arg1, arg2);
+            arg0.delete(v0);
+        },
         __wbg_destination_f6ba56e7f07829d0: function(arg0) {
             const ret = arg0.destination;
             return ret;
@@ -470,6 +474,10 @@ function __wbg_get_imports() {
             const ret = arg0[arg1 >>> 0];
             return ret;
         },
+        __wbg_history_8941dec1bcca1cc5: function() { return handleError(function (arg0) {
+            const ret = arg0.history;
+            return ret;
+        }, arguments); },
         __wbg_host_f512e97ce1222138: function(arg0) {
             const ret = arg0.host;
             return ret;
@@ -904,6 +912,11 @@ function __wbg_get_imports() {
         __wbg_remove_426d5806a1a02ede: function() { return handleError(function (arg0, arg1, arg2) {
             var v0 = getCachedStringFromWasm0(arg1, arg2);
             arg0.remove(v0);
+        }, arguments); },
+        __wbg_replaceState_e7ac4029d2fd43ae: function() { return handleError(function (arg0, arg1, arg2, arg3, arg4, arg5) {
+            var v0 = getCachedStringFromWasm0(arg2, arg3);
+            var v1 = getCachedStringFromWasm0(arg4, arg5);
+            arg0.replaceState(arg1, v0, v1);
         }, arguments); },
         __wbg_requestAnimationFrame_bcb3ce6247e27dd4: function() { return handleError(function (arg0, arg1) {
             const ret = arg0.requestAnimationFrame(arg1);
