@@ -80,6 +80,8 @@ html, body {
   gap: 8px;
   padding: 8px 16px;
   border-bottom: 1px solid var(--border);
+  /* KB-216: whole row is now the user-switch-dropdown trigger. */
+  cursor: pointer;
 }
 .sidebar-self-row::before {
   content: "";
@@ -136,6 +138,63 @@ html, body {
   font-size: 1em;
   color: #000;
   padding: 0 2px;
+}
+
+/* KB-216: user-switch dropdown, opened by clicking `.sidebar-self-row`.
+   Positioned relative to that row (which is `position: relative` +
+   `isolation: isolate`, see above), so `position: absolute` here anchors
+   to it directly without a separate wrapper. */
+.user-switch-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: var(--panel, #1e1e1e);
+  border: 1px solid var(--border);
+  border-top: none;
+  max-height: 240px;
+  overflow-y: auto;
+  cursor: default;
+}
+.user-switch-row {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.user-switch-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gateway-gradient, transparent);
+  opacity: 0.6;
+  z-index: -1;
+}
+.user-switch-row:hover::before {
+  opacity: 0.8;
+}
+.user-switch-name {
+  color: #000;
+  font-size: 1em;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user-switch-identicon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.user-switch-identicon svg {
+  display: block;
 }
 
 .status-dot {
