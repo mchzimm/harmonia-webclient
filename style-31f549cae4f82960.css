@@ -71,10 +71,16 @@ html, body {
    scoped to just the username span. */
 .sidebar-self-row {
   position: relative;
-  /* KB-146: see .chat-header — isolate so the -1 z-indexed ::before below
-     doesn't escape to an ancestor stacking context and vanish behind an
-     opaque sibling background. */
-  isolation: isolate;
+  /* KB-233: was `isolation: isolate` + a -1 z-indexed `::before` for the
+     gradient backdrop (see the old KB-146 note this replaces). That trapped
+     `.user-switch-dropdown` (KB-216, a `position: absolute` child with
+     `z-index: 20`) inside this row's own stacking context, so it painted
+     below sibling sidebar content instead of over it -- DM list text bled
+     through the dropdown. Same fix as `.chat-header` (below): drop the
+     isolate + pseudo-element, composite the gradient straight into this
+     element's own `background` instead. No stacking context means the
+     dropdown competes in the page's stacking context like
+     `.contact-hover-card` / `.participants-overlay` already do. */
   display: flex;
   align-items: center;
   gap: 8px;
@@ -82,16 +88,10 @@ html, body {
   border-bottom: 1px solid var(--border);
   /* KB-216: whole row is now the user-switch-dropdown trigger. */
   cursor: pointer;
-}
-.sidebar-self-row::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--gateway-gradient, transparent);
-  /* KB-149: brighter than the 0.35 KB-148 landed with -- bumped further so
-     the gradient reads clearly as the row's backdrop. */
-  opacity: 0.6;
-  z-index: -1;
+  /* KB-149: 0.6 opacity dark overlay so the gradient backdrop stays legible,
+     same ratio the old ::before used, composited with --gateway-gradient
+     underneath (KB-172: spans the row's full width). */
+  background: linear-gradient(rgba(28, 31, 38, 0.4), rgba(28, 31, 38, 0.4)), var(--gateway-gradient, transparent);
 }
 
 .header-title-block {
@@ -141,9 +141,10 @@ html, body {
 }
 
 /* KB-216: user-switch dropdown, opened by clicking `.sidebar-self-row`.
-   Positioned relative to that row (which is `position: relative` +
-   `isolation: isolate`, see above), so `position: absolute` here anchors
-   to it directly without a separate wrapper. */
+   Positioned relative to that row (`position: relative`, see above; KB-233
+   dropped the `isolation: isolate` it used to carry so this dropdown's
+   z-index competes in the page's stacking context), so `position: absolute`
+   here anchors to it directly without a separate wrapper. */
 .user-switch-dropdown {
   position: absolute;
   top: 100%;
