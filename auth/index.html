@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harmonia relay</title>
+    
+<script type="module">
+import init, * as bindings from '/harmonia-webclient/auth/harmonia-auth-web-1fbe4f04c0211d7c.js';
+const wasm = await init({ module_or_path: '/harmonia-webclient/auth/harmonia-auth-web-1fbe4f04c0211d7c_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+    <link rel="stylesheet" href="/harmonia-webclient/auth/style-e491391547bc29a2.css" integrity="sha384-xETxPriAvmJzrNwrwe18A4O6I0JaTok4gV/VghuaZRziHwzmjau5jin+Jdpz1odo"/>
+  <link rel="modulepreload" href="/harmonia-webclient/auth/harmonia-auth-web-1fbe4f04c0211d7c.js" crossorigin="anonymous" integrity="sha384-5OXdUuPeogqcbGQRt50f6tIoahud4zaGh29p3MwTN9eDwEclDUHqCHAba3zsEB83"><link rel="preload" href="/harmonia-webclient/auth/harmonia-auth-web-1fbe4f04c0211d7c_bg.wasm" crossorigin="anonymous" integrity="sha384-m1jsjWOG4bDLQ2545aADtwqItR01zgvqJ0xIkC5K0P/yEOXmQ27cuD5IpWuYcUzU" as="fetch" type="application/wasm"></head>
+  <body></body>
+</html>
