@@ -20,6 +20,11 @@
     </script>
   <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-79a6ec7863874ee2.js" crossorigin="anonymous" integrity="sha384-m36/1clmlvDxf0Ap07RtmmfYGl//iDh34CSm/FTu0cboY3188HiNPSP6fC9eRROK"><link rel="preload" href="/harmonia-webclient/harmonia-ui-79a6ec7863874ee2_bg.wasm" crossorigin="anonymous" integrity="sha384-MuDXrxBdSeAwifj+tA3tptbUyDG5sajqLriBbQDkODCElNoguRzDnSTF/rsU7qlQ" as="fetch" type="application/wasm"></head>
   <body>
+    <!-- KB-260: visible build-version stamp so a live tester can confirm the browser is
+         actually running the just-deployed bundle, not a stale cached one. Bump the string
+         on every webclient redeploy. -->
+    <div style="position:fixed;bottom:2px;right:4px;font:10px monospace;color:#888;opacity:0.6;z-index:9999;pointer-events:none;">v1.0.2</div>
+  
 <script type="module">
 import init, * as bindings from '/harmonia-webclient/harmonia-ui-79a6ec7863874ee2.js';
 const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-79a6ec7863874ee2_bg.wasm' });
