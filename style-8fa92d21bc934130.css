@@ -49,9 +49,12 @@ html, body {
 
 /* KB-295: "Harmonia" text title replaced by the brand header image, full
    sidebar width. KB-296: the version stamp is pinned over the image's top
-   edge, horizontally centered -- see `.sidebar-header-version` below. */
+   edge, horizontally centered -- see `.sidebar-header-version` below.
+   `position: relative` so both the version stamp and the hover-preview
+   overlay (both absolute/fixed children) anchor off the image itself. */
 .sidebar-header-image-button {
   display: block;
+  position: relative;
   width: 100%;
   padding: 0;
   border: none;
@@ -62,6 +65,52 @@ html, body {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* KB-296 follow-up: hover preview -- enlarged header image + a config-menu
+   hint, shown as a fixed full-viewport overlay, centered, at 2/3 of the
+   viewport's width/height. Hidden by default; faded in on button hover. */
+.sidebar-header-hover-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 50;
+}
+.sidebar-header-image-button:hover .sidebar-header-hover-overlay {
+  opacity: 1;
+}
+.sidebar-header-hover-panel {
+  width: 66.67%;
+  height: 66.67%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg-elevated, #1c1f26);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+.sidebar-header-hover-image {
+  display: block;
+  max-width: 100%;
+  max-height: 70%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.sidebar-header-hover-instructions {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+  text-align: center;
+  max-width: 90%;
 }
 
 .sidebar-header h1 {
