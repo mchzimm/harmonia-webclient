@@ -91,26 +91,49 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 16px;
   padding: 24px;
   background: var(--bg-elevated, #1c1f26);
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
 }
+/* KB-296 follow-up: hover preview image shown at 2x its natural size
+   (capped so it never outgrows the panel). */
 .sidebar-header-hover-image {
   display: block;
-  max-width: 100%;
-  max-height: 70%;
+  width: 200%;
+  max-width: 90%;
+  height: auto;
   object-fit: contain;
   border-radius: 8px;
+  flex-shrink: 0;
 }
 .sidebar-header-hover-instructions {
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   color: var(--text);
   font-size: 14px;
-  text-align: center;
+  text-align: left;
   max-width: 90%;
+}
+.sidebar-header-hover-instructions h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+.sidebar-header-hover-instructions p {
+  margin: 0;
+}
+.sidebar-header-hover-instructions ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.sidebar-header-hover-instructions li {
+  margin-bottom: 4px;
 }
 
 .sidebar-header h1 {
