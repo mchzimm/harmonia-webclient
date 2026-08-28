@@ -4,7 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Harmonia</title>
-    <link rel="stylesheet" href="/harmonia-webclient/style-9df9456961d3383b.css" integrity="sha384-rWufTQis0EVCSNNeuRXxiqg26Ij7i6gtgy9KnHI0AoiMyjEnD1AnwdTZZAbTHpf2"/>
+    <link rel="stylesheet" href="/harmonia-webclient/style-89a456b9870d5070.css" integrity="sha384-5tvwqL31Cm6IZ91TTGgSag6/vEc8/UW4+Qbn/UY2X1U5gY+WGRE02ufMM/fKZxF3"/>
+    <!-- KB-295: brand header image, copied verbatim into the bundle by
+         trunk's asset-copy directive; referenced by the header component
+         via `/harmonia-header-1.jpg` at runtime. -->
+    
     <script>
       // Optional ?port=NNNN query param overrides window.__HARMONIA_PORT__
       // before the wasm module loads, so the same UI build can point at
@@ -18,11 +22,11 @@
         }
       })();
     </script>
-  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-30619ed0bef6fb0e.js" crossorigin="anonymous" integrity="sha384-Dc1XD0X94O37Qg1LUymSqaqkseCJ3O0dsWvXj9hUgFprP71fypgI69k7DoU/8cFa"><link rel="preload" href="/harmonia-webclient/harmonia-ui-30619ed0bef6fb0e_bg.wasm" crossorigin="anonymous" integrity="sha384-5TAHjP6H9n9PuUM7QW0PoM8vXBWWNIRSE1v3PZZB2urNAVvKXSchZKRqw6+yNiFW" as="fetch" type="application/wasm"></head>
+  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-dd80d2a1932bea6a.js" crossorigin="anonymous" integrity="sha384-Mnx798t/wJ8HJwoHGglATS8znlJloc5Ah0iAlCp61zcKCJJaYmARjvV2pMJnlWPd"><link rel="preload" href="/harmonia-webclient/harmonia-ui-dd80d2a1932bea6a_bg.wasm" crossorigin="anonymous" integrity="sha384-7qYGV9ZUslqQgJsggoZMmNQUvix3DJVCd2rpKANChAfc4UQvc7bS2DHRpAk1dUPB" as="fetch" type="application/wasm"></head>
   <body>
 <script type="module">
-import init, * as bindings from '/harmonia-webclient/harmonia-ui-30619ed0bef6fb0e.js';
-const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-30619ed0bef6fb0e_bg.wasm' });
+import init, * as bindings from '/harmonia-webclient/harmonia-ui-dd80d2a1932bea6a.js';
+const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-dd80d2a1932bea6a_bg.wasm' });
 
 
 window.wasmBindings = bindings;

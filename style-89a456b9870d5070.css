@@ -35,12 +35,33 @@ html, body {
 }
 
 .sidebar-header {
-  padding: 16px;
+  /* KB-294: shrunk ~1/2 (was 16px) -- header block was oversized relative
+     to its content. */
+  padding: 8px 16px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  position: relative;
   /* KB-172: separator moved to `.sidebar-self-row` below -- that row (not
      this one) now sits directly above the "DM" list. */
+}
+
+/* KB-295: "Harmonia" text title replaced by the brand header image, full
+   sidebar width. KB-296: the version stamp is pinned over the image's top
+   edge, horizontally centered -- see `.sidebar-header-version` below. */
+.sidebar-header-image-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.sidebar-header-image-button img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .sidebar-header h1 {
@@ -64,9 +85,18 @@ html, body {
 }
 
 .sidebar-header-version {
+  /* KB-296: pinned inside the header image itself, top edge, horizontally
+     centered (was a plain inline span next to the text title). */
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 9px;
-  color: var(--text-dim, #888);
-  opacity: 0.6;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* KB-172: username/hex-id + identicon row, underneath the header's
@@ -90,7 +120,8 @@ html, body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  /* KB-294: shrunk ~1/2 (was 8px 16px). */
+  padding: 4px 16px;
   border-bottom: 1px solid var(--border);
   /* KB-216: whole row is now the user-switch-dropdown trigger. */
   cursor: pointer;
@@ -111,7 +142,9 @@ html, body {
    `blockie_svg(seed, 8, 4)` call in header/src/lib.rs (8 cells * 4px scale
    = 32px). */
 .header-identicon {
-  margin-left: auto;
+  /* KB-294: identicon moved left of the username block -- was pushed to
+     the row's right edge via margin-left: auto. */
+  margin-right: 8px;
   width: 32px;
   height: 32px;
   flex-shrink: 0;
@@ -160,7 +193,8 @@ html, body {
   background: var(--panel, #1e1e1e);
   border: 1px solid var(--border);
   border-top: none;
-  max-height: 240px;
+  /* KB-294: dropdown list height shrunk ~1/2 (was 240px). */
+  max-height: 120px;
   overflow-y: auto;
   cursor: default;
 }
@@ -170,7 +204,8 @@ html, body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  /* KB-294: shrunk ~1/2 (was 8px 16px). */
+  padding: 4px 16px;
   cursor: pointer;
 }
 .user-switch-row::before {
