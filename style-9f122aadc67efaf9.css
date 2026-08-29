@@ -351,20 +351,20 @@ html, body {
 .status-dot.connected { background: #4fd18b; }
 .status-dot.failed { background: var(--danger); }
 
-/* KB-156: header-dot mesh-link toggle. Click cycles connected <-> disconnected; the two
-   in-flight states ("disconnecting" while leaving, "connecting" while (re)joining) blink so
-   the pending action is visibly distinct from either settled state. */
+/* KB-156/KB-329: header-dot mesh-link toggle. Click pauses/resumes this tab's own WebRTC
+   transport. "connecting" (green, blinking) covers both initial connect and every retry —
+   per bug 3, this must keep blinking for as long as the reconnect loop is actually retrying,
+   not time out early. "unreachable" (solid red) is a settled, distinguishable state: the
+   loop has exhausted its backoff cap and confirmed no gateway answered, vs. plain
+   "disconnected" (also solid red) which is a fresh/user-paused link that hasn't tried yet. */
 .status-dot.mesh-link-dot {
   cursor: pointer;
 }
 .status-dot.mesh-link-dot.connected { background: #4fd18b; }
 .status-dot.mesh-link-dot.disconnected { background: var(--danger); }
+.status-dot.mesh-link-dot.unreachable { background: var(--danger); }
 .status-dot.mesh-link-dot.connecting {
   background: #4fd18b;
-  animation: mesh-link-blink 0.8s ease-in-out infinite;
-}
-.status-dot.mesh-link-dot.disconnecting {
-  background: var(--danger);
   animation: mesh-link-blink 0.8s ease-in-out infinite;
 }
 @keyframes mesh-link-blink {
