@@ -1002,6 +1002,10 @@ function __wbg_get_imports() {
         __wbg_send_a889d89fcef225c9: function() { return handleError(function (arg0, arg1, arg2) {
             arg0.send(getArrayU8FromWasm0(arg1, arg2));
         }, arguments); },
+        __wbg_sessionStorage_3682bd48ec378aea: function() { return handleError(function (arg0) {
+            const ret = arg0.sessionStorage;
+            return isLikeNone(ret) ? 0 : addToExternrefTable0(ret);
+        }, arguments); },
         __wbg_setAttribute_507f8367905a9c03: function() { return handleError(function (arg0, arg1, arg2, arg3, arg4) {
             var v0 = getCachedStringFromWasm0(arg1, arg2);
             var v1 = getCachedStringFromWasm0(arg3, arg4);
