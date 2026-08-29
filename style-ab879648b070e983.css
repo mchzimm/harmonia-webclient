@@ -301,11 +301,28 @@ html, body {
 .user-switch-row:hover::before {
   opacity: 0.8;
 }
+/* KB-333: name + always-visible hex id, stacked -- the hex id used to live
+   only inside `.contact-hover-card` (hover-only), so the dropdown row showed
+   no id at all until hovered. */
+.user-switch-name-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 .user-switch-name {
   color: #000;
   font-size: 1em;
-  flex: 1;
-  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user-switch-id-sub {
+  color: #000;
+  opacity: 0.6;
+  font-size: 0.75em;
+  font-family: monospace;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
