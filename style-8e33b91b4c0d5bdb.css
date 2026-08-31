@@ -566,12 +566,14 @@ html, body {
 }
 .contact-hover-card-name {
   font-size: 2em;
-  color: #000;
+  color: var(--color-text-normal);
+  text-shadow: 0 0 4px var(--color-text-glow);
 }
 .contact-hover-card-id {
   font-size: 0.6em;
   opacity: 0.65;
-  color: #000;
+  color: var(--color-text-normal);
+  text-shadow: 0 0 4px var(--color-text-glow);
 }
 
 /* KB-102: subtle 2-tone backdrop behind an id label, colored by the same
