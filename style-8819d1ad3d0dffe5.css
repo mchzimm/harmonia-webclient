@@ -195,7 +195,7 @@ html, body {
    padding, not a fixed box). */
 .sidebar-header-slogan {
   position: absolute;
-  bottom: 2px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   font-size: 5px;
@@ -212,7 +212,7 @@ html, body {
 /* KB-363: same slogan, scaled up for the larger hover-preview image. */
 .sidebar-header-hover-slogan {
   position: absolute;
-  bottom: 2px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   font-size: 20px;
