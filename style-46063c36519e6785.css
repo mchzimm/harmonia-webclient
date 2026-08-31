@@ -106,12 +106,22 @@ html, body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   overflow-y: auto;
 }
+/* KB-363: wraps the hover-preview image so the slogan overlay below can
+   anchor to just the image (not the whole panel). Keeps the image's own
+   flex-item sizing (200% natural size, capped to 90% of the panel) by
+   letting the wrap itself take on that sizing and the image fill it. */
+.sidebar-header-hover-image-wrap {
+  position: relative;
+  display: block;
+  width: 200%;
+  max-width: 90%;
+  flex-shrink: 0;
+}
 /* KB-296 follow-up: hover preview image shown at 2x its natural size
    (capped so it never outgrows the panel). */
 .sidebar-header-hover-image {
   display: block;
-  width: 200%;
-  max-width: 90%;
+  width: 100%;
   height: auto;
   object-fit: contain;
   border-radius: 8px;
@@ -175,6 +185,43 @@ html, body {
   color: #fff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* KB-363: slogan overlay, bottom-center, mirroring `.sidebar-header-version`'s
+   top-center placement (same horizontal-centering approach, anchored to
+   `bottom` instead of `top`). Backdrop sizes to the text naturally (inline
+   padding, not a fixed box). */
+.sidebar-header-slogan {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 5px;
+  color: var(--color-text-normal);
+  text-shadow: 0 0 4px var(--color-text-glow);
+  background: rgba(0, 0, 0, 0.75);
+  padding: 1px 4px;
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* KB-363: same slogan, scaled up for the larger hover-preview image. */
+.sidebar-header-hover-slogan {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: var(--color-text-normal);
+  text-shadow: 0 0 4px var(--color-text-glow);
+  background: rgba(0, 0, 0, 0.75);
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
   pointer-events: none;
   z-index: 1;
 }
