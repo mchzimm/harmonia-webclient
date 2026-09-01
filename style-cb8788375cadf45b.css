@@ -481,6 +481,21 @@ html, body {
   color: var(--text-dim);
 }
 
+/* KB-368: unread dot for a DM channel that received a message while the
+   user was on the Inbox aggregate view. Sits before the KB-152 remove
+   button in the row's flex box, not pushed by its `margin-left: auto`. */
+.unread-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent, #7c9eff);
+  margin-left: auto;
+}
+.unread-dot + .row-remove-btn {
+  margin-left: 4px;
+}
+
 /* KB-152: red X to remove a DM channel / contact from its sidebar list.
    `margin-left: auto` pushes it to the far right of the row's flex box. */
 .row-remove-btn {
