@@ -496,6 +496,28 @@ html, body {
   margin-left: 4px;
 }
 
+/* Lifetime count of DM messages received from the other party. Shown only
+   when > 0; never resets (distinct from the KB-368 unread dot above, which
+   clears on open). Small pill badge, same flex-row placement pattern. */
+.dm-message-count {
+  flex-shrink: 0;
+  min-width: 16px;
+  padding: 0 5px;
+  border-radius: 8px;
+  font-size: 0.7em;
+  line-height: 16px;
+  text-align: center;
+  color: var(--text-dim);
+  background: var(--bg-hover, rgba(127, 127, 127, 0.2));
+  margin-left: auto;
+}
+.unread-dot + .dm-message-count {
+  margin-left: 4px;
+}
+.dm-message-count + .row-remove-btn {
+  margin-left: 4px;
+}
+
 /* KB-152: red X to remove a DM channel / contact from its sidebar list.
    `margin-left: auto` pushes it to the far right of the row's flex box. */
 .row-remove-btn {
