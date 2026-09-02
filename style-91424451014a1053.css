@@ -481,38 +481,28 @@ html, body {
   color: var(--text-dim);
 }
 
-/* KB-368: unread dot for a DM channel that received a message while the
-   user was on the Inbox aggregate view. Sits before the KB-152 remove
-   button in the row's flex box, not pushed by its `margin-left: auto`. */
-.unread-dot {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent, #7c9eff);
-  margin-left: auto;
-}
-.unread-dot + .row-remove-btn {
-  margin-left: 4px;
-}
-
-/* Lifetime count of DM messages received from the other party. Shown only
-   when > 0; never resets (distinct from the KB-368 unread dot above, which
-   clears on open). Small pill badge, same flex-row placement pattern. */
+/* KB-368/KB-403: THE unread indicator for a DM row -- a pill carrying the
+   number of messages received from the other party since the user last had
+   that channel open. There used to be a `.unread-dot` here as well, fed by a
+   separate signal, so a row could show a lifetime total next to a dot
+   insisting the channel was unread: two marks answering one question, and
+   neither of them the number the user asked for. Accent-filled rather than
+   the old dim grey, because it now has to read as a notification at a glance.
+   Sits before the KB-152 remove button in the row's flex box; `margin-left:
+   auto` here rather than on the button, which is why the adjacency rule
+   below re-spaces the button when both are present. */
 .dm-message-count {
   flex-shrink: 0;
   min-width: 16px;
   padding: 0 5px;
   border-radius: 8px;
   font-size: 0.7em;
+  font-weight: 600;
   line-height: 16px;
   text-align: center;
-  color: var(--text-dim);
-  background: var(--bg-hover, rgba(127, 127, 127, 0.2));
+  color: #fff;
+  background: var(--accent, #7c9eff);
   margin-left: auto;
-}
-.unread-dot + .dm-message-count {
-  margin-left: 4px;
 }
 .dm-message-count + .row-remove-btn {
   margin-left: 4px;
