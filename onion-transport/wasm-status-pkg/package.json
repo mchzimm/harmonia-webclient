@@ -1,0 +1,15 @@
+{
+  "name": "wasm-status",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "wasm_status_bg.wasm",
+    "wasm_status.js",
+    "wasm_status.d.ts"
+  ],
+  "main": "wasm_status.js",
+  "types": "wasm_status.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
