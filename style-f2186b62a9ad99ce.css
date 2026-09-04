@@ -523,6 +523,39 @@ html, body {
   opacity: 0.75;
 }
 
+/* KB-464: archive/trash sub-list rows (dm -> archive -> trash), and the up-arrow that moves
+   a row back up one level. Both fire immediately, no arm/disarm -- see `lifecycle_row_view`. */
+.dm-lifecycle-section {
+  margin-left: 12px;
+}
+.dm-lifecycle-section > summary {
+  font-size: 0.85em;
+  opacity: 0.75;
+}
+.lifecycle-row .row-restore-btn {
+  margin-left: auto;
+  color: #6ec86e;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  padding: 2px 4px;
+  flex-shrink: 0;
+}
+.lifecycle-row .row-restore-btn:hover {
+  opacity: 0.75;
+}
+.lifecycle-row .row-remove-btn + .row-restore-btn {
+  margin-left: 0;
+}
+
+/* KB-464: "archived" tag under a message's header line in `Messages`, for any message
+   whose owning DM channel is currently in the `archive` sub-list. */
+.message-lifecycle-tag {
+  font-size: 0.75em;
+  opacity: 0.6;
+  margin: -4px 0 4px 0;
+}
+
 /* KB-183 task 3: crown marking the channel owner's row in the "Channel"
    participants list (participant-item), sitting before the presence dot. */
 .owner-crown {
