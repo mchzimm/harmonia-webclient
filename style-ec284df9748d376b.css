@@ -875,6 +875,28 @@ button:disabled {
   opacity: 0.3;
 }
 
+/* KB-465: green "new messages" divider above the first unread message,
+   shown once per channel-select from the pre-open unread count. */
+.unread-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0;
+  color: #2ecc71;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.unread-divider::before,
+.unread-divider::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: #2ecc71;
+  opacity: 0.6;
+}
+
 .message {
   display: flex;
   gap: 10px;
