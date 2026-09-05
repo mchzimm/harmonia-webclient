@@ -1078,12 +1078,20 @@ button:disabled {
    computed `base` offset (textarea's offsetLeft + its own left border and
    padding), not literal `left: 0`, since `.composer`'s own left padding
    sits between `left: 0` and the textarea's actual left text-origin. */
+/* KB-478: measured live -- 10 candidate rows (`.mention-candidate` at
+   6px/12px padding + a two-line label/id-sub-label body) need ~453px,
+   well over the previous 320px cap, so the box always opened already
+   scrolled-short with its `scroll_top` pinned at 0 (see
+   `scroll_selected_candidate_into_view` in ui-workspace/state for the
+   follow-selection half of this fix). `min(60vh, 420px)` gives the list
+   real room on a normal viewport while still capping it well short of the
+   composer itself on a short/mobile one. */
 .mention-dropdown {
   position: absolute;
   bottom: 100%;
   left: 0;
   margin-bottom: 6px;
-  max-height: 320px;
+  max-height: min(60vh, 420px);
   overflow-y: auto;
   list-style: none;
   margin-left: 0;
