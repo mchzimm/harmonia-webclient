@@ -551,19 +551,12 @@ html, body {
   margin-left: 4px;
 }
 
-/* KB-517 item 3: channel rows draw an ASCII "x" while contacts/nearby rows
-   (`.participant-item`) draw the emoji "❌". Both already share `.row-remove-btn`'s single
-   12px rule -- the size difference is entirely the GLYPH. Measured (rendered ink bounding
-   box, Pillow, system UI font vs Apple Color Emoji): "❌" ink fills the full em box, 1.00em
-   square, so at 12px it inks ~12x12; ASCII "x" only occupies the x-height and inks 6x6 at
-   12px, 8x8 at 16px, 10x12 at 22px. 22px is therefore the size at which the "x" ink height
-   (12px) matches the emoji's. `line-height` is pinned back to 12px so the larger glyph does
-   NOT grow the row's flex line box -- only the ink grows.
-   Scoped to `.channel-item` so the shared `.row-remove-btn` rule is NOT bumped globally
-   (that would grow the already-correct contacts "❌" too; contacts rows are
-   `.participant-item`). This also applies to the `.channel-item.lifecycle-row` archive/trash
-   sub-list rows, which is intended -- they are channel rows too. */
-.channel-item .row-remove-btn {
+/* KB-517 item 3 (rescoped after ❌ emoji landed on channel rows too): contacts ❌ =
+   23.00x16.00, channel 📦 = 23.00x16.00, old ASCII x at 22px = 18.63x16.00 (4.37px too
+   narrow). Compensation now applies only to lifecycle rows (`.channel-item.lifecycle-row`,
+   the archive/trash sub-list, which still draw ASCII "x"); the plain `.channel-item` row now
+   draws "❌" itself and needs no size bump. */
+.channel-item.lifecycle-row .row-remove-btn {
   font-size: 22px;
   line-height: 12px;
 }
