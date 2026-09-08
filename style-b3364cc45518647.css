@@ -523,6 +523,51 @@ html, body {
   opacity: 0.75;
 }
 
+/* KB-501/KB-517: "move to archive" box, rendered on `channels` rows only (DM/contact rows
+   pass no archive action). It -- not `.row-remove-btn` -- carries `margin-left: auto` so the
+   archive/x PAIR groups at the row's right edge with archive immediately left of the x.
+   `.row-remove-btn` keeps its own `margin-left: auto` above, which is what still pushes the
+   x right on every row that has NO archive button (DM rows, `.participant-item` contacts);
+   when both are present the second `auto` is overridden below so the two sit adjacent
+   instead of splitting the free space between them. The `.dm-message-count` badge also
+   carries `margin-left: auto`, so it gets the same treatment. */
+.row-archive-btn {
+  margin-left: auto;
+  cursor: pointer;
+  /* 12px, same as `.row-remove-btn`: "📦" is an emoji, so like the contacts "❌" it already
+     renders at full em height here -- it must NOT get the ASCII-"x" bump below. */
+  font-size: 12px;
+  line-height: 1;
+  padding: 2px 4px;
+  flex-shrink: 0;
+}
+.row-archive-btn:hover {
+  opacity: 0.75;
+}
+.dm-message-count + .row-archive-btn {
+  margin-left: 4px;
+}
+.row-archive-btn + .row-remove-btn {
+  margin-left: 4px;
+}
+
+/* KB-517 item 3: channel rows draw an ASCII "x" while contacts/nearby rows
+   (`.participant-item`) draw the emoji "❌". Both already share `.row-remove-btn`'s single
+   12px rule -- the size difference is entirely the GLYPH. Measured (rendered ink bounding
+   box, Pillow, system UI font vs Apple Color Emoji): "❌" ink fills the full em box, 1.00em
+   square, so at 12px it inks ~12x12; ASCII "x" only occupies the x-height and inks 6x6 at
+   12px, 8x8 at 16px, 10x12 at 22px. 22px is therefore the size at which the "x" ink height
+   (12px) matches the emoji's. `line-height` is pinned back to 12px so the larger glyph does
+   NOT grow the row's flex line box -- only the ink grows.
+   Scoped to `.channel-item` so the shared `.row-remove-btn` rule is NOT bumped globally
+   (that would grow the already-correct contacts "❌" too; contacts rows are
+   `.participant-item`). This also applies to the `.channel-item.lifecycle-row` archive/trash
+   sub-list rows, which is intended -- they are channel rows too. */
+.channel-item .row-remove-btn {
+  font-size: 22px;
+  line-height: 12px;
+}
+
 /* KB-464: archive/trash sub-list rows (dm -> archive -> trash), and the up-arrow that moves
    a row back up one level. Both fire immediately, no arm/disarm -- see `lifecycle_row_view`. */
 .dm-lifecycle-section {
