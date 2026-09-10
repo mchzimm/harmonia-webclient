@@ -1151,6 +1151,14 @@ button:disabled {
   color: var(--text);
 }
 
+/* KB-560: `#[<text>]` message-ref token — rendered "in blue letters", full
+   message (sender/date/time) shown via the native `title` tooltip on
+   hover. */
+.message-ref-link {
+  color: #4a90e2;
+  cursor: default;
+}
+
 .empty-state {
   flex: 1;
   display: flex;
