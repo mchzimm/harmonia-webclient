@@ -1341,6 +1341,39 @@ button:disabled {
   padding: 6px 8px;
 }
 
+/* KB-612: CommunitiesOverlay. The overlay root carries `.settings-overlay` too,
+   so panel geometry (fixed/centered, border, padding) comes from that rule above
+   and only the filter input + entry list need their own styling here. */
+.communities-filter-input {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 6px 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.communities-entry-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.communities-entry {
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: var(--text);
+}
+
+.communities-entry:hover {
+  background: var(--bg-alt);
+}
+
+
 /* KB-56: an op still in the outbox. Grey means "on its way". Generic
    selector so it also covers .participant-item.pending (Task 9), which
    had no rule until now. */
