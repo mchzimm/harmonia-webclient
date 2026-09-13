@@ -530,9 +530,27 @@ html, body {
   line-height: 1;
   padding: 2px 4px;
   flex-shrink: 0;
+  /* KB-624: hidden by default, fade in on row hover/focus. `opacity`, NEVER
+     `display`/`visibility` -- e2e tests must still be able to click it while
+     invisible. Row parents that host `.row-remove-btn`/`.row-permadelete-btn`:
+     `.channel-item` (plain + `.lifecycle-row`), `.participant-item`. */
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.channel-item:hover .row-remove-btn,
+.participant-item:hover .row-remove-btn,
+.row-remove-btn:focus-visible,
+.row-remove-btn.armed {
+  opacity: 1;
 }
 .row-remove-btn:hover {
   opacity: 0.75;
+}
+/* Touch devices have no hover -- keep the x always visible there. */
+@media (hover: none) {
+  .row-remove-btn {
+    opacity: 1;
+  }
 }
 
 /* KB-501/KB-517: "move to archive" box, rendered on `channels` rows only (DM/contact rows
