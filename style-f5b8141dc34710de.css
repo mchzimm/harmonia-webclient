@@ -50,7 +50,20 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  position: relative;
+  /* KB-628: pin header while `.sidebar` (its scroll container, see
+     `overflow-y: auto` above) or the page scrolls. `position: relative`
+     stayed as `sticky`'s own positioning context for the version stamp /
+     hover-preview overlay children below; `top: 0` is relative to
+     `.sidebar`, the nearest scrolling ancestor, so sticky works here with
+     no extra wrapper. Opaque bg so scrolled-under DM rows don't show
+     through. z-index 5: above ordinary list rows (default stacking, 0)
+     but below `.sidebar-header-hover-overlay` (z-index 50, still needs to
+     paint over the header image on hover), the user-switch dropdown
+     (z-index 20) and `.settings-overlay` (z-index 20). */
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg-alt);
   /* KB-172: separator moved to `.sidebar-self-row` below -- that row (not
      this one) now sits directly above the "DM" list. */
 }
