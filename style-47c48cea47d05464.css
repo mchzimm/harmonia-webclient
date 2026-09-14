@@ -438,11 +438,10 @@ html, body {
    header's card is already a direct child of `.sidebar-self-row`, and each
    dropdown row's card is a direct child of its own `.user-switch-row`, so
    `>` disambiguates them without changing either row's markup. */
-.sidebar-self-row:hover:not(:has(.user-switch-row:hover)) > .contact-hover-card,
-.user-switch-row:hover .contact-hover-card {
-  opacity: 1;
-  visibility: visible;
-}
+/* KB-634: the `:hover` show rule that lived here is gone -- visibility is now
+   class-driven (`.contact-hover-card.visible` / `.fading`, below) by
+   `harmonia_ui_state::hover_card`, which also resolves the self-row vs
+   dropdown-row nesting (innermost trigger wins, one card at a time). */
 
 .status-dot {
   width: 8px;
@@ -730,9 +729,43 @@ html, body {
   pointer-events: none;
   transition: opacity 0.12s;
 }
-.participant-item:hover .contact-hover-card {
+/* KB-634: shown by `harmonia_ui_state::hover_card` via classes, not `:hover`:
+   `.visible` while the trigger is hovered, lingering (2s) or pinned;
+   `.fading` for the 1s fade-out. Both keep pointer-events so the cursor can
+   enter (and pin) the card, and click its edit affordance. */
+.contact-hover-card.visible {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
+}
+.contact-hover-card.fading {
+  opacity: 0;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 1s;
+}
+/* KB-634: ✏️ left of the name; hidden (opacity, not display, so it keeps its
+   box and stays clickable) until the name row is hovered. Clicking the ✏️ or
+   the name opens the rename / petname editor. */
+.contact-hover-card-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  cursor: pointer;
+}
+.contact-hover-card-edit {
+  font-size: 1.4em;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.contact-hover-card-name-row:hover .contact-hover-card-edit {
+  opacity: 1;
+}
+/* Touch devices have no hover -- keep the ✏️ visible there. */
+@media (hover: none) {
+  .contact-hover-card-edit {
+    opacity: 1;
+  }
 }
 /* KB-223 advisor fix: 64px read as barely-bigger-than-the-32px header icon,
    not an "enlarged" identicon -- bumped to 176px (matches the 8x8/scale-24
