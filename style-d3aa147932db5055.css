@@ -42,6 +42,155 @@ html, body {
   overflow-y: auto;
 }
 
+/* Mobile full-width top bar -- hamburger + brand title, sits above the grid entirely.
+   Hidden on desktop (default); shown only under the mobile breakpoint below. */
+.mobile-topbar {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+.mobile-hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mobile-hamburger-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+}
+
+.mobile-topbar-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+/* Mirrors `.sidebar-header-version` -- visible without opening the mobile
+   drawer, since the drawer is closed by default (see app.rs comment). */
+.mobile-topbar-version {
+  margin-left: auto;
+  font-size: 11px;
+  opacity: 0.6;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .mobile-topbar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    box-sizing: border-box;
+    /* Above `.sidebar` (15) and `.sidebar-backdrop` (10) so the drawer/scrim
+       never cover the topbar -- sidebar must sit below it, not overlap. */
+    z-index: 16;
+  }
+
+  /* `.mobile-topbar` is now fixed/out-of-flow, so push the app content down
+     by its height to avoid the first row being hidden underneath it. */
+  .app {
+    padding-top: 56px;
+  }
+
+  /* Off-canvas by default: fixed overlay panel, slid out of view. `.mobile-open` (toggled by
+     the hamburger, see `Sidebar`'s `sidebar_open` prop) slides it in. Fixed rather than static
+     so it overlays the content column instead of pushing it down. */
+  .sidebar {
+    position: fixed;
+    /* Starts below `.mobile-topbar` (56px fixed height, see below) instead of
+       overlapping it -- drawer must originate under the topbar, not on top
+       of it. */
+    top: 56px;
+    left: 0;
+    bottom: 0;
+    width: min(80vw, 320px);
+    max-width: 320px;
+    /* KB: was 30 -- sat ABOVE `.settings-overlay` (z-index 20), so opening
+       Settings while the mobile sidebar was open rendered it hidden behind
+       the sidebar (the settings trigger lives inside the sidebar's own
+       HeaderBar). 15 keeps the sidebar above `.sidebar-backdrop` (10) and
+       ordinary content (0) but below every overlay in the existing scheme
+       (`.settings-overlay`/`.user-switch-dropdown` at 20,
+       `.sidebar-header-hover-overlay` at 50). */
+    z-index: 15;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Backdrop/scrim behind the off-canvas sidebar, above ordinary content --
+     tapping it closes the sidebar (see `sidebar_open` wiring in app.rs).
+     Sits between content (default stacking, 0) and `.sidebar` (15). */
+  .sidebar-backdrop {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  }
+
+  /* KB: `.mobile-topbar` already shows a compact "Harmonia" title, so the
+     brand image + slogan inside `.sidebar-header` would duplicate it once
+     the sidebar becomes visible/reachable again on mobile. The header
+     button itself stays -- it's also the only Settings trigger (see
+     header/src/lib.rs's `on:click` on `.sidebar-header-image-button`), so
+     only its brand sub-elements are hidden, not the whole `.sidebar-header`
+     block. `.sidebar-self-row` (user id/hex/identicon) and everything else
+     in the sidebar is untouched. */
+  .sidebar-header-image-button img,
+  .sidebar-header-slogan {
+    display: none;
+  }
+
+  /* Main content column fills the remaining space below the top bar; the sidebar overlays it
+     rather than sharing grid columns, so no horizontal scroll is introduced. */
+  .app > .chat-panel,
+  .app > .inbox-panel {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-topbar {
+    display: none;
+  }
+}
+
 .sidebar-header {
   /* KB-294: shrunk ~1/2 (was 16px) -- header block was oversized relative
      to its content. */
