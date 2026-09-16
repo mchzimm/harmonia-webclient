@@ -74,23 +74,6 @@ html, body {
   border-radius: 1px;
 }
 
-.mobile-topbar-title {
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--text);
-}
-
-/* Mirrors `.sidebar-header-version` -- visible without opening the mobile
-   drawer, since the drawer is closed by default (see app.rs comment). */
-.mobile-topbar-version {
-  margin-left: auto;
-  font-size: 11px;
-  opacity: 0.6;
-  color: var(--text);
-  flex-shrink: 0;
-}
-
 @media (max-width: 768px) {
   .app {
     display: flex;
@@ -116,6 +99,37 @@ html, body {
      by its height to avoid the first row being hidden underneath it. */
   .app {
     padding-top: 56px;
+  }
+
+  /* KB: mobile-header-relayout task. `.sidebar-header` (the brand block) is hidden
+     entirely on mobile (see its own rule below); `.sidebar-self-row` now takes over
+     the pinned-top spot it used to occupy -- same `position: sticky; top: 0` trick
+     (see `.sidebar-header`'s own comment for why sticky/top:0 works here). Scoped to
+     `.sidebar >` so this beats the base `.sidebar-self-row` rule below on specificity
+     (0,2,0 > 0,1,0) instead of losing to it via source order. Keeps the base rule's
+     own identity-bearing `--gateway-gradient` layer (KB-149/172, security-relevant
+     per KB-456 -- do not flatten to a flat color) and appends `var(--bg-alt)` as the
+     bottom-most layer so scrolled-under DM rows don't show through, same z-index 5.
+     Desktop's `.sidebar-self-row` (base rule above) is untouched. */
+  .sidebar > .sidebar-self-row {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    /* KB-691 round 2: `var(--gateway-gradient, transparent)` in a non-final
+       shorthand layer is invalid-at-computed-value-time when the custom prop
+       is UNSET (guest/no-gateway state) -- the whole `background` shorthand
+       became invalid there and reset to initial (no background at all, row
+       see-through over scrolled DM list). Measured (headless Chrome, unset
+       state): was `backgroundColor: rgba(0,0,0,0)`, `backgroundImage: none`.
+       Fix: declare ONLY `background-color` here; `background-image` resolves
+       from the base `.sidebar-self-row` rule below (not redeclared here),
+       keeping the KB-149/172 identity-bearing `--gateway-gradient` layer
+       (KB-456: do not flatten to a flat color) while making the bottom color
+       robust in both states. Measured after fix: unset -> bc rgb(28,31,38),
+       bi = 0.4 overlay, none; set -> bc rgb(28,31,38), bi = overlay + gateway
+       gradient. Never put `var(--x, fallback)` in a non-final shorthand
+       layer again. */
+    background-color: var(--bg-alt);
   }
 
   /* Off-canvas by default: fixed overlay panel, slid out of view. `.mobile-open` (toggled by
@@ -160,16 +174,16 @@ html, body {
     z-index: 10;
   }
 
-  /* KB: `.mobile-topbar` already shows a compact "Harmonia" title, so the
-     brand image + slogan inside `.sidebar-header` would duplicate it once
-     the sidebar becomes visible/reachable again on mobile. The header
-     button itself stays -- it's also the only Settings trigger (see
-     header/src/lib.rs's `on:click` on `.sidebar-header-image-button`), so
-     only its brand sub-elements are hidden, not the whole `.sidebar-header`
-     block. `.sidebar-self-row` (user id/hex/identicon) and everything else
-     in the sidebar is untouched. */
-  .sidebar-header-image-button img,
-  .sidebar-header-slogan {
+  /* KB: mobile-header-relayout task. `.mobile-topbar` now renders its own full
+     copy of the brand block (`HeaderBrandBlock`, same markup/classes as
+     `.sidebar-header` below), so the sidebar's own `.sidebar-header` copy must
+     not render at all on mobile -- the space it used to occupy is now taken by
+     `.sidebar-self-row`, pinned to the top instead (see its own mobile rule).
+     Hiding the WHOLE block (not just its image/slogan children, as a prior
+     rule here did) is required: that prior rule targeted `.sidebar-header-*`
+     classes with no ancestor scoping, which would otherwise also hide the
+     topbar's own same-classed copy. */
+  .sidebar > .sidebar-header {
     display: none;
   }
 
