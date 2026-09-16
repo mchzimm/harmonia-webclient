@@ -82,13 +82,29 @@ html, body {
     overflow: hidden;
   }
 
+  /* KB-694: single source of truth for the mobile topbar's height, derived
+     from the fixed header-image height (see `.mobile-topbar .sidebar-header-image-button
+     img` below -- 160px wide, ~40px tall at the source image's 700:176 aspect
+     ratio) plus `.mobile-topbar`'s own 8px top/bottom padding, floored at the
+     44px hamburger button's own height so the row never clips it. Previously
+     4 independent `56px` literals (`.mobile-topbar` height, `.app`
+     padding-top, `.sidebar` top, `.sidebar-backdrop` top) had to be
+     hand-kept in lockstep; now all 4 read this one variable. Declared on
+     `:root` (not `.mobile-topbar`) so it cascades to sibling selectors
+     (`.app`, `.sidebar`, `.sidebar-backdrop`) that aren't descendants of
+     `.mobile-topbar`. */
+  :root {
+    --mobile-topbar-image-height: 40px;
+    --mobile-topbar-height: calc(max(var(--mobile-topbar-image-height), 44px) + 16px);
+  }
+
   .mobile-topbar {
     display: flex;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 56px;
+    height: var(--mobile-topbar-height);
     box-sizing: border-box;
     /* Above `.sidebar` (15) and `.sidebar-backdrop` (10) so the drawer/scrim
        never cover the topbar -- sidebar must sit below it, not overlap. */
@@ -98,7 +114,7 @@ html, body {
   /* `.mobile-topbar` is now fixed/out-of-flow, so push the app content down
      by its height to avoid the first row being hidden underneath it. */
   .app {
-    padding-top: 56px;
+    padding-top: var(--mobile-topbar-height);
   }
 
   /* KB: mobile-header-relayout task. `.sidebar-header` (the brand block) is hidden
@@ -137,10 +153,10 @@ html, body {
      so it overlays the content column instead of pushing it down. */
   .sidebar {
     position: fixed;
-    /* Starts below `.mobile-topbar` (56px fixed height, see below) instead of
-       overlapping it -- drawer must originate under the topbar, not on top
-       of it. */
-    top: 56px;
+    /* Starts below `.mobile-topbar` (`--mobile-topbar-height`, see above)
+       instead of overlapping it -- drawer must originate under the topbar,
+       not on top of it. */
+    top: var(--mobile-topbar-height);
     left: 0;
     bottom: 0;
     width: min(80vw, 320px);
@@ -166,7 +182,7 @@ html, body {
      Sits between content (default stacking, 0) and `.sidebar` (15). */
   .sidebar-backdrop {
     position: fixed;
-    top: 56px;
+    top: var(--mobile-topbar-height);
     left: 0;
     right: 0;
     bottom: 0;
@@ -249,6 +265,20 @@ html, body {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* KB-694: `.mobile-topbar` renders the same `HeaderBrandBlock` markup as
+   `.sidebar-header`, but unlike the sidebar (fixed 260px grid column, so
+   `width:100%` above is already effectively fixed there -- left untouched),
+   `.mobile-topbar` is a flex-row child whose available width grows toward
+   the 768px breakpoint, so a `width:100%` image visibly stretches as the
+   viewport widens. Pin it to a fixed 160px (~40px tall at the source
+   image's 700:176 aspect ratio -- see `--mobile-topbar-image-height`
+   above, which this value must stay in sync with) so it renders identically
+   at every mobile viewport width. */
+.mobile-topbar .sidebar-header-image-button img {
+  height: var(--mobile-topbar-image-height);
+  width: auto;
 }
 
 /* KB-296 follow-up: hover preview -- enlarged header image + a config-menu
