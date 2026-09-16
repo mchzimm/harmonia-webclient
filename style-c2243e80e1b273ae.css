@@ -82,17 +82,19 @@ html, body {
     overflow: hidden;
   }
 
-  /* KB-694: single source of truth for the mobile topbar's height, derived
-     from the fixed header-image height (see `.mobile-topbar .sidebar-header-image-button
-     img` below -- 160px wide, ~40px tall at the source image's 700:176 aspect
-     ratio) plus `.mobile-topbar`'s own 8px top/bottom padding, floored at the
-     44px hamburger button's own height so the row never clips it. Previously
-     4 independent `56px` literals (`.mobile-topbar` height, `.app`
-     padding-top, `.sidebar` top, `.sidebar-backdrop` top) had to be
-     hand-kept in lockstep; now all 4 read this one variable. Declared on
-     `:root` (not `.mobile-topbar`) so it cascades to sibling selectors
-     (`.app`, `.sidebar`, `.sidebar-backdrop`) that aren't descendants of
-     `.mobile-topbar`. */
+  /* KB-694: single source of truth for the mobile topbar's height. This var
+     directly SETS the header image's rendered height (see
+     `.mobile-topbar .sidebar-header-image-button img` below -- `height:
+     var(--mobile-topbar-image-height)`, width derives from the image's
+     intrinsic 700:176 aspect ratio, ~159.09px at 40px height) -- true by
+     construction, no separate value to keep in sync -- plus `.mobile-topbar`'s
+     own 8px top/bottom padding, floored at the 44px hamburger button's own
+     height so the row never clips it. Previously 4 independent `56px`
+     literals (`.mobile-topbar` height, `.app` padding-top, `.sidebar` top,
+     `.sidebar-backdrop` top) had to be hand-kept in lockstep; now all 4 read
+     this one variable. Declared on `:root` (not `.mobile-topbar`) so it
+     cascades to sibling selectors (`.app`, `.sidebar`, `.sidebar-backdrop`)
+     that aren't descendants of `.mobile-topbar`. */
   :root {
     --mobile-topbar-image-height: 40px;
     --mobile-topbar-height: calc(max(var(--mobile-topbar-image-height), 44px) + 16px);
@@ -272,12 +274,16 @@ html, body {
    `width:100%` above is already effectively fixed there -- left untouched),
    `.mobile-topbar` is a flex-row child whose available width grows toward
    the 768px breakpoint, so a `width:100%` image visibly stretches as the
-   viewport widens. Pin it to a fixed 160px (~40px tall at the source
-   image's 700:176 aspect ratio -- see `--mobile-topbar-image-height`
-   above, which this value must stay in sync with) so it renders identically
-   at every mobile viewport width. */
+   viewport widens. Fix the rendered HEIGHT via `--mobile-topbar-image-height`
+   (declared inside the `@media (max-width: 768px)` :root block above);
+   width is left to derive from the image's intrinsic 700:176 aspect ratio
+   (~159.09px at the 40px height), so this is true by construction -- no
+   second value to keep in sync. This rule itself sits outside that media
+   query (shared with `.sidebar-header`'s own img rule above), so the `var()`
+   falls back to 40px above the 768px breakpoint; harmless in practice since
+   `.mobile-topbar` is `display: none` there. */
 .mobile-topbar .sidebar-header-image-button img {
-  height: var(--mobile-topbar-image-height);
+  height: var(--mobile-topbar-image-height, 40px);
   width: auto;
 }
 
