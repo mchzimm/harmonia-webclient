@@ -318,15 +318,14 @@ html, body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   overflow-y: auto;
 }
-/* KB-363: wraps the hover-preview image so the slogan overlay below can
-   anchor to just the image (not the whole panel). Keeps the image's own
-   flex-item sizing (200% natural size, capped to 90% of the panel) by
-   letting the wrap itself take on that sizing and the image fill it. */
+/* KB-363/KB-695: wraps the hover-preview image so the slogan overlay below
+   can anchor to just the image (not the whole panel). KB-695: sized to
+   100% of the panel (was 200% capped to 90%) so the image fills the panel
+   exactly. */
 .sidebar-header-hover-image-wrap {
   position: relative;
   display: block;
-  width: 200%;
-  max-width: 90%;
+  width: 100%;
   flex-shrink: 0;
 }
 /* KB-296 follow-up: hover preview image shown at 2x its natural size
