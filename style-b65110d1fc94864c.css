@@ -421,15 +421,19 @@ html, body {
 }
 
 /* KB-363/KB-695: same slogan, scaled up for the larger hover-preview image.
-   KB-695: font-size raised 20px -> 35px so the pill's own rendered width
-   grows to roughly match the wrap's new 100%-of-panel width (measured:
-   ~526px at 20px vs a ~926px wrap, ~1.76x gap -- 20px * 1.76 ~= 35px). That
-   fixed-px width (~905px) is viewport-independent while the panel it sits
-   over is 66.67vw -- below ~1429px viewport width the panel's content box
-   is narrower than the pill, so `nowrap` alone would overflow it. `max-width:
-   100%` (of the wrap, its positioned ancestor) plus `white-space: normal`
-   caps the pill at the wrap's actual width and wraps to a second line
-   instead, rather than spilling past the panel's edge. */
+   KB-695: the pill's rendered width must track the panel's own 66.67vw
+   width, so font-size is `vw`-based rather than a fixed px (a fixed 35px
+   measured ~905px at a 1461px viewport but would overflow the panel below
+   ~1429px, since the panel shrinks with the viewport and a fixed-px pill
+   does not). Coefficient derived from the measured 35px/905px/~1461px data
+   point (35px yielded ~905px text+padding, ~25.29px of rendered width per
+   font-px; panel content width = 0.6667*vw - 48) solved for the largest
+   font-size that keeps the pill within the panel across ~1024-1920px
+   (typical desktop range -- the hover overlay is desktop-only, see
+   `.mobile-topbar`/`hover:none` note below), then rounded down slightly for
+   margin: `2.35vw`. `clamp(20px, 2.35vw, 42px)` keeps the same behavior
+   below/above that range. `max-width: 100%` (of the wrap) stays as a
+   backstop for any viewport this approximation doesn't perfectly cover. */
 .sidebar-header-hover-slogan {
   position: absolute;
   bottom: 0;
@@ -437,14 +441,13 @@ html, body {
   transform: translateX(-50%);
   max-width: 100%;
   box-sizing: border-box;
-  font-size: 35px;
+  font-size: clamp(20px, 2.35vw, 42px);
   color: var(--color-text-normal);
   text-shadow: 0 0 4px var(--color-text-glow);
   background: rgba(0, 0, 0, 0.75);
   padding: 4px 10px;
   border-radius: 4px;
-  white-space: normal;
-  text-align: center;
+  white-space: nowrap;
   pointer-events: none;
   z-index: 1;
 }
