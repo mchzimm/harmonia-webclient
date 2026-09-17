@@ -420,13 +420,16 @@ html, body {
   z-index: 1;
 }
 
-/* KB-363: same slogan, scaled up for the larger hover-preview image. */
+/* KB-363/KB-695: same slogan, scaled up for the larger hover-preview image.
+   KB-695: font-size raised 20px -> 35px so the pill's own rendered width
+   grows to roughly match the wrap's new 100%-of-panel width (measured:
+   ~526px at 20px vs a ~926px wrap, ~1.76x gap -- 20px * 1.76 ~= 35px). */
 .sidebar-header-hover-slogan {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 20px;
+  font-size: 35px;
   color: var(--color-text-normal);
   text-shadow: 0 0 4px var(--color-text-glow);
   background: rgba(0, 0, 0, 0.75);
