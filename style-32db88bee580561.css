@@ -506,14 +506,28 @@ html, body {
    verified by KB-697's e2e `panelScrollHeight <= panelClientHeight`
    assertion. */
 @media (max-width: 768px) {
+  /* KB-703: revert to absolute overlay (matches base rule's mechanism, and
+     the main header's `.sidebar-header-slogan`, which never left it) --
+     `position: static` flow (KB-697) visually disconnected the slogan from
+     the image (sits low, with a gap) instead of anchoring to its bottom
+     edge like every other instance of this slogan. Absolute positioning
+     also takes the slogan back OUT of normal flow, so it no longer adds to
+     `.sidebar-header-hover-image-wrap`'s / `.sidebar-header-hover-panel`'s
+     flow height at all -- the KB-697 vertical-overflow bug (wrapped text
+     pushing panelScrollHeight past panelClientHeight) cannot recur from
+     this rule regardless of how many lines the text wraps to. Keep
+     `white-space: normal` + `max-width: 100%` (inherited from the base
+     rule) so the KB-697 horizontal-overflow bug (nowrap text wider than the
+     shrunk mobile wrap) also stays fixed. Keep the 13px font-size trim
+     (well under the desktop `clamp(20px, ...)` floor) so the wrapped block
+     stays short enough not to visually cover most of the image above it. */
   .sidebar-header-hover-slogan {
-    position: static;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
-    margin-top: 2px;
+    margin-top: 0;
     font-size: 13px;
     white-space: normal;
     text-align: center;
