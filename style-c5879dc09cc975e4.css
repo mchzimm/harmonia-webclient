@@ -84,7 +84,7 @@ html, body {
 
   /* KB-694: single source of truth for the mobile topbar's height. This var
      directly SETS the header image's rendered height (see
-     `.mobile-topbar .sidebar-header-image-button img` below -- `height:
+     `.mobile-topbar .sidebar-header-image-button > img` below -- `height:
      var(--mobile-topbar-image-height)`, width derives from the image's
      intrinsic 700:176 aspect ratio, ~159.09px at 40px height) -- true by
      construction, no separate value to keep in sync -- plus `.mobile-topbar`'s
