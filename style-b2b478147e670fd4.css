@@ -281,8 +281,19 @@ html, body {
    second value to keep in sync. This rule itself sits outside that media
    query (shared with `.sidebar-header`'s own img rule above), so the `var()`
    falls back to 40px above the 768px breakpoint; harmless in practice since
-   `.mobile-topbar` is `display: none` there. */
-.mobile-topbar .sidebar-header-image-button img {
+   `.mobile-topbar` is `display: none` there.
+
+   KB-696: this rule must target ONLY the topbar's own always-visible
+   image, not the hover-overlay's nested preview image
+   (.sidebar-header-hover-image lives several levels deeper inside the
+   same .sidebar-header-image-button -- button > .sidebar-header-hover-overlay
+   > .sidebar-header-hover-panel > .sidebar-header-hover-image-wrap > img).
+   Without the `>` child combinator, this rule's higher specificity
+   (0,2,1 vs. .sidebar-header-hover-image's 0,1,0) silently overrode the
+   hover-preview image's own width:100%/height:auto scaling, pinning it to
+   this 40px topbar height on mobile -- the previously-reported "tiny
+   image" bug. */
+.mobile-topbar .sidebar-header-image-button > img {
   height: var(--mobile-topbar-image-height, 40px);
   width: auto;
 }
