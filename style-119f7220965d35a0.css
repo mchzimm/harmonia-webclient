@@ -440,8 +440,9 @@ html, body {
    point (35px yielded ~905px text+padding, ~25.29px of rendered width per
    font-px; panel content width = 0.6667*vw - 48) solved for the largest
    font-size that keeps the pill within the panel across ~1024-1920px
-   (typical desktop range -- the hover overlay is desktop-only, see
-   `.mobile-topbar`/`hover:none` note below), then rounded down slightly for
+   (typical desktop range -- KB-696/697 later made this same hover overlay a
+   mobile surface too, see the `@media (max-width: 768px)` override below),
+   then rounded down slightly for
    margin: `2.35vw`. `clamp(20px, 2.35vw, 42px)` keeps the same behavior
    below/above that range. `max-width: 100%` (of the wrap) stays as a
    backstop for any viewport this approximation doesn't perfectly cover. */
@@ -461,6 +462,97 @@ html, body {
   white-space: nowrap;
   pointer-events: none;
   z-index: 1;
+}
+
+/* KB-697: at mobile widths (<=768px) the fixed 20px clamp() floor keeps the
+   slogan's rendered text width constant (~516px) while its wrap box shrinks
+   linearly with viewport, so nowrap overflows structurally below ~846px
+   (see docs/superpowers/plans/2026-09-17-kb697-mobile-slogan-overflow-fix.md).
+   Wrap instead of truncating (ellipsis would cut off the tagline). Must come
+   AFTER the base `.sidebar-header-hover-slogan` rule above (same specificity,
+   later @media wins -- feedback_media_query_specificity_and_iacvt_shorthand).
+
+   A height-fraction cap on the absolute-overlay box (an earlier draft of
+   this rule: `max-height: 40%; overflow: hidden`) was tried and rejected:
+   at a 375px viewport this slogan's full text genuinely needs ~77px of
+   height once wrapped to the 202px wrap width, which is ~152% of the wrap's
+   own ~51px height -- no height cap under 100% can contain that without
+   either clipping text (defeats the "keep full text visible" goal) or still
+   painting outside its own clipped box when `overflow` isn't `hidden`
+   (defeats the "must not visually cover the image" goal, invisibly, since a
+   bounding-rect-only test can't see paint that escapes the box).
+
+   Fix instead: take the slogan out of absolute-overlay positioning at mobile
+   entirely and let it flow in normal block layout, below the image, inside
+   `.sidebar-header-hover-image-wrap` (`position: relative; display: block`).
+   `.sidebar-header-hover-image` itself stays in-flow before it, so the
+   slogan can only ever render below the image's bottom edge -- structurally,
+   not by height-budget arithmetic -- regardless of how many lines it wraps
+   to. The wrap's own height simply grows to fit.
+
+   KB-697 follow-up (final review): the base rule's `clamp(20px, ...)` floor
+   still applied in this flowed layout, and at a 375x812 viewport the
+   resulting wrapped-text height pushed `.sidebar-header-hover-panel`'s
+   scrollHeight (568px) past its clientHeight (541px) -- content clipped at
+   the panel's bottom edge, NOT scrollable to reach: the panel's own
+   `overflow-y: auto` (line 330) is inert here because
+   `.sidebar-header-hover-overlay` sets `pointer-events: none` (no rule in
+   this subtree re-enables pointer events on the panel), and the whole
+   overlay is `:hover`-gated on the image button besides, so it disappears
+   the instant the pointer leaves it to attempt a scroll. Explicitly override
+   the font-size down from the desktop clamp() (fixed 13px, well under the
+   20px floor) and trim the top margin so the wrapped text needs less
+   vertical room and the panel no longer overflows at mobile widths --
+   verified by KB-697's e2e `panelScrollHeight <= panelClientHeight`
+   assertion. */
+@media (max-width: 768px) {
+  .sidebar-header-hover-slogan {
+    position: static;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    display: block;
+    width: 100%;
+    margin-top: 2px;
+    font-size: 13px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* KB-697 (second re-review): 375x812 alone wasn't the whole envelope --
+     at 360x740 the panel still overflowed by 29px (panelScrollHeight=522 >
+     panelClientHeight=493). Root cause: `.sidebar-header-hover-panel`'s
+     `height: 66.67%` tracks VIEWPORT HEIGHT while its content height is
+     dominated by `.sidebar-header-hover-instructions` (two static
+     sections, one `<ul>` of 4 items) whose wrapped-line count is driven by
+     VIEWPORT WIDTH -- independent axes, so no single slogan font-size
+     tweak alone can close the gap at every viewport. Shrink the
+     instructions block's own footprint at mobile (font-size, heading
+     margin, inter-line/inter-section gap) and the panel's own
+     padding/gap, on top of the slogan trim above, so the combined content
+     height clears the panel at the full 360x640-to-375x812 envelope
+     (verified by KB-697's e2e panelScrollHeight<=panelClientHeight
+     assertion at all three points). */
+  .sidebar-header-hover-panel {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .sidebar-header-hover-instructions {
+    gap: 6px;
+    font-size: 11px;
+    line-height: 1.25;
+    max-width: 100%;
+  }
+
+  .sidebar-header-hover-instructions h3 {
+    margin: 0 0 2px;
+    font-size: 10px;
+  }
+
+  .sidebar-header-hover-instructions li {
+    margin-bottom: 2px;
+  }
 }
 
 /* KB-172: username/hex-id + identicon row, underneath the header's
