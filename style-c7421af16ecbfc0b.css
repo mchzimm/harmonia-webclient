@@ -1496,10 +1496,9 @@ button:disabled {
   text-shadow: 0 0 4px var(--color-text-glow);
 }
 
-.message-content.message-deleted {
-  color: #c0392b;
-  font-style: italic;
-}
+/* KB-724: .message-content.message-deleted (red-italic content) removed --
+   sidebar InboxPanel now mirrors chat's KB-719 markers-only styling (content
+   itself unstyled, only the ␡ glyphs get `.msg-deleted-marker`). */
 
 /* KB-719: the ChatPanel/InboxPanel-message-list deleted-message marker
    (`␡ deleted ␡`) -- `--danger` rather than a literal hex so it stays legible
