@@ -1501,6 +1501,15 @@ button:disabled {
   font-style: italic;
 }
 
+/* KB-719: the ChatPanel/InboxPanel-message-list deleted-message marker
+   (`␡ deleted ␡`) -- `--danger` rather than a literal hex so it stays legible
+   against both the light and dark theme palettes (see `:root`'s token
+   definitions at the top of this file). */
+.msg-deleted-marker {
+  font-weight: 700;
+  color: var(--danger);
+}
+
 /* KB-173: hidden by default, fades in on hover of the message row; two-click
    arm/confirm delete — first click turns the background orange (armed),
    second click while armed actually deletes. Auto-reverts after 5s. */
