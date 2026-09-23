@@ -810,6 +810,20 @@ html, body {
   margin: 0 0 8px 0;
 }
 
+/* KB-712: the base rule below sets `display: flex` as an AUTHOR declaration, which beats the
+   UA stylesheet's `[hidden] { display: none }` regardless of specificity -- an author
+   `display` always wins over a UA one. Measured (headless Chrome, getComputedStyle): without
+   this override, `.channel-list[hidden]` still computed `display: flex`; with it, `none`.
+   `summary[hidden]` below was measured as ALREADY `none` in Chrome even without an explicit
+   rule (UA `[hidden]` already won there) -- kept anyway as defense for engines where the UA's
+   own `details > summary:first-of-type` (0,1,2) could outrank the UA's own `[hidden]` (0,1,0)
+   within the UA origin. */
+.channel-list[hidden] {
+  display: none;
+}
+summary[hidden] {
+  display: none;
+}
 .channel-list, .participant-list {
   list-style: none;
   margin: 0;
@@ -907,9 +921,26 @@ html, body {
   line-height: 1;
   padding: 2px 4px;
   flex-shrink: 0;
+  /* KB-714: same hover-reveal discipline as `.row-remove-btn` above -- `opacity`, NEVER
+     `display`/`visibility`, so e2e tests can still click it while invisible. */
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.channel-item:hover .row-archive-btn,
+.channel-item:focus-within .row-archive-btn,
+.row-archive-btn:focus-visible {
+  opacity: 1;
 }
 .row-archive-btn:hover {
   opacity: 0.75;
+}
+/* KB-714: touch devices have no hover -- keep the archive icon always visible there, same
+   as `.row-remove-btn`'s own `(hover: none)` block. Placed AFTER the base rule above so it
+   wins under `(hover: none)` -- `@media` adds no specificity of its own. */
+@media (hover: none) {
+  .row-archive-btn {
+    opacity: 1;
+  }
 }
 .dm-message-count + .row-archive-btn {
   margin-left: 4px;
