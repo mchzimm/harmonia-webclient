@@ -1965,3 +1965,12 @@ button:disabled {
 .pending-send-marker {
   margin-right: 0.3em;
 }
+
+/* KB-534 T8: client-verified badges, Lv pill, vote buttons (spec §7) */
+.cert-badges { display: inline-flex; gap: 2px; margin-left: 4px; }
+.cert-badge { font-size: 0.9em; cursor: default; }
+.rep-pill { display: inline-block; margin-left: 4px; padding: 0 6px; border-radius: 8px; font-size: 0.75em; background: rgba(120,120,160,0.25); cursor: default; }
+.rep-panel { display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; }
+.rep-vote { border: 0; background: transparent; cursor: pointer; font-size: 0.9em; padding: 0 4px; }
+.rep-vote:disabled { opacity: 0.35; cursor: not-allowed; }
+.rep-status { font-size: 0.7em; opacity: 0.7; }
