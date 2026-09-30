@@ -645,6 +645,16 @@ html, body {
   font-size: 0.5em;
   opacity: 0.75;
 }
+/* KB-742: `<user-hex> @ <gateway-hex>` line. The wrapper carries the half-size/muted treatment;
+   the inner `.gateway-id-sub` (user hex only) is reset so it isn't shrunk twice. */
+.gateway-id-subline {
+  font-size: 0.5em;
+  opacity: 0.75;
+}
+.gateway-id-subline .gateway-id-sub {
+  font-size: 1em;
+  opacity: 1;
+}
 
 .gateway-tunnel-url {
   /* KB-317: diagnostic display of the actively-connected gateway `wss://` tunnel URL, under
