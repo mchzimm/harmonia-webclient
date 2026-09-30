@@ -655,18 +655,6 @@ html, body {
   opacity: 0.6;
   word-break: break-all;
 }
-.gateway-connected-id {
-  /* gw-id-display: `<userid-hex> @ <gateway-id-hex>`, right-aligned, sitting on the same
-     `--gateway-gradient` backdrop `.sidebar-self-row` already composites (this span is just
-     another child of `.header-title-block`, which has no background of its own, so no separate
-     gradient rule is needed here -- same reasoning `.gateway-tunnel-url` above relies on).
-     Text-align right (rather than the block/left-aligned `.gateway-tunnel-url`) per the layout
-     spec: this line reads right-to-left toward the identicon side of the row. */
-  display: block;
-  font-size: 0.5em;
-  opacity: 0.6;
-  text-align: right;
-}
 
 /* KB-216: user-switch dropdown, opened by clicking `.sidebar-self-row`.
    Positioned relative to that row (`position: relative`, see above; KB-233
