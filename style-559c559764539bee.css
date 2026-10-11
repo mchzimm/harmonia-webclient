@@ -1023,11 +1023,23 @@ summary[hidden] {
 /* KB-349: contacts/nearby-row identicon glow by connection state --
    green ring when the peer's home node is currently reachable in the
    mesh, red when not. */
-.dot.conn-glow-online {
+/* KB-791: the same ONLINE ring on every other blockie (chat/inbox message rows, header, user
+   switcher). Online only -- the red ring stays contacts/nearby-only. */
+.dot.conn-glow-online,
+.message-avatar.conn-glow-online,
+.header-identicon.conn-glow-online,
+.user-switch-identicon.conn-glow-online {
   box-shadow: 0 0 4px 2px #4fd18b, 0 0 8px 2px rgba(79, 209, 139, 0.6);
 }
 .dot.conn-glow-offline {
   box-shadow: 0 0 4px 2px var(--danger), 0 0 8px 2px rgba(241, 91, 91, 0.6);
+}
+/* KB-792: the overlay's trigger wrapper adds no box; the blockie inside is the click target. */
+.user-blockie {
+  display: contents;
+}
+.user-blockie > .user-blockie-img {
+  cursor: pointer;
 }
 .dot svg {
   display: block;
