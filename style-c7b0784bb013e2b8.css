@@ -1976,6 +1976,13 @@ button:disabled {
   margin-right: 0.3em;
 }
 
+/* KB-807: terminal refusal text on an unsent message. */
+.pending-send-error {
+  display: block;
+  font-size: 0.8em;
+  color: #c0392b;
+}
+
 /* KB-534 T8: client-verified badges, Lv pill, vote buttons (spec §7) */
 .cert-badges { display: inline-flex; gap: 2px; margin-left: 4px; }
 .cert-badge { font-size: 0.9em; cursor: default; }
