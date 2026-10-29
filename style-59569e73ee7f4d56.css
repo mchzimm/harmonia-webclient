@@ -1169,6 +1169,12 @@ summary[hidden] {
   border-radius: 6px;
   padding: 2px 8px;
 }
+.contact-hover-card-add {
+  margin-top: 0.4em;
+  padding: 0.5em 0.9em;
+  min-height: 44px;
+  cursor: pointer;
+}
 .contact-hover-card-id {
   font-size: 0.6em;
   opacity: 0.65;
