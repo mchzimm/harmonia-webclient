@@ -2008,3 +2008,18 @@ button:disabled {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/* KB-844: call controls in the header, next to the logo (desktop sidebar header + mobile top bar). */
+.call-hdr { align-items: center; gap: 4px; margin-left: 6px; flex: 0 0 auto; }
+.call-hdr-btn {
+  background: none; border: 0; padding: 2px 4px; font-size: 1.35rem; line-height: 1;
+  cursor: pointer; border-radius: 6px; min-width: 32px; min-height: 32px;
+}
+.call-hdr-btn:hover { background: rgba(255, 255, 255, 0.12); }
+.call-hdr-ringing .call-hdr-accept { animation: call-hdr-ring 0.9s ease-in-out infinite; }
+.call-hdr-indicator.muted { opacity: 0.4; }
+@keyframes call-hdr-ring {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-14deg); }
+  75% { transform: rotate(14deg); }
+}
