@@ -1997,3 +1997,14 @@ button:disabled {
 .rep-vote { border: 0; background: transparent; cursor: pointer; font-size: 0.9em; padding: 0 4px; }
 .rep-vote:disabled { opacity: 0.35; cursor: not-allowed; }
 .rep-status { font-size: 0.7em; opacity: 0.7; }
+
+/* KB-843: names are cut to 15 chars + "..." in Rust (format::truncate_label); this is the backstop
+   for wide glyphs so a name never pushes the row's right-side icons out of view. */
+.channel-item > .username-glow,
+.participant-item > .id-label-backdrop,
+.participant-item > .username-glow {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
