@@ -1628,6 +1628,66 @@ button:disabled {
   cursor: default;
 }
 
+/* KB-761: links and images shared in messages. `.message-link` is an http(s)
+   anchor; `.message-image-thumb` has a FIXED height (180px) so a late image load
+   cannot shift the message list; `.image-lightbox` is the enlarged-image overlay
+   (z-index 60, above every other overlay in this sheet, max 50). */
+.message-link {
+  color: #4a90e2;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.message-image-thumb {
+  max-width: 240px;
+  height: 180px;
+  object-fit: contain;
+  display: block;
+  cursor: zoom-in;
+  margin: 4px 0;
+}
+
+.message-image-failed {
+  color: var(--text-dim);
+}
+
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* The enlarged image: a 92vw x 92vh box with `object-fit: contain`, so the picture is scaled
+   (up or down) to the largest size that fits, keeping its aspect ratio. With `max-*` alone an
+   image smaller than the viewport kept its natural size, and a 128px icon opened SMALLER than
+   its 180px thumb. */
+.image-lightbox-img {
+  width: 92vw;
+  height: 92vh;
+  max-width: 92vw;
+  max-height: 92vh;
+  object-fit: contain;
+  cursor: default;
+}
+
+.image-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  padding: 0 8px;
+  background: transparent;
+  border: none;
+  color: #ff3b30;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
 .empty-state {
   flex: 1;
   display: flex;
