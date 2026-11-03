@@ -1651,6 +1651,131 @@ button:disabled {
   color: var(--text-dim);
 }
 
+/* KB-761 v1: an uploaded image. The box is FIXED (240x180, the same as the plain thumb) from the
+   first paint, so the arrival of the thumb never moves the messages around it; the placeholder
+   fill shows while it loads. A failed thumb leaves the box and shows `.message-blob-failed`. */
+.message-blob-wrap {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 6px;
+}
+
+.message-blob {
+  width: 240px;
+  max-width: 240px;
+  height: 180px;
+  box-sizing: border-box;
+  background: rgba(127, 127, 127, 0.15);
+  color: transparent;
+}
+
+.message-blob[data-blob-state="failed"] {
+  display: none;
+}
+
+.message-blob-failed {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+  margin: 4px 0;
+}
+
+.message-blob-retry {
+  font-size: 12px;
+  padding: 1px 8px;
+  cursor: pointer;
+}
+
+/* KB-761 v1: the composer's attach button and chips. A chip is a FIXED box (thumb 40x40, bar and
+   text beside it), so progress text changing never resizes the row. */
+.composer-attach-button {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.composer {
+  flex-wrap: wrap;
+}
+
+.composer-chips {
+  flex: 0 0 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.composer-chips:empty {
+  display: none;
+}
+
+.message-upload-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  width: 200px;
+  height: 52px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.message-upload-chip-thumb {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: rgba(127, 127, 127, 0.15);
+}
+
+.message-upload-chip-info {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.message-upload-chip-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(127, 127, 127, 0.25);
+  overflow: hidden;
+}
+
+.message-upload-chip-bar-fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+.message-upload-chip[data-upload-state="failed"] .message-upload-chip-bar-fill {
+  background: #d9534f;
+}
+
+.message-upload-chip-text {
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.message-upload-chip-remove {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  cursor: pointer;
+}
+
 .image-lightbox {
   position: fixed;
   inset: 0;
