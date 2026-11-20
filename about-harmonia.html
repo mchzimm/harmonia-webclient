@@ -14,6 +14,7 @@
   --build-bg:#102d44; --build-fg:#8fd0ff;
   --plan-bg:#2a2f3b; --plan-fg:#c4ccdb;
   --block-bg:#45171c; --block-fg:#ffa3a8;
+  --tbd-bg:#2d2150; --tbd-fg:#d9c9ff;
 }
 *{box-sizing:border-box}
 html{background:var(--bg)}
@@ -27,11 +28,13 @@ p{margin:8px 0}
 svg{width:100%;height:auto;display:block}
 svg .box{fill:var(--surface2);stroke:var(--line);stroke-width:2}
 svg .hi{fill:var(--surface2);stroke:var(--accent);stroke-width:2}
+svg .pub{fill:var(--surface);stroke:var(--accent);stroke-width:2}
 svg .priv{fill:var(--surface);stroke:var(--accent2);stroke-width:2;stroke-dasharray:6 4}
 svg .arr{stroke:var(--accent);stroke-width:3;fill:none}
 svg .link{stroke:var(--muted);stroke-width:2.5;fill:none}
 svg text{fill:var(--text);font:15px system-ui,sans-serif}
 svg .m{fill:var(--muted);font-size:13px}
+svg .c{text-anchor:middle;dominant-baseline:central}
 svg .n{fill:var(--accent2);font-weight:700;font-size:18px}
 ol.steps{padding-left:22px}
 ol.steps li{margin:6px 0}
@@ -46,6 +49,7 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 .part{background:var(--part-bg);color:var(--part-fg)}
 .build{background:var(--build-bg);color:var(--build-fg)}
 .plan{background:var(--plan-bg);color:var(--plan-fg)}
+.tbd{background:var(--tbd-bg);color:var(--tbd-fg)}
 .block{background:var(--block-bg);color:var(--block-fg)}
 .sum{font-weight:700;margin:10px 0}
 .honest{border-left:4px solid var(--accent2);background:var(--surface);padding:10px 14px;border-radius:6px;margin:14px 0}
@@ -55,10 +59,10 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <main>
 <h1>About Harmonia</h1>
 <p class="sub">A chat place you can own. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-20 02:02 PST</span></p>
+<p class="stamp">Updated: <span id="upd">2026-11-20 03:16 PST</span></p>
 
 <h2>The big idea</h2>
-<div class="card"><p>Harmonia is a place to chat with friends. Nobody has to give a company an email or a phone number. You are <b>you</b> because of a secret phrase that only you know. Anyone can run a little "meeting place" for people. Those places can join hands, so friends on different places can still talk.</p></div>
+<div class="card"><p>Harmonia is a place to chat with people: friends, family, co-workers, teams and more. Nobody has to give a company an email or a phone number. You are <b>you</b> because of a secret phrase that only you know. Anyone can run a little "meeting place" for people. Those places can join hands, so people on different places can still talk.</p></div>
 
 <h2>How you get started</h2>
 <div class="card">
@@ -72,49 +76,54 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
   <rect class="hi" x="270" y="20" width="220" height="150" rx="14"/>
   <text class="n" x="286" y="48">2</text>
   <text x="286" y="78">Your look is made</text>
-  <text class="m" x="286" y="104">A little picture, a color wash</text>
-  <text class="m" x="286" y="124">and a short code. Made on</text>
-  <text class="m" x="286" y="144">your own device.</text>
+  <text class="m" x="286" y="104">A "blockie" avatar and a</text>
+  <text class="m" x="286" y="122">6-digit code (hex). Both are</text>
+  <text class="m" x="286" y="140">only you, by sight and text.</text>
+  <text class="m" x="286" y="158">Made on your own device.</text>
   <rect class="box" x="530" y="20" width="220" height="150" rx="14"/>
   <text class="n" x="546" y="48">3</text>
   <text x="546" y="78">Join a gateway</text>
   <text class="m" x="546" y="104">See people nearby, add</text>
-  <text class="m" x="546" y="124">friends, and start chatting.</text>
+  <text class="m" x="546" y="124">contacts, and start chatting.</text>
   <path class="arr" d="M232 95H266" marker-end="url(#ah)"/>
   <path class="arr" d="M492 95H526" marker-end="url(#ah)"/>
 </svg>
 </div>
 <ol class="steps">
-<li><b>Pick a phrase.</b> The same phrase always makes the same you: the same little picture, color wash and short code. Friends learn to spot you by them.</li>
+<li><b>Pick a phrase.</b> The same phrase always makes the same you.</li>
+<li><b>Your look is made.</b> It has two parts: a <b>blockie</b>, a little pixel-art picture that is your avatar, and a <b>6-digit code</b> (hex). Together they point to you alone, one by sight and one by text. People learn to spot you by them.</li>
 <li><b>Open the app.</b> It connects to a <b>gateway</b>, a meeting place that anyone can run.</li>
 <li><b>Meet people.</b> You see <b>nearby</b> people on your gateway. Add the ones you like as <b>contacts</b>.</li>
-<li><b>Chat.</b> Talk one-to-one, in rooms called channels, or by voice. AI agents can join too, as friends in the chat.</li>
+<li><b>Chat.</b> Talk one-to-one, in rooms called channels, or by voice. AI agents can join too, as chat bots.</li>
 </ol>
 
 <h2>Gateways and the mesh</h2>
 <div class="card">
-<svg viewBox="0 0 760 300" role="img" aria-label="Gateways linked together into a mesh, plus a private mesh with its own rules">
+<svg viewBox="0 0 760 300" role="img" aria-label="A public mesh of gateways linked together, plus a private mesh with its own rules">
+  <rect class="pub" x="14" y="14" width="410" height="272" rx="18"/>
+  <text class="m" x="30" y="38">Public mesh</text>
   <rect class="priv" x="440" y="14" width="306" height="272" rx="18"/>
   <text class="m" x="456" y="38">Your own private mesh, your own rules</text>
   <path class="link" d="M120 90L260 60M120 90L220 200M260 60L220 200M260 60L360 140M220 200L360 140"/>
   <path class="link" d="M520 120L640 90M520 120L580 230M640 90L580 230M640 90L700 190M580 230L700 190"/>
   <path class="link" d="M360 140L520 120" stroke-dasharray="3 6"/>
   <g>
-    <rect class="hi" x="80" y="68" width="80" height="44" rx="10"/><text x="100" y="95">Gateway</text>
-    <rect class="box" x="220" y="38" width="80" height="44" rx="10"/><text x="240" y="65">Gateway</text>
-    <rect class="box" x="180" y="178" width="80" height="44" rx="10"/><text x="200" y="205">Gateway</text>
-    <rect class="box" x="320" y="118" width="80" height="44" rx="10"/><text x="340" y="145">Gateway</text>
-    <rect class="hi" x="480" y="98" width="80" height="44" rx="10"/><text x="500" y="125">Private</text>
-    <rect class="hi" x="600" y="68" width="80" height="44" rx="10"/><text x="620" y="95">Private</text>
-    <rect class="hi" x="540" y="208" width="80" height="44" rx="10"/><text x="560" y="235">Private</text>
-    <rect class="hi" x="660" y="168" width="80" height="44" rx="10"/><text x="680" y="195">Private</text>
+    <rect class="hi" x="80" y="68" width="80" height="44" rx="10"/><text class="c" x="120" y="90">Gateway</text>
+    <rect class="box" x="220" y="38" width="80" height="44" rx="10"/><text class="c" x="260" y="60">Gateway</text>
+    <rect class="box" x="180" y="178" width="80" height="44" rx="10"/><text class="c" x="220" y="200">Gateway</text>
+    <rect class="box" x="320" y="118" width="80" height="44" rx="10"/><text class="c" x="360" y="140">Gateway</text>
+    <rect class="hi" x="480" y="98" width="80" height="44" rx="10"/><text class="c" x="520" y="120">Private</text>
+    <rect class="hi" x="600" y="68" width="80" height="44" rx="10"/><text class="c" x="640" y="90">Private</text>
+    <rect class="hi" x="540" y="208" width="80" height="44" rx="10"/><text class="c" x="580" y="230">Private</text>
+    <rect class="hi" x="660" y="168" width="80" height="44" rx="10"/><text class="c" x="700" y="190">Private</text>
   </g>
-  <text class="m" x="24" y="260">Lines = gateways that talk to each other.</text>
-  <text class="m" x="24" y="280">Friends on different gateways can still chat.</text>
+  <text class="m" x="30" y="260">Lines = gateways that talk to each other.</text>
+  <text class="m" x="30" y="278">People on different gateways can still chat.</text>
 </svg>
 </div>
 <p>One gateway is a small meeting place. Link many and you get a <b>mesh</b>. You can start your own gateway, or a whole <b>private mesh</b> of your own gateways. In it you decide who may come in, which roles people have, and what each role may do.</p>
-<div class="honest"><b>Honest limits.</b> Running a gateway is hands-on today. The role and permission rulebook exists and can be edited on the gateway, but most screens do not enforce it yet. Messages are not yet scrambled end to end.</div>
+<p>A private gateway keeps a <b>whitelist</b>: a list of the people allowed in. A new private gateway starts with an empty list, so nobody gets in. The gateway owner adds a person by their 6-digit code on the gateway control screen. Only then can that person&#x27;s app connect there.</p>
+<div class="honest"><b>Honest limits.</b> Running a gateway is hands-on today. The role and permission rulebook exists and can be edited on the gateway, but most screens do not enforce it yet. Messages are already encrypted while they travel, between your app and a gateway and between gateways. True end-to-end encryption, where only the sender and the receiver can read a message and not even a gateway can, is not finished yet.</div>
 
 <h2>Harmonia and federated social apps</h2>
 <p>Federated apps (the "fediverse") are many independent servers that can talk to each other. Harmonia shares that spirit.</p>
@@ -122,18 +131,18 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <thead><tr><th>Question</th><th>Federated social apps</th><th>Harmonia</th></tr></thead>
 <tbody>
 <tr><td>Many independent servers?</td><td>Yes</td><td>Yes, called gateways</td></tr>
-<tr><td>You pick a home?</td><td>Yes</td><td>Yes, your gateway</td></tr>
+<tr><td>You pick a home?</td><td>Yes</td><td>No need: your app picks a gateway for you and switches if it goes down. You can also run your own.</td></tr>
 <tr><td>Servers link up?</td><td>Yes</td><td>Yes, into a mesh</td></tr>
 <tr><td>Email or phone to join?</td><td>Usually an email</td><td>Never</td></tr>
 <tr><td>Who owns your identity?</td><td>Your server holds your account</td><td>You do: it comes from your phrase, on your device</td></tr>
-<tr><td>Private groups of servers with own rules?</td><td>Not the usual pattern</td><td>Yes: a private mesh, with its own roles and permissions</td></tr>
-<tr><td>Public timelines and following?</td><td>Core feature</td><td>Not built yet</td></tr>
+<tr><td>Private groups of servers with own rules?</td><td>Not the usual pattern</td><td>Yes: a private mesh with its own roles and permissions. Its gateways only let in whitelisted users, and gateway owners add them.</td></tr>
+<tr><td>Public timelines and following?</td><td>Core feature</td><td>Not built; not decided yet</td></tr>
 <tr><td>Size and age</td><td>Large and mature</td><td>Young and small</td></tr>
 </tbody></table></div>
 
 <h2>What Harmonia can do so far</h2>
-<p>Status words: <span class="pill done">Done</span> works today. <span class="pill part">Partly</span> works with gaps. <span class="pill build">Building</span> in progress. <span class="pill plan">Planned</span> not started. <span class="pill block">Blocked</span> waiting on something else.</p>
-<p class="sum">Count: Done 22 / Partly 9 / Building 1 / Planned 27 / Blocked 2 (of 61)</p>
+<p>Status words: <span class="pill done">Done</span> works today. <span class="pill part">Partly</span> works with gaps. <span class="pill build">Building</span> in progress. <span class="pill plan">Planned</span> on the task board or in the plans, not started. <span class="pill tbd">TBD</span> to be decided, not discussed yet. <span class="pill block">Blocked</span> waiting on something else.</p>
+<p class="sum">Count: Done 25 / Partly 11 / Building 0 / Planned 26 / TBD 13 / Blocked 1 (of 76)</p>
 <div class="tw"><table>
 <thead><tr><th>Feature</th><th>What it is</th><th>Harmonia status</th></tr></thead>
 <tbody>
@@ -141,7 +150,8 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tr><td>One-to-one chats</td><td>Talk privately with one other person.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Channels</td><td>Named rooms where many people talk. You can make one, archive it, or remove it.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>A shared hello room</td><td>A room everyone can find on first visit.</td><td><span class="pill done">Done</span></td></tr>
-<tr><td>New-message line</td><td>A line that shows where the new messages start.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>New-messages line</td><td>A line above the messages in a channel that shows where the new ones start.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Unread badges</td><td>A little number on each channel and chat that counts messages you have not read yet.<div class="note">A rare network stall can delay them for a moment.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Typing signs</td><td>See when someone (or an agent) is writing.<div class="note">Works for agents; for people it is planned.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Link to an older message</td><td>Point at a message from another message.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Deleted-message mark</td><td>A red mark shows a message was removed.</td><td><span class="pill done">Done</span></td></tr>
@@ -151,16 +161,18 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tr><td>Search</td><td>Find old messages by words.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Pictures and files</td><td>Send a photo or a document.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Emoji and sticker picker</td><td>Pick faces and stickers from a tray.</td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Group chats without a room</td><td>Three or more friends, no channel needed.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Group chats without a room</td><td>Three or more people, no channel needed.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Mention alerts</td><td>Get pinged when someone says your name.<div class="note">Names with spaces already work in text; the ping does not.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Alert badges and pop-ups</td><td>Little numbers and desktop pop-ups.<div class="note">Held up by other work.</div></td><td><span class="pill block">Blocked</span></td></tr>
-<tr><td>Reliable delivery to everyone</td><td>Every message reaches every friend, every time.<div class="note">Works in normal use; some cases are still being chased.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Pop-up notifications from your device</td><td>A pop-up on your screen when the app is in the background.<div class="note">Not built. Only the in-app badges above exist.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Reliable delivery to everyone</td><td>Every message reaches everyone, every time.<div class="note">Works in normal use; some cases are still being chased.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr class="cat"><th colspan="3">People and identity</th></tr>
 <tr><td>Identity from a secret phrase</td><td>Your phrase makes you, on your own device. Same phrase, same you.<div class="note">Checked again and again.</div></td><td><span class="pill done">Done</span></td></tr>
-<tr><td>Your look: face, colors, code</td><td>A little picture, a color wash and a short code that stay the same for you.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Your look: blockie and 6-digit code</td><td>A "blockie" (a little pixel-art picture) used as your avatar, plus a 6-digit code (hex). Both are made from your phrase, so both point to you alone, by sight and by text.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Your own avatar picture</td><td>Use a picture you choose instead of the blockie.<div class="note">Part of the planned profile settings.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Channel designs for verified people</td><td>Special looks for channels, for people who meet requirements such as a verified ID.<div class="note">Work in progress idea; not decided yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
 <tr><td>Green ring when online</td><td>A glow shows who is around.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Tap a face for a card</td><td>See who someone is.</td><td><span class="pill done">Done</span></td></tr>
-<tr><td>Private nicknames</td><td>Give a friend a name only you see.</td><td><span class="pill build">Building</span></td></tr>
+<tr><td>Private nicknames</td><td>Give someone a name only you see.<div class="note">Renaming works, but it is still rough: a few editing and list glitches are known and being fixed.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Contacts</td><td>Only people you chose.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Nearby people</td><td>Others on your gateway, listed apart from contacts.<div class="note">Never lists you.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>People on other gateways</td><td>See them and add them.<div class="note">Seeing works; auto-adding is shaky.</div></td><td><span class="pill part">Partly</span></td></tr>
@@ -170,19 +182,24 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tr><td>Channel owner and member list</td><td>The maker of a room sees and edits who is in it.<div class="note">Saved, but nothing checks it yet; not shared between gateways.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Remove someone from a room</td><td>Owner can take a person out.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Big community holding many rooms</td><td>One home with many rooms under it.</td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Invite links</td><td>Send a link to join.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Invite links in the app</td><td>Send a link so someone can join.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Invite links to other platforms</td><td>Send an invite by email, messengers, social platforms and more.<div class="note">Planned as "integrations" (plugins).</div></td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Room topic and sections</td><td>A short note and groups of rooms.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Rules per community</td><td>Own rules for each community.<div class="note">Pieces exist on the gateway; no community layer yet.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr class="cat"><th colspan="3">Voice calls</th></tr>
-<tr><td>Voice calls</td><td>Talk out loud with a friend.<div class="note">Sound path works; not tested at large scale.</div></td><td><span class="pill done">Done</span></td></tr>
-<tr><td>Video and screen sharing</td><td>See faces or a screen.</td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Group voice rooms</td><td>Many voices in one room.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr class="cat"><th colspan="3">A/V meetings</th></tr>
+<tr><td>A/V meetings: voice</td><td>Talk out loud with someone.<div class="note">Sound path works; not tested at large scale.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>A/V meetings: video</td><td>See faces in a one-to-one call.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>A/V meetings: screen sharing</td><td>Show your screen to others.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>A/V meetings: group rooms</td><td>Many voices in one room.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr class="cat"><th colspan="3">AI agents</th></tr>
 <tr><td>Add an AI agent</td><td>An agent joins as a participant.<div class="note">You pick which brain runs it.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>AI agents as chat bots</td><td>Agents join chats as participants and reply to messages, like anyone else.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Pick the agent&#x27;s model and effort</td><td>Smaller or bigger thinking.</td><td><span class="pill done">Done</span></td></tr>
-<tr><td>Agents chat in rooms and chats</td><td>Agents talk like anyone else.<div class="note">Works; agent rules and limits are still young.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Agent rules and limits</td><td>Who may add agents and what they may do.<div class="note">Still young.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Proactive, advanced AI agents</td><td>Agents that act on their own: help moderate or run a community, add features and fix bugs.<div class="note">Not discussed yet; no plan on the board.</div></td><td><span class="pill tbd">TBD</span></td></tr>
 <tr class="cat"><th colspan="3">Self-hosting and mesh</th></tr>
-<tr><td>Run your own gateway</td><td>Anyone can start one.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Run your own gateway</td><td>Anyone with the gateway program can start one.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Public release of the gateway program</td><td>Let everyone download it.<div class="note">Work to build it for other computers is on the board.</div></td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Gateway control screen</td><td>A text screen to see and manage your gateway.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Gateways link into a mesh</td><td>Many gateways, one web of people.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Switch if one gateway is down</td><td>Your app tries another.</td><td><span class="pill done">Done</span></td></tr>
@@ -192,23 +209,30 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tr class="cat"><th colspan="3">Safety</th></tr>
 <tr><td>Disconnect or block a user at the gateway</td><td>Owner keeps someone out.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Private rooms</td><td>Only invited people see them.<div class="note">Some cross-gateway cases are still buggy.</div></td><td><span class="pill part">Partly</span></td></tr>
-<tr><td>Scrambled-in-transit messages</td><td>Only the two ends can read.<div class="note">Waiting on design work.</div></td><td><span class="pill block">Blocked</span></td></tr>
+<tr><td>Encrypted while travelling</td><td>Messages are scrambled on the way between your app and a gateway, and between gateways.<div class="note">A gateway can still read what it handles, and its saved copy is not yet encrypted on disk.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>End-to-end encryption</td><td>Only the sender and the receiver can read a message, not even a gateway.<div class="note">Not finished; waiting on design work.</div></td><td><span class="pill block">Blocked</span></td></tr>
 <tr><td>Mute and block for you</td><td>Hide someone just for yourself.</td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Message reports</td><td>Tell moderators about a bad message.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Message reports</td><td>Tell moderators about a bad message.<div class="note">Not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Limits on how fast people post</td><td>Stop spam floods, with limits that depend on a person&#x27;s level.<div class="note">Gateways limit connections today. The post-limit rules are written but not switched on.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Copy-paste and link rules by role</td><td>Roles decide who may copy text or post links and pictures.<div class="note">Roles cover reading, sending, deleting, pinning and renaming today; nothing for links or copying.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Roles given automatically by level</td><td>A person gets roles or groups on their own as their level grows.<div class="note">The rulebook has levels, but nothing hands out roles yet.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>ID verification service</td><td>Check a person, a group or a business is who they say.<div class="note">Not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Verified-ID people</td><td>A badge for people who passed verification.<div class="note">Badge checking code exists; no one can earn one yet.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr class="cat"><th colspan="3">Levels and reputation</th></tr>
+<tr><td>XP and levels from activity</td><td>Posting in public channels earns points that make a level.<div class="note">Each gateway counts its own. Spam bursts earn little. Nothing shows or uses the level yet.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Ratings from certified voters</td><td>Level and stars by votes, from certified people only.<div class="note">Planned, not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
 <tr class="cat"><th colspan="3">Social-feed features</th></tr>
-<tr><td>Public timeline</td><td>A feed anyone can read.<div class="note">Not built; not on the board.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Follow people</td><td>Watch someone without being friends.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Reposts</td><td>Share someone&#x27;s post to your followers.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Topic tags</td><td>Tag a post to find it later.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Short public posts</td><td>A quick note for everyone.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Up and down votes</td><td>People vote what is best.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Community pages with posts</td><td>Topic pages with their own post lists.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Groups with events</td><td>Plan a meet-up.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Polls</td><td>Ask a question, count answers.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Stories</td><td>Little posts that vanish.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
-
+<tr><td>Public timeline</td><td>A feed anyone can read.<div class="note">Not built; not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Follow people</td><td>Watch someone without being friends.<div class="note">Not built; not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Reposts</td><td>Share someone&#x27;s post to your followers.<div class="note">Not built; not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Topic tags</td><td>Tag a post to find it later.<div class="note">Not built; not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Short public posts</td><td>A quick note for everyone.<div class="note">Not built; not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Up and down votes on posts</td><td>People vote what is best.<div class="note">Not built; not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Community pages with posts</td><td>Topic pages with their own post lists.<div class="note">Not built; not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Stories</td><td>Little posts that vanish.<div class="note">Not built; not discussed yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
+<tr><td>Polls and group events</td><td>Ask a question, count answers, plan a meet-up.<div class="note">Planned, low priority.</div></td><td><span class="pill plan">Planned</span></td></tr>
 </tbody></table></div>
-<div class="honest"><b>How sure is this?</b> Status comes from the project's own feature list, its task board and recent changes up to 2026-11-20. When unsure, the row says Partly or Planned. The social-feed rows are not on the task board at all, so they are honestly "not built".</div>
+<div class="honest"><b>How sure is this?</b> Status comes from the project&#x27;s own feature list, its task board and recent changes up to 2026-11-20. When unsure, the row says Partly, Planned or TBD. TBD means the idea has no card and no plan yet, so it is honestly "not decided".</div>
 </main>
 </body>
 </html>
