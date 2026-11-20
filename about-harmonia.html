@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Harmonia</title>
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#0d1118; --surface:#161c27; --surface2:#1e2634; --line:#34415a;
+  --text:#e9edf4; --muted:#a8b3c7; --accent:#7fc8ff; --accent2:#ffd479;
+  --done-bg:#12351f; --done-fg:#8ef0ad;
+  --part-bg:#3a3010; --part-fg:#ffd979;
+  --build-bg:#102d44; --build-fg:#8fd0ff;
+  --plan-bg:#2a2f3b; --plan-fg:#c4ccdb;
+  --block-bg:#45171c; --block-fg:#ffa3a8;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px 16px 64px}
+main{max-width:860px;margin:0 auto}
+h1{font-size:2rem;margin:0 0 4px;color:var(--accent)}
+h2{font-size:1.4rem;margin:40px 0 8px;color:var(--accent2)}
+p{margin:8px 0}
+.sub,.stamp{color:var(--muted);font-size:.9rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:14px 0}
+svg{width:100%;height:auto;display:block}
+svg .box{fill:var(--surface2);stroke:var(--line);stroke-width:2}
+svg .hi{fill:var(--surface2);stroke:var(--accent);stroke-width:2}
+svg .priv{fill:var(--surface);stroke:var(--accent2);stroke-width:2;stroke-dasharray:6 4}
+svg .arr{stroke:var(--accent);stroke-width:3;fill:none}
+svg .link{stroke:var(--muted);stroke-width:2.5;fill:none}
+svg text{fill:var(--text);font:15px system-ui,sans-serif}
+svg .m{fill:var(--muted);font-size:13px}
+svg .n{fill:var(--accent2);font-weight:700;font-size:18px}
+ol.steps{padding-left:22px}
+ol.steps li{margin:6px 0}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);font-size:.95rem}
+thead th{background:var(--surface2);color:var(--text)}
+tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
+.note{color:var(--muted);font-size:.85rem;margin-top:2px}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:700;font-size:.85rem;white-space:nowrap}
+.done{background:var(--done-bg);color:var(--done-fg)}
+.part{background:var(--part-bg);color:var(--part-fg)}
+.build{background:var(--build-bg);color:var(--build-fg)}
+.plan{background:var(--plan-bg);color:var(--plan-fg)}
+.block{background:var(--block-bg);color:var(--block-fg)}
+.sum{font-weight:700;margin:10px 0}
+.honest{border-left:4px solid var(--accent2);background:var(--surface);padding:10px 14px;border-radius:6px;margin:14px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>About Harmonia</h1>
+<p class="sub">A chat place you can own. Explained simply.</p>
+<p class="stamp">Updated: <span id="upd">2026-11-20 02:02 PST</span></p>
+
+<h2>The big idea</h2>
+<div class="card"><p>Harmonia is a place to chat with friends. Nobody has to give a company an email or a phone number. You are <b>you</b> because of a secret phrase that only you know. Anyone can run a little "meeting place" for people. Those places can join hands, so friends on different places can still talk.</p></div>
+
+<h2>How you get started</h2>
+<div class="card">
+<svg viewBox="0 0 760 190" role="img" aria-label="Three steps: pick a phrase, your look is made on your device, join a gateway and chat">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7fc8ff"/></marker></defs>
+  <rect class="box" x="10" y="20" width="220" height="150" rx="14"/>
+  <text class="n" x="26" y="48">1</text>
+  <text x="26" y="78">Pick a secret phrase</text>
+  <text class="m" x="26" y="104">A few words only you know.</text>
+  <text class="m" x="26" y="124">No email. No phone.</text>
+  <rect class="hi" x="270" y="20" width="220" height="150" rx="14"/>
+  <text class="n" x="286" y="48">2</text>
+  <text x="286" y="78">Your look is made</text>
+  <text class="m" x="286" y="104">A little picture, a color wash</text>
+  <text class="m" x="286" y="124">and a short code. Made on</text>
+  <text class="m" x="286" y="144">your own device.</text>
+  <rect class="box" x="530" y="20" width="220" height="150" rx="14"/>
+  <text class="n" x="546" y="48">3</text>
+  <text x="546" y="78">Join a gateway</text>
+  <text class="m" x="546" y="104">See people nearby, add</text>
+  <text class="m" x="546" y="124">friends, and start chatting.</text>
+  <path class="arr" d="M232 95H266" marker-end="url(#ah)"/>
+  <path class="arr" d="M492 95H526" marker-end="url(#ah)"/>
+</svg>
+</div>
+<ol class="steps">
+<li><b>Pick a phrase.</b> The same phrase always makes the same you: the same little picture, color wash and short code. Friends learn to spot you by them.</li>
+<li><b>Open the app.</b> It connects to a <b>gateway</b>, a meeting place that anyone can run.</li>
+<li><b>Meet people.</b> You see <b>nearby</b> people on your gateway. Add the ones you like as <b>contacts</b>.</li>
+<li><b>Chat.</b> Talk one-to-one, in rooms called channels, or by voice. AI agents can join too, as friends in the chat.</li>
+</ol>
+
+<h2>Gateways and the mesh</h2>
+<div class="card">
+<svg viewBox="0 0 760 300" role="img" aria-label="Gateways linked together into a mesh, plus a private mesh with its own rules">
+  <rect class="priv" x="440" y="14" width="306" height="272" rx="18"/>
+  <text class="m" x="456" y="38">Your own private mesh, your own rules</text>
+  <path class="link" d="M120 90L260 60M120 90L220 200M260 60L220 200M260 60L360 140M220 200L360 140"/>
+  <path class="link" d="M520 120L640 90M520 120L580 230M640 90L580 230M640 90L700 190M580 230L700 190"/>
+  <path class="link" d="M360 140L520 120" stroke-dasharray="3 6"/>
+  <g>
+    <rect class="hi" x="80" y="68" width="80" height="44" rx="10"/><text x="100" y="95">Gateway</text>
+    <rect class="box" x="220" y="38" width="80" height="44" rx="10"/><text x="240" y="65">Gateway</text>
+    <rect class="box" x="180" y="178" width="80" height="44" rx="10"/><text x="200" y="205">Gateway</text>
+    <rect class="box" x="320" y="118" width="80" height="44" rx="10"/><text x="340" y="145">Gateway</text>
+    <rect class="hi" x="480" y="98" width="80" height="44" rx="10"/><text x="500" y="125">Private</text>
+    <rect class="hi" x="600" y="68" width="80" height="44" rx="10"/><text x="620" y="95">Private</text>
+    <rect class="hi" x="540" y="208" width="80" height="44" rx="10"/><text x="560" y="235">Private</text>
+    <rect class="hi" x="660" y="168" width="80" height="44" rx="10"/><text x="680" y="195">Private</text>
+  </g>
+  <text class="m" x="24" y="260">Lines = gateways that talk to each other.</text>
+  <text class="m" x="24" y="280">Friends on different gateways can still chat.</text>
+</svg>
+</div>
+<p>One gateway is a small meeting place. Link many and you get a <b>mesh</b>. You can start your own gateway, or a whole <b>private mesh</b> of your own gateways. In it you decide who may come in, which roles people have, and what each role may do.</p>
+<div class="honest"><b>Honest limits.</b> Running a gateway is hands-on today. The role and permission rulebook exists and can be edited on the gateway, but most screens do not enforce it yet. Messages are not yet scrambled end to end.</div>
+
+<h2>Harmonia and federated social apps</h2>
+<p>Federated apps (the "fediverse") are many independent servers that can talk to each other. Harmonia shares that spirit.</p>
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>Federated social apps</th><th>Harmonia</th></tr></thead>
+<tbody>
+<tr><td>Many independent servers?</td><td>Yes</td><td>Yes, called gateways</td></tr>
+<tr><td>You pick a home?</td><td>Yes</td><td>Yes, your gateway</td></tr>
+<tr><td>Servers link up?</td><td>Yes</td><td>Yes, into a mesh</td></tr>
+<tr><td>Email or phone to join?</td><td>Usually an email</td><td>Never</td></tr>
+<tr><td>Who owns your identity?</td><td>Your server holds your account</td><td>You do: it comes from your phrase, on your device</td></tr>
+<tr><td>Private groups of servers with own rules?</td><td>Not the usual pattern</td><td>Yes: a private mesh, with its own roles and permissions</td></tr>
+<tr><td>Public timelines and following?</td><td>Core feature</td><td>Not built yet</td></tr>
+<tr><td>Size and age</td><td>Large and mature</td><td>Young and small</td></tr>
+</tbody></table></div>
+
+<h2>What Harmonia can do so far</h2>
+<p>Status words: <span class="pill done">Done</span> works today. <span class="pill part">Partly</span> works with gaps. <span class="pill build">Building</span> in progress. <span class="pill plan">Planned</span> not started. <span class="pill block">Blocked</span> waiting on something else.</p>
+<p class="sum">Count: Done 22 / Partly 9 / Building 1 / Planned 27 / Blocked 2 (of 61)</p>
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it is</th><th>Harmonia status</th></tr></thead>
+<tbody>
+<tr class="cat"><th colspan="3">Messaging</th></tr>
+<tr><td>One-to-one chats</td><td>Talk privately with one other person.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Channels</td><td>Named rooms where many people talk. You can make one, archive it, or remove it.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>A shared hello room</td><td>A room everyone can find on first visit.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>New-message line</td><td>A line that shows where the new messages start.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Typing signs</td><td>See when someone (or an agent) is writing.<div class="note">Works for agents; for people it is planned.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Link to an older message</td><td>Point at a message from another message.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Deleted-message mark</td><td>A red mark shows a message was removed.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Edit a message</td><td>Fix a typo after sending.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Reactions</td><td>Tap a little face or heart on a message.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Threads and replies</td><td>Answer one message in its own small chat.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Search</td><td>Find old messages by words.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Pictures and files</td><td>Send a photo or a document.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Emoji and sticker picker</td><td>Pick faces and stickers from a tray.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Group chats without a room</td><td>Three or more friends, no channel needed.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Mention alerts</td><td>Get pinged when someone says your name.<div class="note">Names with spaces already work in text; the ping does not.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Alert badges and pop-ups</td><td>Little numbers and desktop pop-ups.<div class="note">Held up by other work.</div></td><td><span class="pill block">Blocked</span></td></tr>
+<tr><td>Reliable delivery to everyone</td><td>Every message reaches every friend, every time.<div class="note">Works in normal use; some cases are still being chased.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr class="cat"><th colspan="3">People and identity</th></tr>
+<tr><td>Identity from a secret phrase</td><td>Your phrase makes you, on your own device. Same phrase, same you.<div class="note">Checked again and again.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Your look: face, colors, code</td><td>A little picture, a color wash and a short code that stay the same for you.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Green ring when online</td><td>A glow shows who is around.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Tap a face for a card</td><td>See who someone is.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Private nicknames</td><td>Give a friend a name only you see.</td><td><span class="pill build">Building</span></td></tr>
+<tr><td>Contacts</td><td>Only people you chose.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Nearby people</td><td>Others on your gateway, listed apart from contacts.<div class="note">Never lists you.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>People on other gateways</td><td>See them and add them.<div class="note">Seeing works; auto-adding is shaky.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Profile page and settings</td><td>A bigger page about you.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr class="cat"><th colspan="3">Communities and rules</th></tr>
+<tr><td>Roles, groups and permissions</td><td>Who may do what, by role or group.<div class="note">The rulebook is built and editable by the gateway owner. Most screens do not enforce it yet.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Channel owner and member list</td><td>The maker of a room sees and edits who is in it.<div class="note">Saved, but nothing checks it yet; not shared between gateways.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Remove someone from a room</td><td>Owner can take a person out.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Big community holding many rooms</td><td>One home with many rooms under it.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Invite links</td><td>Send a link to join.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Room topic and sections</td><td>A short note and groups of rooms.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Rules per community</td><td>Own rules for each community.<div class="note">Pieces exist on the gateway; no community layer yet.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr class="cat"><th colspan="3">Voice calls</th></tr>
+<tr><td>Voice calls</td><td>Talk out loud with a friend.<div class="note">Sound path works; not tested at large scale.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Video and screen sharing</td><td>See faces or a screen.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Group voice rooms</td><td>Many voices in one room.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr class="cat"><th colspan="3">AI agents</th></tr>
+<tr><td>Add an AI agent</td><td>An agent joins as a participant.<div class="note">You pick which brain runs it.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Pick the agent&#x27;s model and effort</td><td>Smaller or bigger thinking.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Agents chat in rooms and chats</td><td>Agents talk like anyone else.<div class="note">Works; agent rules and limits are still young.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr class="cat"><th colspan="3">Self-hosting and mesh</th></tr>
+<tr><td>Run your own gateway</td><td>Anyone can start one.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Gateway control screen</td><td>A text screen to see and manage your gateway.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Gateways link into a mesh</td><td>Many gateways, one web of people.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Switch if one gateway is down</td><td>Your app tries another.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Gateway admin mode and user list</td><td>Owner manages who is allowed.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Private gateways in your own mesh</td><td>Your own set of gateways with your own rules.<div class="note">Works with a fleet file and a whitelist; setup is by hand.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Roles and groups on your gateway</td><td>Edit roles and groups from the control screen.<div class="note">Screen works; not yet enforced everywhere.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr class="cat"><th colspan="3">Safety</th></tr>
+<tr><td>Disconnect or block a user at the gateway</td><td>Owner keeps someone out.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Private rooms</td><td>Only invited people see them.<div class="note">Some cross-gateway cases are still buggy.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Scrambled-in-transit messages</td><td>Only the two ends can read.<div class="note">Waiting on design work.</div></td><td><span class="pill block">Blocked</span></td></tr>
+<tr><td>Mute and block for you</td><td>Hide someone just for yourself.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Message reports</td><td>Tell moderators about a bad message.</td><td><span class="pill plan">Planned</span></td></tr>
+<tr class="cat"><th colspan="3">Social-feed features</th></tr>
+<tr><td>Public timeline</td><td>A feed anyone can read.<div class="note">Not built; not on the board.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Follow people</td><td>Watch someone without being friends.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Reposts</td><td>Share someone&#x27;s post to your followers.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Topic tags</td><td>Tag a post to find it later.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Short public posts</td><td>A quick note for everyone.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Up and down votes</td><td>People vote what is best.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Community pages with posts</td><td>Topic pages with their own post lists.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Groups with events</td><td>Plan a meet-up.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Polls</td><td>Ask a question, count answers.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+<tr><td>Stories</td><td>Little posts that vanish.<div class="note">Not built.</div></td><td><span class="pill plan">Planned</span></td></tr>
+
+</tbody></table></div>
+<div class="honest"><b>How sure is this?</b> Status comes from the project's own feature list, its task board and recent changes up to 2026-11-20. When unsure, the row says Partly or Planned. The social-feed rows are not on the task board at all, so they are honestly "not built".</div>
+</main>
+</body>
+</html>
