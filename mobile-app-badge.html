@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harmonia Mobile Badge</title>
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#0d1118; --surface:#161c27; --surface2:#1e2634; --line:#34415a;
+  --text:#e9edf4; --muted:#a8b3c7; --accent:#7fc8ff; --accent2:#ffd479;
+  --red:#ff6b73;
+  --done-bg:#12351f; --done-fg:#8ef0ad;
+  --part-bg:#3a3010; --part-fg:#ffd979;
+  --build-bg:#102d44; --build-fg:#8fd0ff;
+  --plan-bg:#2a2f3b; --plan-fg:#c4ccdb;
+  --block-bg:#45171c; --block-fg:#ffa3a8;
+  --tbd-bg:#2d2150; --tbd-fg:#d9c9ff;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px 16px 64px}
+main{max-width:860px;margin:0 auto}
+h1{font-size:2rem;margin:0 0 4px;color:var(--accent)}
+h2{font-size:1.4rem;margin:40px 0 8px;color:var(--accent2)}
+h3{font-size:1.1rem;margin:0 0 4px;color:var(--accent)}
+p{margin:8px 0}
+.sub,.stamp{color:var(--muted);font-size:.9rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:14px 0}
+svg{width:100%;height:auto;display:block}
+svg .box{fill:var(--surface2);stroke:var(--line);stroke-width:2}
+svg .hi{fill:var(--surface2);stroke:var(--accent);stroke-width:2}
+svg .wall{fill:var(--block-bg);stroke:var(--red);stroke-width:2}
+svg .arr{stroke:var(--accent);stroke-width:3;fill:none}
+svg text{fill:var(--text);font:15px system-ui,sans-serif}
+svg .m{fill:var(--muted);font-size:13px}
+svg .c{text-anchor:middle;dominant-baseline:central}
+svg .n{fill:var(--accent2);font-weight:700;font-size:16px}
+svg .badge{fill:var(--red)}
+svg .bt{fill:#1a0508;font-weight:700;font-size:15px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);font-size:.92rem}
+thead th{background:var(--surface2);color:var(--text)}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:700;font-size:.85rem;white-space:nowrap}
+.done{background:var(--done-bg);color:var(--done-fg)}
+.part{background:var(--part-bg);color:var(--part-fg)}
+.build{background:var(--build-bg);color:var(--build-fg)}
+.plan{background:var(--plan-bg);color:var(--plan-fg)}
+.tbd{background:var(--tbd-bg);color:var(--tbd-fg)}
+.block{background:var(--block-bg);color:var(--block-fg)}
+.honest{border-left:4px solid var(--accent2);background:var(--surface);padding:10px 14px;border-radius:6px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.grid .card{margin:0}
+ul{margin:4px 0;padding-left:20px}
+li{margin:3px 0}
+.pro{color:var(--done-fg)} .con{color:var(--block-fg)}
+code{background:var(--surface2);padding:1px 5px;border-radius:4px;font-size:.9em}
+ol.steps li{margin:8px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Harmonia Mobile Badge</h1>
+<p class="sub">How Harmonia gets a home-screen icon with a red "new message" number on Android and iPhone, without writing native code. Explained simply.</p>
+<p class="stamp">Updated: <span id="upd">2026-11-21 23:50 PST</span></p>
+<div class="honest"><b>Research only.</b> Nothing is built yet. This page compares the ways to do it and says which one to try first.</div>
+
+<h2>1. The goal</h2>
+<div class="card">
+<svg viewBox="0 0 520 170" role="img" aria-label="Phone home screen with a Harmonia icon and a red badge showing 3">
+<rect class="box" x="20" y="10" width="150" height="150" rx="22"/>
+<rect class="hi" x="55" y="45" width="80" height="80" rx="18"/>
+<text class="c n" x="95" y="85">H</text>
+<circle class="badge" cx="130" cy="48" r="17"/>
+<text class="c bt" x="130" y="48">3</text>
+<text x="200" y="50" style="font-weight:700">Icon on the home screen.</text>
+<text class="m" x="200" y="78">Tap it: Harmonia opens like an app.</text>
+<text class="m" x="200" y="104">Red number: how many unread messages wait.</text>
+<text class="m" x="200" y="130">Wanted even when Harmonia is closed.</text>
+</svg>
+<p>Think of a mailbox with a little red flag. The flag tells you "something is inside" without opening the door. We want that flag on a phone.</p>
+</div>
+
+<h2>2. Two hard walls</h2>
+<div class="grid">
+<div class="card"><h3>Wall 1: Android shows a dot</h3>
+<p>On Android 8 and newer (Pixel, stock Android) the icon gets a small <b>dot</b>, not a number. Only some makers' launchers (Samsung, Xiaomi) can show a number, and only through an extra plugin. This is Android's own rule, so no framework beats it on a Pixel.</p></div>
+<div class="card"><h3>Wall 2: iPhone push costs $99</h3>
+<p>Every iPhone app that is <b>not</b> a web app needs the Apple Developer Program ($99 per year) before it may receive push messages. A free account cannot turn push on. A web app added to the Home Screen (a PWA) is the <b>only</b> free way to get a numeric badge on iPhone.</p></div>
+</div>
+
+<h2>3. Why a closed app needs a push</h2>
+<div class="card">
+<p>A phone puts a closed app to sleep and cuts its open connections (iOS does this to sockets). A sleeping app cannot hear the gateway. So the gateway must ring the phone's own doorbell: the phone maker's push service.</p>
+<svg viewBox="0 0 640 150" role="img" aria-label="Gateway sends to push service, then to phone, then badge appears">
+<rect class="hi" x="10" y="40" width="130" height="60" rx="10"/><text class="c" x="75" y="62">Harmonia</text><text class="c" x="75" y="82">gateway</text>
+<rect class="box" x="195" y="30" width="170" height="80" rx="10"/><text class="c" x="280" y="55">Push service</text><text class="c m" x="280" y="78">Apple / Google</text><text class="c m" x="280" y="96">(VAPID key signs it)</text>
+<rect class="box" x="420" y="40" width="90" height="60" rx="10"/><text class="c" x="465" y="70">Phone</text>
+<rect class="hi" x="555" y="40" width="70" height="60" rx="14"/><text class="c n" x="590" y="70">H</text>
+<circle class="badge" cx="618" cy="42" r="14"/><text class="c bt" x="618" y="42">3</text>
+<path class="arr" d="M140 70H190"/><path class="arr" d="M365 70H415"/><path class="arr" d="M510 70H550"/>
+<text class="c m" x="165" y="130">new DM</text><text class="c m" x="390" y="130">push</text><text class="c m" x="530" y="130">badge</text>
+</svg>
+<p>The gateway needs three small jobs: remember each phone's push address, keep an unread count per person, and send the push. No Apple account or Firebase SDK is needed for the PWA route.</p>
+</div>
+
+<h2>4. The options side by side</h2>
+<div class="tw"><table>
+<thead><tr><th>Option</th><th>Reuse UI</th><th>Android badge</th><th>iOS badge</th><th>$99 Apple</th><th>Native code</th><th>Effort</th></tr></thead>
+<tbody>
+<tr><td><b>PWA</b> (baseline)</td><td>100%</td><td><span class="pill part">dot only</span></td><td><span class="pill done">numeric</span> after manual Add to Home Screen</td><td><span class="pill done">no</span></td><td><span class="pill done">none</span></td><td>1 day (tier 1), 3-5 days (tier 2)</td></tr>
+<tr><td><b>Android TWA</b></td><td>100%</td><td><span class="pill part">dot</span> (Samsung count unverified)</td><td><span class="pill plan">n/a</span></td><td><span class="pill plan">n/a</span></td><td><span class="pill done">none</span></td><td>hours</td></tr>
+<tr><td><b>Capacitor</b></td><td>100%</td><td><span class="pill part">number on Samsung/Xiaomi, dot on Pixel</span></td><td><span class="pill done">numeric</span></td><td><span class="pill block">yes</span></td><td><span class="pill part">~2 pasted Swift functions</span></td><td>2-4 days per platform</td></tr>
+<tr><td><b>Tauri 2</b></td><td>100%</td><td><span class="pill part">dot (official count is dead code)</span></td><td><span class="pill part">numeric via server; ~10 lines Swift for exact set</span></td><td><span class="pill block">yes</span></td><td><span class="pill part">small Swift/Kotlin</span></td><td>Android 2-4 days, +push 2-3, iOS 3-5</td></tr>
+<tr><td><b>Flutter</b> (webview shell)</td><td>100% in webview</td><td><span class="pill part">number on some OEMs, dot on Pixel</span></td><td><span class="pill done">numeric</span></td><td><span class="pill block">yes</span></td><td><span class="pill part">config, adds Dart</span></td><td>2-4 weeks</td></tr>
+<tr><td><b>RN / Expo</b> (webview)</td><td>100% in webview</td><td><span class="pill block">number going away in SDK 59</span></td><td><span class="pill done">numeric</span></td><td><span class="pill block">yes</span></td><td><span class="pill done">none for basic path</span></td><td>3-6 days</td></tr>
+<tr><td><b>Dioxus / KMP / MAUI</b></td><td>rewrite</td><td><span class="pill block">none found / per-launcher code</span></td><td><span class="pill part">varies</span></td><td><span class="pill block">yes</span></td><td><span class="pill block">yes</span></td><td>weeks to months</td></tr>
+</tbody></table></div>
+<p class="sub">Same for every option: a Pixel never shows a number, and every non-PWA iPhone app needs the $99 program for push. Cloud builders (EAS, Codemagic) remove the need to own a Mac, but not the $99.</p>
+
+<h2>5. Pros and cons, Android and iOS apart</h2>
+<div class="grid">
+<div class="card"><h3>PWA</h3>
+<p><b>Android</b></p><ul><li class="pro">+ Free, install prompt, no store.</li><li class="con">- <code>setAppBadge</code> does nothing on Android; dot comes from a shown notification.</li></ul>
+<p><b>iOS</b></p><ul><li class="pro">+ Only free numeric badge; works from the push handler when closed.</li><li class="con">- User must add it by hand (iOS 16.4+) and allow notifications; user can hide the badge in Settings.</li></ul></div>
+<div class="card"><h3>Android TWA</h3>
+<p><b>Android</b></p><ul><li class="pro">+ Real store-style icon in hours; same push code as the PWA.</li><li class="con">- Dot only; needs <code>assetlinks.json</code> in the <code>mchzimm.github.io</code> root repo.</li></ul>
+<p><b>iOS</b></p><ul><li class="con">- Android only. Wrapping a web page in an iOS shell gets no web push.</li></ul></div>
+<div class="card"><h3>Capacitor</h3>
+<p><b>Android</b></p><ul><li class="pro">+ Maintained badge plugin; number on Samsung/Xiaomi.</li><li class="con">- Dot on Pixel; push to a killed app needs a Kotlin service unless you use notification payloads.</li></ul>
+<p><b>iOS</b></p><ul><li class="pro">+ Real numeric badge, no manual install.</li><li class="con">- $99; Swift boilerplate pasted in; App Store review risk; no silent push.</li></ul></div>
+<div class="card"><h3>Tauri 2</h3>
+<p><b>Android</b></p><ul><li class="pro">+ One Rust workspace; small app.</li><li class="con">- Official count option is dead code; no first-party push (PR stalled).</li></ul>
+<p><b>iOS</b></p><ul><li class="pro">+ Closed-app badge from the server with no Swift.</li><li class="con">- $99; exact in-app set needs ~10 lines of Swift; push plugin is third-party.</li></ul></div>
+<div class="card"><h3>Flutter</h3>
+<p><b>Android</b></p><ul><li class="pro">+ Best-kept badge library.</li><li class="con">- Adds a third language (Dart) and a second socket in Dart.</li></ul>
+<p><b>iOS</b></p><ul><li class="pro">+ Numeric badge, cloud builds.</li><li class="con">- $99; separate storage means onboarding again.</li></ul></div>
+<div class="card"><h3>RN / Expo</h3>
+<p><b>Android</b></p><ul><li class="pro">+ One push call covers both phones.</li><li class="con">- Android number is being removed; badge helper project archived.</li></ul>
+<p><b>iOS</b></p><ul><li class="pro">+ Numeric badge, builds without a Mac.</li><li class="con">- $99; messages pass through a third-party relay.</li></ul></div>
+</div>
+
+<h2>6. What to do, in order</h2>
+<div class="card"><ol class="steps">
+<li><b>PWA tier 1</b> (~1 day): manifest, tiny service worker, <code>setAppBadge</code> from the unread count. iPhone gets a correct number while the app is open.<br><b>Then tier 2</b> (3-5 days): the gateway sends Web Push (VAPID). iPhone badge works when closed; Android gets its dot.</li>
+<li><b>Android TWA</b> (hours): store-style icon, same push code, no Firebase.</li>
+<li><b>Capacitor or Tauri 2</b>, only if you pay the $99 and want one of: no manual install on iPhone, a number on Samsung, an always-on Android socket. Capacitor wins on plugin maturity; Tauri wins if staying all-Rust matters.</li>
+<li><b>Flutter or RN</b>, only if the team already knows them. For this goal they add a runtime and gain nothing.</li>
+</ol>
+<p class="sub">An open mesh socket on iPhone while closed is impossible under every option. On Android it needs a foreground service (a permanent notification).</p></div>
+
+<h2>7. Not verified yet</h2>
+<div class="card"><ul>
+<li>Samsung count on a TWA.</li>
+<li>Per-maker badge list of the Flutter badge library.</li>
+<li>Capacitor 8 loading the wasm under its own app address.</li>
+<li>Newness and upkeep of the Capacitor UnifiedPush plugin.</li>
+<li>All size and effort numbers are estimates.</li>
+<li>Play Store tester rules and Android 14 foreground-service policy.</li>
+<li>Exact date of the Android developer-verification rollout (Google says 2027).</li>
+</ul></div>
+
+<h2>8. Related cards</h2>
+<div class="card"><p><span class="pill tbd">KB-759</span> <span class="pill tbd">KB-425</span> <span class="pill tbd">KB-176</span> <span class="pill tbd">KB-177</span> <span class="pill tbd">KB-178</span></p>
+<p class="sub">Desktop app and mobile scaffold cards. None of them builds the badge yet.</p></div>
+</main>
+</body>
+</html>
