@@ -79,7 +79,7 @@ ol.steps li{margin:8px 0}
 <main>
 <h1>Harmonia Mobile Badge</h1>
 <p class="sub">How Harmonia gets a home-screen icon with a red "new message" number on Android and iPhone, without writing native code. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-22 10:42 PST</span></p>
+<p class="stamp">Updated: <span id="upd">2026-11-22 10:54 PST</span></p>
 <div class="honest"><b>Development started:</b> Tier 1 in progress (KB-1511). Tier 2 (KB-1513) is planned. Below, the progress, then the comparison of ways and which one to try first.</div>
 <section class="pd" id="progress" aria-label="Progress diagram">
 <h2 style="margin-top:8px">Progress</h2>
@@ -100,7 +100,7 @@ ol.steps li{margin:8px 0}
 <li id="t2-s2" class="st-done"><span class="sn">2</span>Gateway: VAPID + self-scoped subscribe route<br><span class="sp">Done</span></li>
 <li id="t2-s3" class="st-done"><span class="sn">3</span>sw.js client / push registration<span class="note">shipped v1.0.328, hooks tested + falsified</span><span class="sp">Done</span></li>
 <li id="t2-s4" class="st-done"><span class="sn">4</span>Push sender (members, offline only, no message text) + tests<span class="note">two-server push test passes (each phone gets 1 push per message); merged (KB-1513 T11)</span><span class="sp">Done</span></li>
-<li id="t2-s5" class="st-done"><span class="sn">5</span>Gateway restart + live verify<span class="note">merged; all 3 gateways restarted, push service started once each</span><span class="sp">Done</span></li>
+<li id="t2-s5" class="st-done"><span class="sn">5</span>Gateway restart + live verify<span class="note">merged; all 3 gateways restarted, push service started once each. Whole server push path proven in one test (KB-1569): sign-up, DM, signed + encrypted push, no message text, no push while app open.</span><span class="sp">Done</span></li>
 <li id="t2-blk" class="st-done"><span class="sn">&#10003;</span>Blocker fixed<span class="note">KB-1551 fix shipped in v1.0.329; on-device check next</span><span class="sp">Shipped</span></li>
 <li id="t2-s6" class="st-building"><span class="sn">6</span>On-device check<span class="note">open the home-screen app, close and reopen it, tap Enable badge, close it, send a DM; user check, not auto-verified; also compares the push key each gateway serves (needs a signed-in tab)</span><span class="sp">Next: waiting on your phone</span></li>
 </ol>
