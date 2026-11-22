@@ -79,12 +79,12 @@ ol.steps li{margin:8px 0}
 <main>
 <h1>Harmonia Mobile Badge</h1>
 <p class="sub">How Harmonia gets a home-screen icon with a red "new message" number on Android and iPhone, without writing native code. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-22 14:15 PST</span></p>
-<div class="honest"><b>Development started:</b> Tier 1 in progress (KB-1511). Tier 2 (KB-1513) is planned. Below, the progress, then the comparison of ways and which one to try first.</div>
+<p class="stamp">Updated: <span id="upd">2026-11-22 14:22 PST</span></p>
+<div class="honest"><b>Development started:</b> Tier 1 (KB-1511) and Tier 2 (KB-1513) are both Done. Below, the progress, then the comparison of ways and which one to try first.</div>
 <section class="pd" id="progress" aria-label="Progress diagram">
 <h2 style="margin-top:8px">Progress</h2>
 <div class="leg"><span>Legend:</span><span class="pill done">Done</span><span class="pill build">Building</span><span class="pill plan">Planned</span><span class="pill block">Blocked</span></div>
-<h3>Tier 1 (KB-1511): badge on the home-screen icon, while the app is open or recently used <span class="pct" id="t1-pct">6/7 done (86%)</span></h3>
+<h3>Tier 1 (KB-1511): badge on the home-screen icon, while the app is open or recently used <span class="pct" id="t1-pct">7/7 done (100%)</span></h3>
 <ol>
 <li id="t1-s1" class="st-done"><span class="sn">1</span>Cards filed<br><span class="sp">Done</span></li>
 <li id="t1-s2" class="st-done"><span class="sn">2</span>Sub-path preflight checks<br><span class="sp">Done</span></li>
@@ -92,21 +92,21 @@ ol.steps li{margin:8px 0}
 <li id="t1-s4" class="st-done"><span class="sn">4</span>Unread-badge hook in app<br><span class="sp">Done</span></li>
 <li id="t1-s5" class="st-done"><span class="sn">5</span>Harness verify + falsify<br><span class="sp">Done</span></li>
 <li id="t1-s6" class="st-done"><span class="sn">6</span>Deploy /pwa/ + reload/readback<br><span class="sp">Done</span></li>
-<li id="t1-s7" class="st-planned"><span class="sn">7</span>On-device badge check, iOS and Android<span class="note">user check, not auto-verified</span><span class="sp">Planned</span></li>
+<li id="t1-s7" class="st-done"><span class="sn">7</span>On-device badge check<span class="note">Done: notification and icon badge confirmed on a Samsung phone (v1.0.330)</span><span class="sp">Done</span></li>
 </ol>
-<h3>Tier 2 (KB-1513): badge also when the app is closed (push) <span class="pct" id="t2-pct">6/7 done (86%)</span></h3>
+<h3>Tier 2 (KB-1513): badge also when the app is closed (push) <span class="pct" id="t2-pct">7/7 done (100%)</span></h3>
 <ol>
 <li id="t2-s1" class="st-done"><span class="sn">1</span>Design forks: count source, sender gateway, key storage<br><span class="sp">Done</span></li>
 <li id="t2-s2" class="st-done"><span class="sn">2</span>Gateway: VAPID + self-scoped subscribe route<br><span class="sp">Done</span></li>
 <li id="t2-s3" class="st-done"><span class="sn">3</span>sw.js client / push registration<span class="note">shipped v1.0.328, hooks tested + falsified</span><span class="sp">Done</span></li>
 <li id="t2-s4" class="st-done"><span class="sn">4</span>Push sender (members, offline only, no message text) + tests<span class="note">two-server push test passes (each phone gets 1 push per message); merged (KB-1513 T11)</span><span class="sp">Done</span></li>
 <li id="t2-s5" class="st-done"><span class="sn">5</span>Gateway restart + live verify<span class="note">merged; all 3 gateways restarted, push service started once each. Whole server push path proven in one test (KB-1569): sign-up, DM, signed + encrypted push, no message text, no push while app open.</span><span class="sp">Done</span></li>
-<li id="t2-blk" class="st-done"><span class="sn">&#10003;</span>Blocker fixed<span class="note">KB-1551 fix shipped in v1.0.329; on-device check next</span><span class="sp">Shipped</span></li>
-<li id="t2-s6" class="st-building"><span class="sn">6</span>On-device check<span class="note">open the home-screen app (the one added from the /pwa/ link: Safari, Share, Add to Home Screen while on that link). Look at the BOTTOM-RIGHT corner of the screen: a small dark box labeled "Enable badge" with an "&times;" next to it. Tap "Enable badge" and allow notifications. The box shows ONLY in that home-screen app, ONLY while notifications are not yet allowed or are blocked, and NOT after you tap the "&times;". It is not in the normal web page and not in Settings on v1.0.329. Then close the app, send a DM; user check, not auto-verified; also compares the push key each gateway serves (needs a signed-in tab)</span><span class="note">Android: install from the browser menu (Install app / Add to Home Screen). Android shows a dot on the icon, not a number, and only while the notification is in the shade; on Samsung turn on Settings &gt; Notifications &gt; Advanced settings &gt; App icon badges.</span><span class="sp">Partly: on a Samsung phone a closed-app DM showed the notification (no message text); icon dot not shown yet, checking launcher setting</span></li>
+<li id="t2-blk" class="st-done"><span class="sn">&#10003;</span>Blocker fixed<span class="note">KB-1551 fix shipped in v1.0.329</span><span class="sp">Shipped</span></li>
+<li id="t2-s6" class="st-done"><span class="sn">6</span>On-device check<span class="note">Done: notification and icon badge confirmed on a Samsung phone (v1.0.330)</span><span class="sp">Done</span></li>
 <li id="t2-s7" class="st-done"><span class="sn">7</span>Settings row "Badge &amp; notifications" with an Enable button (KB-1579)<span class="note">always-available way to turn the badge on, so you do not depend on the small corner box</span><span class="sp">Done</span></li>
 </ol>
 <p class="last">Checks found 3 small things (count reset on account switch, test runs vs live push folder, test shapes); all fixed and checked.</p>
-<p class="last" id="last-change"><b>Last change:</b> v1.0.326 is live: the app version is at harmonia-webclient/pwa/ and all 4 test tabs reloaded onto it. For now the badge only updates while the app is open; a fix so opening the app does not briefly reset it to 0 ships next (v1.0.327). Tier 2 (badge while closed, via push) is being designed (KB-1513). Tier 2: server part done and live on all 3 gateways (push key stays private to the server machine); app part shipped as v1.0.328 (booked partial); next is the on-device check (step 6).</p>
+<p class="last" id="last-change"><b>Last change:</b> both tiers Done: closed-app DM notification and home-screen icon badge confirmed on a Samsung phone (v1.0.330).</p>
 </section>
 
 
