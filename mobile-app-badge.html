@@ -57,14 +57,55 @@ li{margin:3px 0}
 .pro{color:var(--done-fg)} .con{color:var(--block-fg)}
 code{background:var(--surface2);padding:1px 5px;border-radius:4px;font-size:.9em}
 ol.steps li{margin:8px 0}
+.pd{margin:14px 0}
+.pd h3{margin:10px 0 6px}
+.pd ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px 26px}
+.pd li{position:relative;flex:1 1 150px;max-width:100%;box-sizing:border-box;border:2px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface2);font-size:.9rem;line-height:1.35}
+.pd li:not(:last-child)::after{content:"\2192";position:absolute;right:-22px;top:50%;transform:translateY(-50%);color:var(--accent);font-weight:700}
+.pd .sn{display:block;color:var(--accent2);font-weight:700;font-size:.8rem}
+.pd .sp{display:inline-block;margin-top:4px;padding:1px 9px;border-radius:999px;font-weight:700;font-size:.8rem}
+.pd .note{display:block;color:var(--muted);font-size:.78rem;margin-top:2px}
+.st-done{border-color:var(--done-fg)} .st-done .sp{background:var(--done-bg);color:var(--done-fg)}
+.st-building{border-color:var(--build-fg)} .st-building .sp{background:var(--build-bg);color:var(--build-fg)}
+.st-planned .sp{background:var(--plan-bg);color:var(--plan-fg)}
+.st-blocked{border-color:var(--red)} .st-blocked .sp{background:var(--block-bg);color:var(--block-fg)}
+.pd .pct{font-weight:700;color:var(--text);font-size:.9rem}
+.pd .leg{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.85rem;color:var(--muted)}
+.pd .last{margin:10px 0 0;color:var(--text);font-size:.92rem}
+@media (max-width:600px){.pd li:not(:last-child)::after{content:"\2193";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}.pd ol{gap:24px 0}.pd li{flex:1 1 100%}}
 </style>
 </head>
 <body>
 <main>
 <h1>Harmonia Mobile Badge</h1>
 <p class="sub">How Harmonia gets a home-screen icon with a red "new message" number on Android and iPhone, without writing native code. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-21 23:50 PST</span></p>
-<div class="honest"><b>Research only.</b> Nothing is built yet. This page compares the ways to do it and says which one to try first.</div>
+<p class="stamp">Updated: <span id="upd">2026-11-21 23:59 PST</span></p>
+<div class="honest"><b>Development started:</b> Tier 1 in progress (KB-1511). Tier 2 (KB-1513) is planned. Below, the progress, then the comparison of ways and which one to try first.</div>
+<section class="pd" id="progress" aria-label="Progress diagram">
+<h2 style="margin-top:8px">Progress</h2>
+<div class="leg"><span>Legend:</span><span class="pill done">Done</span><span class="pill build">Building</span><span class="pill plan">Planned</span><span class="pill block">Blocked</span></div>
+<h3>Tier 1 (KB-1511): badge on the home-screen icon, while the app is open or recently used <span class="pct" id="t1-pct">1/7 done (14%)</span></h3>
+<ol>
+<li id="t1-s1" class="st-done"><span class="sn">1</span>Cards filed<br><span class="sp">Done</span></li>
+<li id="t1-s2" class="st-building"><span class="sn">2</span>Sub-path preflight checks<br><span class="sp">Building</span></li>
+<li id="t1-s3" class="st-planned"><span class="sn">3</span>pwa/ folder: manifest, sw.js, icons<br><span class="sp">Planned</span></li>
+<li id="t1-s4" class="st-planned"><span class="sn">4</span>Unread-badge hook in app<br><span class="sp">Planned</span></li>
+<li id="t1-s5" class="st-planned"><span class="sn">5</span>Harness verify + falsify<br><span class="sp">Planned</span></li>
+<li id="t1-s6" class="st-planned"><span class="sn">6</span>Deploy /pwa/ + reload/readback<br><span class="sp">Planned</span></li>
+<li id="t1-s7" class="st-planned"><span class="sn">7</span>On-device badge check, iOS and Android<span class="note">user check, not auto-verified</span><span class="sp">Planned</span></li>
+</ol>
+<h3>Tier 2 (KB-1513): badge also when the app is closed (push) <span class="pct" id="t2-pct">0/6 done (0%)</span></h3>
+<ol>
+<li id="t2-s1" class="st-planned"><span class="sn">1</span>Design forks: count source, sender gateway, key storage<br><span class="sp">Planned</span></li>
+<li id="t2-s2" class="st-planned"><span class="sn">2</span>Gateway: VAPID + self-scoped subscribe route<br><span class="sp">Planned</span></li>
+<li id="t2-s3" class="st-planned"><span class="sn">3</span>sw.js push handler + badge<br><span class="sp">Planned</span></li>
+<li id="t2-s4" class="st-planned"><span class="sn">4</span>Push sender (members, offline only, no message text) + tests<br><span class="sp">Planned</span></li>
+<li id="t2-s5" class="st-planned"><span class="sn">5</span>Gateway restart + live verify<br><span class="sp">Planned</span></li>
+<li id="t2-s6" class="st-planned"><span class="sn">6</span>On-device check<span class="note">user check, not auto-verified</span><span class="sp">Planned</span></li>
+</ol>
+<p class="last" id="last-change"><b>Last change:</b> KB-1511 started, preflight checks running. Lives at <code>/pwa/</code>; main webclient unaffected.</p>
+</section>
+
 
 <h2>1. The goal</h2>
 <div class="card">
