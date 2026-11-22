@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Harmonia</title>
+    <!-- KB-1511: installable PWA variant of the webclient, deployed at
+         /harmonia-webclient/pwa/. Same Rust crate as ../ui (one wasm source), its own index.
+         The plain (non data-trunk) <base> makes page-relative fetches (gateway-tunnel*.json,
+         debug-beacon.json, header image) resolve to the ROOT webclient copies, which are the
+         only ones the gateways publish. Everything PWA-specific below is absolute. -->
+    <base href="/harmonia-webclient/" />
+    <link rel="manifest" href="/harmonia-webclient/pwa/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/harmonia-webclient/pwa/icons/apple-touch-icon.png" />
+    <link id="harmonia-favicon" rel="icon" type="image/png" href="/harmonia-webclient/pwa/icons/favicon-32.png" />
+    <meta name="theme-color" content="#0f1117" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Harmonia" />
+    
+<script type="module">
+import init, * as bindings from '/harmonia-webclient/pwa/harmonia-ui-594aeb7395b8a2bc.js';
+const wasm = await init({ module_or_path: '/harmonia-webclient/pwa/harmonia-ui-594aeb7395b8a2bc_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+    <link rel="stylesheet" href="/harmonia-webclient/pwa/style-b2476a0b7523ad4b.css" integrity="sha384-FoRRmgCK+eoLWuaujXoyjss620S1mJjsl8EOvrrBg+YVQaSRcO6xtckZXFmyCshE"/>
+    
+    
+    
+    
+    <script>
+      // Optional ?port=NNNN query param overrides window.__HARMONIA_PORT__
+      // before the wasm module loads (same as ../ui/index.html).
+      (function () {
+        var port = new URLSearchParams(window.location.search).get("port");
+        if (port) {
+          window.__HARMONIA_PORT__ = Number(port);
+        }
+      })();
+    </script>
+    <script>
+      // KB-1511: unread badge hook. The wasm app calls window.__harmoniaBadge(n) with the true
+      // unread total whenever it changes (app.rs, effect next to dm_unread_counts). Only this
+      // index defines it, so the main webclient is unaffected.
+      (function () {
+        var BASE_ICON = "/harmonia-webclient/pwa/icons/favicon-32.png";
+        var baseImg = null;
+        var drawn = -1;
+
+        function drawFavicon(n) {
+          var link = document.getElementById("harmonia-favicon");
+          if (!link) return;
+          if (n <= 0) {
+            link.href = BASE_ICON;
+            drawn = 0;
+            return;
+          }
+          if (!baseImg) {
+            baseImg = new Image();
+            baseImg.onload = function () {
+              drawn = -1;
+              drawFavicon(window.__harmoniaBadgeLast || 0);
+            };
+            baseImg.src = BASE_ICON;
+            return;
+          }
+          if (!baseImg.complete || drawn === n) return;
+          var c = document.createElement("canvas");
+          c.width = 64;
+          c.height = 64;
+          var ctx = c.getContext("2d");
+          if (!ctx) return;
+          ctx.drawImage(baseImg, 0, 0, 64, 64);
+          var label = n > 99 ? "99+" : String(n);
+          ctx.fillStyle = "#e5484d";
+          ctx.beginPath();
+          ctx.arc(44, 20, 20, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.fillStyle = "#ffffff";
+          ctx.font = "bold " + (label.length > 2 ? 18 : 26) + "px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(label, 44, 21);
+          link.href = c.toDataURL("image/png");
+          drawn = n;
+        }
+
+        window.__harmoniaBadge = function (n) {
+          n = Math.max(0, Math.floor(Number(n) || 0));
+          if (window.__harmoniaBadgeLast === n) return;
+          // Test-visible state first, so a failing OS badge call can never hide it.
+          window.__harmoniaBadgeLast = n;
+          document.title = n > 0 ? "(" + n + ") Harmonia" : "Harmonia";
+          try {
+            if (navigator.setAppBadge) {
+              var p = n > 0 ? navigator.setAppBadge(n) : navigator.clearAppBadge();
+              if (p && p.catch) p.catch(function () {});
+            }
+          } catch (e) {}
+          try {
+            drawFavicon(n);
+          } catch (e) {}
+        };
+
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .register("/harmonia-webclient/pwa/sw.js", {
+              scope: "/harmonia-webclient/pwa/",
+              updateViaCache: "none",
+            })
+            .catch(function () {});
+        }
+
+        // iOS shows the app badge only after notification permission, which needs a user tap.
+        // Small dismissible corner button, only in the installed (standalone) app, only while
+        // the permission is undecided. Stores at most a non-personal "dismissed" flag.
+        var DISMISS_KEY = "harmonia.pwa.notifyPromptDismissed";
+        function standalone() {
+          try {
+            if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) return true;
+          } catch (e) {}
+          return navigator.standalone === true;
+        }
+        function dismissed() {
+          try {
+            return localStorage.getItem(DISMISS_KEY) === "1";
+          } catch (e) {
+            return false;
+          }
+        }
+        function showNotifyPrompt() {
+          if (!("Notification" in window) || Notification.permission !== "default") return;
+          if (!standalone() || dismissed()) return;
+          var box = document.createElement("div");
+          box.id = "harmonia-pwa-notify";
+          box.style.cssText =
+            "position:fixed;right:8px;bottom:8px;z-index:2147483647;display:flex;gap:6px;" +
+            "align-items:center;background:#1b1e27;color:#e6e8ee;border:1px solid #3a3f4d;" +
+            "border-radius:8px;padding:6px 8px;font:13px sans-serif;";
+          var yes = document.createElement("button");
+          yes.textContent = "Enable badge";
+          var no = document.createElement("button");
+          no.textContent = "×";
+          no.setAttribute("aria-label", "Dismiss");
+          [yes, no].forEach(function (b) {
+            b.style.cssText =
+              "background:#2b3040;color:#e6e8ee;border:0;border-radius:6px;padding:4px 8px;font:inherit;";
+          });
+          yes.onclick = function () {
+            box.remove();
+            try {
+              var r = Notification.requestPermission();
+              if (r && r.then)
+                r.then(function () {
+                  // Re-apply the current count now that the OS may show it.
+                  var last = window.__harmoniaBadgeLast || 0;
+                  window.__harmoniaBadgeLast = undefined;
+                  window.__harmoniaBadge(last);
+                });
+            } catch (e) {}
+          };
+          no.onclick = function () {
+            box.remove();
+            try {
+              localStorage.setItem(DISMISS_KEY, "1");
+            } catch (e) {}
+          };
+          box.appendChild(yes);
+          box.appendChild(no);
+          document.body.appendChild(box);
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", showNotifyPrompt);
+        } else {
+          showNotifyPrompt();
+        }
+      })();
+    </script>
+  <link rel="modulepreload" href="/harmonia-webclient/pwa/harmonia-ui-594aeb7395b8a2bc.js" crossorigin="anonymous" integrity="sha384-sIFcX/ktmmb3Eu0QP5H/ECyoNd3GS99MrODoGTHsNnUMyVhc0a9/g69uABFwJXOX"><link rel="preload" href="/harmonia-webclient/pwa/harmonia-ui-594aeb7395b8a2bc_bg.wasm" crossorigin="anonymous" integrity="sha384-VaN9GVzZBn4Efh0ESsxG6mGo6aiFixONcfYuUfUUzY4dM7up7VsNggZWevS/2J3p" as="fetch" type="application/wasm"></head>
+  <body></body>
+</html>
