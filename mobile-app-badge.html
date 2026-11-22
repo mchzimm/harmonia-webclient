@@ -79,31 +79,31 @@ ol.steps li{margin:8px 0}
 <main>
 <h1>Harmonia Mobile Badge</h1>
 <p class="sub">How Harmonia gets a home-screen icon with a red "new message" number on Android and iPhone, without writing native code. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-22 00:35 PST</span></p>
+<p class="stamp">Updated: <span id="upd">2026-11-22 00:58 PST</span></p>
 <div class="honest"><b>Development started:</b> Tier 1 in progress (KB-1511). Tier 2 (KB-1513) is planned. Below, the progress, then the comparison of ways and which one to try first.</div>
 <section class="pd" id="progress" aria-label="Progress diagram">
 <h2 style="margin-top:8px">Progress</h2>
 <div class="leg"><span>Legend:</span><span class="pill done">Done</span><span class="pill build">Building</span><span class="pill plan">Planned</span><span class="pill block">Blocked</span></div>
-<h3>Tier 1 (KB-1511): badge on the home-screen icon, while the app is open or recently used <span class="pct" id="t1-pct">4/7 done (57%)</span></h3>
+<h3>Tier 1 (KB-1511): badge on the home-screen icon, while the app is open or recently used <span class="pct" id="t1-pct">6/7 done (86%)</span></h3>
 <ol>
 <li id="t1-s1" class="st-done"><span class="sn">1</span>Cards filed<br><span class="sp">Done</span></li>
 <li id="t1-s2" class="st-done"><span class="sn">2</span>Sub-path preflight checks<br><span class="sp">Done</span></li>
 <li id="t1-s3" class="st-done"><span class="sn">3</span>pwa/ folder: manifest, sw.js, icons<br><span class="sp">Done</span></li>
 <li id="t1-s4" class="st-done"><span class="sn">4</span>Unread-badge hook in app<br><span class="sp">Done</span></li>
-<li id="t1-s5" class="st-building"><span class="sn">5</span>Harness verify + falsify<br><span class="sp">Building</span></li>
-<li id="t1-s6" class="st-planned"><span class="sn">6</span>Deploy /pwa/ + reload/readback<br><span class="sp">Planned</span></li>
+<li id="t1-s5" class="st-done"><span class="sn">5</span>Harness verify + falsify<br><span class="sp">Done</span></li>
+<li id="t1-s6" class="st-done"><span class="sn">6</span>Deploy /pwa/ + reload/readback<br><span class="sp">Done</span></li>
 <li id="t1-s7" class="st-planned"><span class="sn">7</span>On-device badge check, iOS and Android<span class="note">user check, not auto-verified</span><span class="sp">Planned</span></li>
 </ol>
 <h3>Tier 2 (KB-1513): badge also when the app is closed (push) <span class="pct" id="t2-pct">0/6 done (0%)</span></h3>
 <ol>
-<li id="t2-s1" class="st-planned"><span class="sn">1</span>Design forks: count source, sender gateway, key storage<br><span class="sp">Planned</span></li>
+<li id="t2-s1" class="st-building"><span class="sn">1</span>Design forks: count source, sender gateway, key storage<br><span class="sp">Building</span></li>
 <li id="t2-s2" class="st-planned"><span class="sn">2</span>Gateway: VAPID + self-scoped subscribe route<br><span class="sp">Planned</span></li>
 <li id="t2-s3" class="st-planned"><span class="sn">3</span>sw.js push handler + badge<br><span class="sp">Planned</span></li>
 <li id="t2-s4" class="st-planned"><span class="sn">4</span>Push sender (members, offline only, no message text) + tests<br><span class="sp">Planned</span></li>
 <li id="t2-s5" class="st-planned"><span class="sn">5</span>Gateway restart + live verify<br><span class="sp">Planned</span></li>
 <li id="t2-s6" class="st-planned"><span class="sn">6</span>On-device check<span class="note">user check, not auto-verified</span><span class="sp">Planned</span></li>
 </ol>
-<p class="last" id="last-change"><b>Last change:</b> pwa/ folder built (manifest, service worker, icons) and the unread badge hook works in browser tests: sidebar 2 unread gives app badge 2 and tab title "(2) Harmonia"; the main webclient stays unchanged. An independent check is now trying to break the test (KB-1511).</p>
+<p class="last" id="last-change"><b>Last change:</b> v1.0.326 is live: the app version is at harmonia-webclient/pwa/ and all 4 test tabs reloaded onto it. For now the badge only updates while the app is open; a fix so opening the app does not briefly reset it to 0 ships next (v1.0.327). Tier 2 (badge while closed, via push) is being designed (KB-1513).</p>
 </section>
 
 
@@ -164,7 +164,7 @@ ol.steps li{margin:8px 0}
 <div class="grid">
 <div class="card"><h3>PWA</h3>
 <p><b>Android</b></p><ul><li class="pro">+ Free, install prompt, no store.</li><li class="con">- <code>setAppBadge</code> does nothing on Android; dot comes from a shown notification.</li></ul>
-<p><b>iOS</b></p><ul><li class="pro">+ Only free numeric badge; works from the push handler when closed.</li><li class="con">- User must add it by hand (iOS 16.4+) and allow notifications; user can hide the badge in Settings.</li></ul><p class="sub">Can the app icon itself be redrawn with the number? No: iOS copies the icon once at install and Android only rechecks it about daily; the OS badge (<code>setAppBadge</code> on iOS, a notification dot on Android) is the only way. Tabs get a drawn favicon badge instead.</p></div>
+<p><b>iOS</b></p><ul><li class="pro">+ Only free numeric badge; works from the push handler when closed.</li><li class="con">- User must add it by hand (iOS 16.4+) and allow notifications; user can hide the badge in Settings.</li></ul><p class="sub">Can the app icon itself be redrawn with the number? No: iOS copies the icon once at install and Android only rechecks it about daily; the OS badge (<code>setAppBadge</code> on iOS, a notification dot on Android) is the only way. Tabs get a drawn favicon badge instead.</p><p class="sub">Tier 1 limit: the number on the icon only changes while the app is open; Tier 2 adds push so it changes while closed.</p></div>
 <div class="card"><h3>Android TWA</h3>
 <p><b>Android</b></p><ul><li class="pro">+ Real store-style icon in hours; same push code as the PWA.</li><li class="con">- Dot only; needs <code>assetlinks.json</code> in the <code>mchzimm.github.io</code> root repo.</li></ul>
 <p><b>iOS</b></p><ul><li class="con">- Android only. Wrapping a web page in an iOS shell gets no web push.</li></ul></div>
