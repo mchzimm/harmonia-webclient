@@ -2,14 +2,19 @@
 //
 // It exists so the page is installable, can show the closed-app unread badge (KB-1513 push
 // handler) and can route notification clicks back to the app.
-// It deliberately registers NO network-intercepting handler and caches nothing: a cached
-// index.html or wasm would serve a stale bundle after every deploy (KB-232, KB-260 were
-// "still broken" reports that were really stale clients). Every request goes to the network.
+// It caches nothing and never calls respondWith: a cached index.html or wasm would serve a
+// stale bundle after every deploy (KB-232, KB-260 were "still broken" reports that were really
+// stale clients). Every request goes to the network via browser default handling.
+// KB-1581: Chrome/Brave on Android only offer install when the SW has a fetch listener, so a
+// pass-through no-op listener is registered below.
 const PWA_PATH = "/harmonia-webclient/pwa/";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
 });
+
+// KB-1581: pass-through. No respondWith, so the browser does its normal network fetch.
+self.addEventListener("fetch", () => {});
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
