@@ -79,7 +79,7 @@ ol.steps li{margin:8px 0}
 <main>
 <h1>Harmonia Mobile Badge</h1>
 <p class="sub">How Harmonia gets a home-screen icon with a red "new message" number on Android and iPhone, without writing native code. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-22 00:58 PST</span></p>
+<p class="stamp">Updated: <span id="upd">2026-11-22 01:30 PST</span></p>
 <div class="honest"><b>Development started:</b> Tier 1 in progress (KB-1511). Tier 2 (KB-1513) is planned. Below, the progress, then the comparison of ways and which one to try first.</div>
 <section class="pd" id="progress" aria-label="Progress diagram">
 <h2 style="margin-top:8px">Progress</h2>
@@ -164,7 +164,7 @@ ol.steps li{margin:8px 0}
 <div class="grid">
 <div class="card"><h3>PWA</h3>
 <p><b>Android</b></p><ul><li class="pro">+ Free, install prompt, no store.</li><li class="con">- <code>setAppBadge</code> does nothing on Android; dot comes from a shown notification.</li></ul>
-<p><b>iOS</b></p><ul><li class="pro">+ Only free numeric badge; works from the push handler when closed.</li><li class="con">- User must add it by hand (iOS 16.4+) and allow notifications; user can hide the badge in Settings.</li></ul><p class="sub">Can the app icon itself be redrawn with the number? No: iOS copies the icon once at install and Android only rechecks it about daily; the OS badge (<code>setAppBadge</code> on iOS, a notification dot on Android) is the only way. Tabs get a drawn favicon badge instead.</p><p class="sub">Tier 1 limit: the number on the icon only changes while the app is open; Tier 2 adds push so it changes while closed.</p></div>
+<p><b>iOS</b></p><ul><li class="pro">+ Only free numeric badge; works from the push handler when closed.</li><li class="con">- User must add it by hand (iOS 16.4+) and allow notifications; user can hide the badge in Settings.</li></ul><p class="sub">Can the app icon itself be redrawn with the number? No: iOS copies the icon once at install and Android only rechecks it about daily; the OS badge (<code>setAppBadge</code> on iOS, a notification dot on Android) is the only way. Tabs get a drawn favicon badge instead.</p><p class="sub">Tier 1 limit: the number on the icon only changes while the app is open; Tier 2 adds push so it changes while closed.</p><p class="sub">On a new phone, messages already in your chats count as unread at first, so the first badge can be large; a fix is planned (KB-1525).</p></div>
 <div class="card"><h3>Android TWA</h3>
 <p><b>Android</b></p><ul><li class="pro">+ Real store-style icon in hours; same push code as the PWA.</li><li class="con">- Dot only; needs <code>assetlinks.json</code> in the <code>mchzimm.github.io</code> root repo.</li></ul>
 <p><b>iOS</b></p><ul><li class="con">- Android only. Wrapping a web page in an iOS shell gets no web push.</li></ul></div>
