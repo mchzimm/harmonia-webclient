@@ -79,7 +79,7 @@ ol.steps li{margin:8px 0}
 <main>
 <h1>Harmonia Mobile Badge</h1>
 <p class="sub">How Harmonia gets a home-screen icon with a red "new message" number on Android and iPhone, without writing native code. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-22 02:04 PST</span></p>
+<p class="stamp">Updated: <span id="upd">2026-11-22 03:40 PST</span></p>
 <div class="honest"><b>Development started:</b> Tier 1 in progress (KB-1511). Tier 2 (KB-1513) is planned. Below, the progress, then the comparison of ways and which one to try first.</div>
 <section class="pd" id="progress" aria-label="Progress diagram">
 <h2 style="margin-top:8px">Progress</h2>
@@ -98,11 +98,12 @@ ol.steps li{margin:8px 0}
 <ol>
 <li id="t2-s1" class="st-done"><span class="sn">1</span>Design forks: count source, sender gateway, key storage<br><span class="sp">Done</span></li>
 <li id="t2-s2" class="st-building"><span class="sn">2</span>Gateway: VAPID + self-scoped subscribe route<br><span class="sp">Building</span></li>
-<li id="t2-s3" class="st-planned"><span class="sn">3</span>sw.js push handler + badge<br><span class="sp">Planned</span></li>
+<li id="t2-s3" class="st-building"><span class="sn">3</span>sw.js push handler + badge<br><span class="sp">Building</span></li>
 <li id="t2-s4" class="st-building"><span class="sn">4</span>Push sender (members, offline only, no message text) + tests<br><span class="sp">Building</span></li>
-<li id="t2-s5" class="st-planned"><span class="sn">5</span>Gateway restart + live verify<br><span class="sp">Planned</span></li>
-<li id="t2-s6" class="st-planned"><span class="sn">6</span>On-device check<span class="note">user check, not auto-verified</span><span class="sp">Planned</span></li>
+<li id="t2-s5" class="st-planned"><span class="sn">5</span>Gateway restart + live verify<span class="note">checks routes and wiring only</span><span class="sp">Planned</span></li>
+<li id="t2-s6" class="st-planned"><span class="sn">6</span>On-device check<span class="note">first real push seen on a phone; user check, not auto-verified</span><span class="sp">Planned</span></li>
 </ol>
+<p class="last">Checks found 3 things to fix before merge: open-app detection, one flaky test, one test bug; fixes running.</p>
 <p class="last" id="last-change"><b>Last change:</b> v1.0.326 is live: the app version is at harmonia-webclient/pwa/ and all 4 test tabs reloaded onto it. For now the badge only updates while the app is open; a fix so opening the app does not briefly reset it to 0 ships next (v1.0.327). Tier 2 (badge while closed, via push) is being designed (KB-1513). Tier 2: push key, sender and storage built and checked; next: wiring into the gateway.</p>
 </section>
 
