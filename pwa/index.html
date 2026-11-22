@@ -20,8 +20,8 @@
     <meta name="apple-mobile-web-app-title" content="Harmonia" />
     
 <script type="module">
-import init, * as bindings from '/harmonia-webclient/pwa/harmonia-ui-f71d74221ec1344.js';
-const wasm = await init({ module_or_path: '/harmonia-webclient/pwa/harmonia-ui-f71d74221ec1344_bg.wasm' });
+import init, * as bindings from '/harmonia-webclient/pwa/harmonia-ui-799081fa9662c1f9.js';
+const wasm = await init({ module_or_path: '/harmonia-webclient/pwa/harmonia-ui-799081fa9662c1f9_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -158,11 +158,13 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             try {
               var r = Notification.requestPermission();
               if (r && r.then)
-                r.then(function () {
+                r.then(function (perm) {
                   // Re-apply the current count now that the OS may show it.
                   var last = window.__harmoniaBadgeLast || 0;
                   window.__harmoniaBadgeLast = undefined;
                   window.__harmoniaBadge(last);
+                  // KB-1513: the wasm listens and (re)registers the push subscription.
+                  if (window.__harmoniaPushPermissionChanged) window.__harmoniaPushPermissionChanged(perm);
                 });
             } catch (e) {}
           };
@@ -183,6 +185,223 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         }
       })();
     </script>
-  <link rel="modulepreload" href="/harmonia-webclient/pwa/harmonia-ui-f71d74221ec1344.js" crossorigin="anonymous" integrity="sha384-sIFcX/ktmmb3Eu0QP5H/ECyoNd3GS99MrODoGTHsNnUMyVhc0a9/g69uABFwJXOX"><link rel="preload" href="/harmonia-webclient/pwa/harmonia-ui-f71d74221ec1344_bg.wasm" crossorigin="anonymous" integrity="sha384-jWYNb0i+iAvdMn0NzQaXyL3AsJUS9fhCQiX0niqBmnv/gGX2owWphRSAJB+r1Byp" as="fetch" type="application/wasm"></head>
+    <script>
+      // KB-1513: Web Push hooks (PWA index only; the main index has none, so the wasm's
+      // push_register.rs is a no-op there). Nothing here prompts: permission comes only from the
+      // opt-in box above (a user tap). The subscription lives in the browser's PushManager only,
+      // never in localStorage; the wasm POSTs it to the gateway (self-scoped route).
+      // Visible state: #harmonia-push-state[data-push-state] (also mirrored on <html>) is one of
+      // subscribed / denied / unsupported / off.
+      (function () {
+        var READY_TIMEOUT_MS = 10000;
+        var LABEL = {
+          subscribed: "Notifications: on",
+          denied: "Notifications: blocked",
+          unsupported: "Notifications: not supported",
+          off: "Notifications: off",
+        };
+
+        function setPushState(state) {
+          try {
+            document.documentElement.setAttribute("data-push-state", state);
+          } catch (e) {}
+          try {
+            var el = document.getElementById("harmonia-push-state");
+            if (!el && document.body) {
+              el = document.createElement("div");
+              el.id = "harmonia-push-state";
+              el.setAttribute("role", "status");
+              el.style.cssText =
+                "position:fixed;left:8px;bottom:4px;z-index:2147483646;pointer-events:none;" +
+                "font:11px sans-serif;color:#9aa0ad;opacity:0.8;";
+              document.body.appendChild(el);
+            }
+            if (el) {
+              el.setAttribute("data-push-state", state);
+              el.textContent = LABEL[state] || LABEL.off;
+            }
+          } catch (e) {}
+        }
+
+        function supported() {
+          return "Notification" in window && ("PushManager" in window || !!window.pushManager);
+        }
+
+        // The SW registration's pushManager, else Safari's window.pushManager. Never waits on a
+        // registration that failed: `ready` would never settle, so it is raced with a timeout.
+        function getPushManager() {
+          var fallback = window.pushManager || null;
+          if (!("serviceWorker" in navigator) || !navigator.serviceWorker) return Promise.resolve(fallback);
+          return Promise.race([
+            Promise.resolve(navigator.serviceWorker.ready).then(function (reg) {
+              return reg && reg.pushManager ? reg.pushManager : fallback;
+            }),
+            new Promise(function (res) {
+              setTimeout(function () {
+                res(fallback);
+              }, READY_TIMEOUT_MS);
+            }),
+          ]).catch(function () {
+            return fallback;
+          });
+        }
+
+        function b64urlToBytes(s) {
+          if (typeof s !== "string" || !/^[A-Za-z0-9_-]+={0,2}$/.test(s)) return null;
+          var b = s.replace(/-/g, "+").replace(/_/g, "/").replace(/=+$/, "");
+          while (b.length % 4) b += "=";
+          var bin;
+          try {
+            bin = atob(b);
+          } catch (e) {
+            return null;
+          }
+          var out = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+          return out;
+        }
+
+        function sameKey(buf, key) {
+          if (!buf) return false;
+          var a = new Uint8Array(buf);
+          if (a.length !== key.length) return false;
+          for (var i = 0; i < a.length; i++) if (a[i] !== key[i]) return false;
+          return true;
+        }
+
+        function currentSub() {
+          return getPushManager().then(function (pm) {
+            return pm ? pm.getSubscription() : null;
+          });
+        }
+
+        // Recomputes data-push-state from permission + current subscription. Never subscribes.
+        function refreshPushState() {
+          if (!supported()) {
+            setPushState("unsupported");
+            return Promise.resolve();
+          }
+          if (Notification.permission === "denied") {
+            setPushState("denied");
+            return Promise.resolve();
+          }
+          if (Notification.permission !== "granted") {
+            setPushState("off");
+            return Promise.resolve();
+          }
+          return currentSub().then(
+            function (sub) {
+              setPushState(sub ? "subscribed" : "off");
+            },
+            function () {
+              setPushState("off");
+            }
+          );
+        }
+
+        // -> Promise<string|null>: JSON.stringify(PushSubscription.toJSON()), or null when
+        // permission is not granted, push is unsupported, the key is malformed, or subscribe fails.
+        window.__harmoniaPushSubscribe = function (vapidKeyB64url) {
+          if (!supported() || Notification.permission !== "granted") {
+            return refreshPushState().then(function () {
+              return null;
+            });
+          }
+          var key = b64urlToBytes(vapidKeyB64url);
+          if (!key || key.length !== 65 || key[0] !== 4) return Promise.resolve(null);
+          return getPushManager()
+            .then(function (pm) {
+              if (!pm) {
+                setPushState("unsupported");
+                return null;
+              }
+              return pm
+                .getSubscription()
+                .then(function (sub) {
+                  // subscribe() rejects InvalidStateError on a different applicationServerKey.
+                  if (sub && !sameKey(sub.options && sub.options.applicationServerKey, key)) {
+                    return sub.unsubscribe().then(function () {
+                      return null;
+                    });
+                  }
+                  return sub;
+                })
+                .then(function (sub) {
+                  return sub || pm.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+                })
+                .then(function (sub) {
+                  if (!sub) return null;
+                  setPushState("subscribed");
+                  return JSON.stringify(sub.toJSON());
+                });
+            })
+            .catch(function () {
+              return refreshPushState().then(function () {
+                return null;
+              });
+            });
+        };
+
+        // -> Promise<string|null>: the endpoint that was unsubscribed (for logout / user switch).
+        window.__harmoniaPushUnsubscribe = function () {
+          if (!supported()) return Promise.resolve(null);
+          return currentSub()
+            .then(function (sub) {
+              if (!sub) return null;
+              var endpoint = sub.endpoint;
+              return sub.unsubscribe().then(function () {
+                return endpoint;
+              });
+            })
+            .catch(function () {
+              return null;
+            })
+            .then(function (endpoint) {
+              return refreshPushState().then(function () {
+                return endpoint;
+              });
+            });
+        };
+
+        // -> Promise<string|null>: the current subscription's endpoint (for badge reports).
+        window.__harmoniaPushEndpoint = function () {
+          if (!supported()) return Promise.resolve(null);
+          return currentSub()
+            .then(function (sub) {
+              return sub ? sub.endpoint : null;
+            })
+            .catch(function () {
+              return null;
+            });
+        };
+
+        // Called by the opt-in box after Notification.requestPermission() settles.
+        window.__harmoniaPushPermissionChanged = function (perm) {
+          refreshPushState();
+          if (perm === "granted") {
+            try {
+              window.dispatchEvent(new Event("harmonia-push-ready"));
+            } catch (e) {}
+          }
+        };
+
+        // Badge drift: a push may have moved the OS badge behind the page, but __harmoniaBadge
+        // skips a repeat of __harmoniaBadgeLast. On becoming visible, re-apply the page's count.
+        document.addEventListener("visibilitychange", function () {
+          if (document.visibilityState !== "visible") return;
+          var last = window.__harmoniaBadgeLast;
+          if (typeof last !== "number" || !window.__harmoniaBadge) return;
+          window.__harmoniaBadgeLast = undefined;
+          window.__harmoniaBadge(last);
+        });
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", refreshPushState);
+        } else {
+          refreshPushState();
+        }
+      })();
+    </script>
+  <link rel="modulepreload" href="/harmonia-webclient/pwa/harmonia-ui-799081fa9662c1f9.js" crossorigin="anonymous" integrity="sha384-bYyGwVHVK8KWBbSxBH8wLAMz9mZGQuDb/ee4jnb910+G+wU3PE/rmK14JS6CnzY6"><link rel="preload" href="/harmonia-webclient/pwa/harmonia-ui-799081fa9662c1f9_bg.wasm" crossorigin="anonymous" integrity="sha384-c+IdJlDe37t6wMxC8XnTaFmqYLECu738c1u4ZpogaI597rOpkBFKlEMvfL0nY8wd" as="fetch" type="application/wasm"></head>
   <body></body>
 </html>
