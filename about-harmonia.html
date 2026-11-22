@@ -59,7 +59,7 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <main>
 <h1>About Harmonia</h1>
 <p class="sub">A chat place you can own. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-20 11:08 PST</span></p>
+<p class="stamp">Updated: <span id="upd">2026-11-21 17:55 PST</span></p>
 
 <h2>The big idea</h2>
 <div class="card"><p>Harmonia is a place to chat with people: friends, family, co-workers, teams and more. Nobody has to give a company an email or a phone number. You are <b>you</b> because of a secret phrase that only you know. Anyone can run a little "meeting place" for people. Those places can join hands, so people on different places can still talk.</p></div>
@@ -148,8 +148,8 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tbody>
 <tr class="cat"><th colspan="3">Messaging</th></tr>
 <tr><td>One-to-one chats</td><td>Talk privately with one other person.</td><td><span class="pill done">Done</span></td></tr>
-<tr><td>Channels</td><td>Named rooms where many people talk. You can make one, archive it, or remove it.</td><td><span class="pill done">Done</span></td></tr>
-<tr><td>A shared hello room</td><td>A room everyone can find on first visit.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Channels</td><td>Named rooms where many people talk. You can make one, archive it, or remove it.<div class="note">If the gateway refuses to delete, the room stays and you see an error. Deleting a room on one gateway now removes it on the others too.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>A shared hello room</td><td>A room everyone can find on first visit.<div class="note">Shared rooms are no longer re-sent by other gateways.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>New-messages line</td><td>A line above the messages in a channel that shows where the new ones start.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Unread badges</td><td>A little number on each channel and chat that counts messages you have not read yet.<div class="note">A rare network stall can delay them for a moment.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Typing signs</td><td>See when someone (or an agent) is writing.<div class="note">Works for agents; for people it is planned.</div></td><td><span class="pill part">Partly</span></td></tr>
@@ -165,13 +165,13 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tr><td>Group chats without a room</td><td>Three or more people, no channel needed.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Mention alerts</td><td>Get pinged when someone says your name.<div class="note">Names with spaces already work in text; the ping does not.</div></td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Pop-up notifications from your device</td><td>A pop-up on your screen when the app is in the background.<div class="note">Not built. Only the in-app badges above exist.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Reliable delivery to everyone</td><td>Every message reaches everyone, every time.<div class="note">Works in normal use; some cases are still being chased.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Reliable delivery to everyone</td><td>Every message reaches everyone, every time.<div class="note">Works in normal use; some cases are still being chased. Chat history retries now skip stale homes after a restart, and room owners help carry room posts.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr class="cat"><th colspan="3">People and identity</th></tr>
 <tr><td>Identity from a secret phrase</td><td>Your phrase makes you, on your own device. Same phrase, same you.<div class="note">Checked again and again.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Your look: blockie and 6-digit code</td><td>A "blockie" (a little pixel-art picture) used as your avatar, plus a 6-digit code (hex). Both are made from your phrase, so both point to you alone, by sight and by text.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Your own avatar picture</td><td>Use a picture you choose instead of the blockie.<div class="note">Part of the planned profile settings.</div></td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Channel designs for verified people</td><td>Special looks for channels, for people who meet requirements such as a verified ID.<div class="note">Work in progress idea; not decided yet.</div></td><td><span class="pill tbd">TBD</span></td></tr>
-<tr><td>Green ring when online</td><td>A glow shows who is around.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Green ring when online</td><td>A glow shows who is around.<div class="note">Going offline now clears the glow in every session of that tab.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Tap a face for a card</td><td>See who someone is.<div class="note">The card waits one second before it pops up, so it does not flash while you move the pointer. The dot of the "i" in the Harmonia logo opens this About page in a new tab.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Private nicknames</td><td>Give someone a name only you see.<div class="note">Renaming works, but it is still rough: a few editing and list glitches are known and being fixed.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Contacts</td><td>Only people you chose.</td><td><span class="pill done">Done</span></td></tr>
@@ -180,7 +180,7 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tr><td>Profile page and settings</td><td>A bigger page about you.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr class="cat"><th colspan="3">Communities and rules</th></tr>
 <tr><td>Roles, groups and permissions</td><td>Who may do what, by role or group.<div class="note">The rulebook is built and editable by the gateway owner. Only a few places check it so far, such as who may add an AI agent.</div></td><td><span class="pill part">Partly</span></td></tr>
-<tr><td>Channel owner and member list</td><td>The maker of a room sees and edits who is in it.<div class="note">Saved. The room owner gets a users and roles panel when pointing at the room name, with buttons to add or remove users, groups and permissions (owner only). Still being finished and not shared between gateways.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Channel owner and member list</td><td>The maker of a room sees and edits who is in it.<div class="note">Saved. Errors in the panel now use plain words. The room owner gets a users and roles panel when pointing at the room name, with buttons to add or remove users, groups and permissions (owner only). Still being finished and not shared between gateways.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Remove someone from a room</td><td>Owner can take a person out.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Big community holding many rooms</td><td>One home with many rooms under it.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Invite links in the app</td><td>Send a link so someone can join.</td><td><span class="pill plan">Planned</span></td></tr>
@@ -194,22 +194,22 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tr><td>A/V meetings: group rooms</td><td>Many voices in one room.</td><td><span class="pill plan">Planned</span></td></tr>
 <tr class="cat"><th colspan="3">AI agents</th></tr>
 <tr><td>Add an AI agent</td><td>An agent joins as a participant.<div class="note">You pick which brain runs it.</div></td><td><span class="pill done">Done</span></td></tr>
-<tr><td>AI agents as chat bots</td><td>Agents join chats as participants and reply to messages, like anyone else.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>AI agents as chat bots</td><td>Agents join chats as participants and reply to messages, like anyone else.<div class="note">Agents can delete their own messages.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Pick the agent&#x27;s model and effort</td><td>Smaller or bigger thinking.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Agent rules and limits</td><td>Who may add agents and what they may do.<div class="note">Only people with the "ai" permission can add an agent, and the button is labelled "ai agent onboarding". Other agent limits are still young.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Proactive, advanced AI agents</td><td>Agents that act on their own: help moderate or run a community, add features and fix bugs.<div class="note">Not discussed yet; no plan on the board.</div></td><td><span class="pill tbd">TBD</span></td></tr>
 <tr class="cat"><th colspan="3">Self-hosting and mesh</th></tr>
 <tr><td>Run your own gateway</td><td>Anyone with the gateway program can start one.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Public release of the gateway program</td><td>Let everyone download it.<div class="note">Work to build it for other computers is on the board.</div></td><td><span class="pill plan">Planned</span></td></tr>
-<tr><td>Gateway control screen</td><td>A text screen to see and manage your gateway.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Gateway control screen</td><td>A text screen to see and manage your gateway.<div class="note">Switch screens with Shift plus a letter; number keys only pick rows.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Gateways link into a mesh</td><td>Many gateways, one web of people.</td><td><span class="pill done">Done</span></td></tr>
-<tr><td>Switch if one gateway is down</td><td>Your app tries another.</td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Switch if one gateway is down</td><td>Your app tries another.<div class="note">The first read after a switch now works.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Gateway admin mode and user list</td><td>Owner manages who is allowed.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Private gateways in your own mesh</td><td>Your own set of gateways with your own rules.<div class="note">Works with a fleet file and a whitelist; setup is by hand.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Roles and groups on your gateway</td><td>Edit roles and groups from the control screen.<div class="note">Screen works; not yet enforced everywhere.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr class="cat"><th colspan="3">Safety</th></tr>
 <tr><td>Disconnect or block a user at the gateway</td><td>Owner keeps someone out.</td><td><span class="pill done">Done</span></td></tr>
-<tr><td>Private rooms</td><td>Only invited people see them.<div class="note">Some cross-gateway cases are still buggy.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Private rooms</td><td>Only invited people see them.<div class="note">Private chat posts are no longer passed to gateways of non-members. Some cross-gateway cases are still buggy.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Encrypted while travelling</td><td>Messages are scrambled on the way between your app and a gateway, and between gateways.<div class="note">A gateway can still read what it handles, and its saved copy is not yet encrypted on disk.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>End-to-end encryption</td><td>Only the sender and the receiver can read a message, not even a gateway.<div class="note">Not finished; waiting on design work.</div></td><td><span class="pill block">Blocked</span></td></tr>
 <tr><td>Mute and block for you</td><td>Hide someone just for yourself.</td><td><span class="pill plan">Planned</span></td></tr>
