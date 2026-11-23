@@ -79,7 +79,7 @@ ol.steps li{margin:8px 0}
 <main>
 <h1>Harmonia Mobile Badge</h1>
 <p class="sub">How Harmonia gets a home-screen icon with a red "new message" number on Android and iPhone, without writing native code. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-22 14:26 PST</span></p>
+<p class="stamp">Updated: <span id="upd">2026-11-22 22:35 PST</span></p>
 <div class="honest"><b>Status:</b> Android done (Samsung phone, v1.0.330). iPhone check next (KB-1583), not tested yet. Below, the progress, then the comparison of ways and which one to try first.</div>
 <section class="pd" id="progress" aria-label="Progress diagram">
 <h2 style="margin-top:8px">Progress</h2>
@@ -94,7 +94,7 @@ ol.steps li{margin:8px 0}
 <li id="t1-s6" class="st-done"><span class="sn">6</span>Deploy /pwa/ + reload/readback<br><span class="sp">Done</span></li>
 <li id="t1-s7" class="st-done"><span class="sn">7</span>On-device badge check (Android)<span class="note">Done on a Samsung phone (v1.0.330)</span><span class="sp">Done</span></li>
 </ol>
-<h3>Tier 2 (KB-1513): badge also when the app is closed (push) <span class="pct" id="t2-pct">7/8 done (88%)</span></h3>
+<h3>Tier 2 (KB-1513): badge also when the app is closed (push) <span class="pct" id="t2-pct">8/9 done (89%)</span></h3>
 <ol>
 <li id="t2-s1" class="st-done"><span class="sn">1</span>Design forks: count source, sender gateway, key storage<br><span class="sp">Done</span></li>
 <li id="t2-s2" class="st-done"><span class="sn">2</span>Gateway: VAPID + self-scoped subscribe route<br><span class="sp">Done</span></li>
@@ -104,7 +104,8 @@ ol.steps li{margin:8px 0}
 <li id="t2-blk" class="st-done"><span class="sn">&#10003;</span>Blocker fixed<span class="note">KB-1551 fix shipped in v1.0.329</span><span class="sp">Shipped</span></li>
 <li id="t2-s6" class="st-done"><span class="sn">6</span>On-device check<span class="note">Done: notification and icon badge confirmed on a Samsung phone (v1.0.330)</span><span class="sp">Done</span></li>
 <li id="t2-s7" class="st-done"><span class="sn">7</span>Settings row "Badge &amp; notifications" with an Enable button (KB-1579)<span class="note">always-available way to turn the badge on, so you do not depend on the small corner box</span><span class="sp">Done</span></li>
-<li id="t2-s8" class="st-planned"><span class="sn">8</span>iPhone check: badge + closed-app notification (KB-1583)<span class="note">not tested yet; Android done, iPhone next</span><span class="sp">Next</span></li>
+<li id="t2-s8" class="st-done"><span class="sn">8</span>Auto-unlock on launch (KB-1587)<span class="note">stored accounts open with no Unlock prompt; Unlock stays as fallback; live in v1.0.333; phone check pending</span><span class="sp">Done</span></li>
+<li id="t2-s9" class="st-planned"><span class="sn">9</span>iPhone check: badge + closed-app notification (KB-1583)<span class="note">not tested yet; Android done, iPhone next</span><span class="sp">Next</span></li>
 </ol>
 <p class="last"><b>iPhone steps (iOS 16.4+):</b> in Safari open the /pwa/ link, Share &gt; Add to Home Screen, open Harmonia from the new icon, Settings &gt; Badge &amp; notifications &gt; Enable, Allow; close app, get a DM: expect notification and a number on the icon.</p>
 <p class="last">Checks found 3 small things (count reset on account switch, test runs vs live push folder, test shapes); all fixed and checked.</p>
