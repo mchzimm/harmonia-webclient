@@ -62,7 +62,7 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <main>
 <h1>About Harmonia</h1>
 <p class="sub">A chat place you can own. Explained simply.</p>
-<p class="stamp">Updated: <span id="upd">2026-11-23 11:53 PST</span></p>
+<p class="stamp">Updated: <span id="upd">2026-11-23 18:01 PST</span></p>
 <p class="badge-intro"><a href="mobile-app-badge.html">Harmonia Mobile Badge</a> <span class="muted-suffix">— how the app icon gets an unread badge (done)</span></p>
 
 <h2>The big idea</h2>
@@ -125,7 +125,7 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
   <text class="m" x="30" y="278">People on different gateways can still chat.</text>
 </svg>
 </div>
-<p>One gateway is a small meeting place. Link many and you get a <b>mesh</b>. You can start your own gateway, or a whole <b>private mesh</b> of your own gateways. In it you decide who may come in, which roles people have, and what each role may do.</p>
+<p>One gateway is a small meeting place. Link many and you get a <b>mesh</b>. A machine can now run up to four public gateways, paired, and the app reads one shared list of them. A gateway can switch between public and private while running, with no restart. Every mesh gateway needs cloudflared (a Cloudflare tunnel). You can start your own gateway, or a whole <b>private mesh</b> of your own gateways. In it you decide who may come in, which roles people have, and what each role may do.</p>
 <p>A private gateway keeps a <b>whitelist</b>: a list of the people allowed in. A new private gateway starts with an empty list, so nobody gets in. The gateway owner adds a person by their 6-digit code on the gateway control screen. Only then can that person&#x27;s app connect there.</p>
 <div class="honest"><b>Honest limits.</b> Running a gateway is hands-on today. The role and permission rulebook exists and can be edited on the gateway, but only a few places check it so far, such as who may add an AI agent. Messages are already encrypted while they travel, between your app and a gateway and between gateways. True end-to-end encryption, where only the sender and the receiver can read a message and not even a gateway can, is not finished yet.</div>
 
@@ -159,12 +159,12 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 </svg>
 </div>
 <ol class="steps">
-<li><b>Today.</b> A "fleet" is one machine's gateways, started from one file on that machine. Only two of them can be public, through tunnel files.</li>
+<li><b>Today.</b> A "fleet" is one machine's gateways, started from one file on that machine. Up to four of them can be public, and public ones are paired. The app reads one shared list of public gateways, and a gateway can switch between public and private while it runs, with no restart.</li>
 <li><b>Planned: start a gateway.</b> Anyone runs <code>./gateway</code> and gets a <b>private</b> gateway by default.</li>
 <li><b>Go public.</b> Switch it to public. It announces itself, finds other public gateways, and links to a few (about 3; a simulation will set the exact limit). Others link in to it too. Together they form one public Harmonia mesh.</li>
 <li><b>Stay private.</b> Keep your gateway private and give it a name. From the gateways list, ask to link to another private gateway. Its owner sees your request and approves it. You then join, or form, a private mesh. Data stays inside that mesh.</li>
 <li><b>Names.</b> Gateways and meshes get names like <code>name.xxx-xxx</code>, the same style as people. The approval screen also shows a longer fingerprint that cannot be faked, so you know who you are approving.</li>
-<li><b>Cloudflare needed.</b> Every mesh gateway needs a Cloudflare tunnel. That lets gateways on different home networks reach each other, with no public IP address and no port-forwarding.</li>
+<li><b>Cloudflare needed.</b> Every mesh gateway needs a Cloudflare tunnel (cloudflared). That lets gateways on different home networks reach each other, with no public IP address and no port-forwarding.</li>
 <li><b>Step by step.</b> It is built beside the running system, which keeps running until the final switch-over.</li>
 </ol>
 
@@ -185,7 +185,7 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 
 <h2>What Harmonia can do so far</h2>
 <p>Status words: <span class="pill done">Done</span> works today. <span class="pill part">Partly</span> works with gaps. <span class="pill build">Building</span> in progress. <span class="pill plan">Planned</span> on the task board or in the plans, not started. <span class="pill tbd">TBD</span> to be decided, not discussed yet. <span class="pill block">Blocked</span> waiting on something else.</p>
-<p class="sum">Count: Done 29 / Partly 11 / Building 0 / Planned 27 / TBD 16 / Blocked 1 (of 84)</p>
+<p class="sum">Count: Done 30 / Partly 11 / Building 0 / Planned 27 / TBD 16 / Blocked 1 (of 85)</p>
 <div class="tw"><table>
 <thead><tr><th>Feature</th><th>What it is</th><th>Harmonia status</th></tr></thead>
 <tbody>
@@ -249,7 +249,8 @@ tr.cat th{background:var(--bg);color:var(--accent2);font-size:1rem}
 <tr><td>Gateways link into a mesh</td><td>Many gateways, one web of people.</td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Switch if one gateway is down</td><td>Your app tries another.<div class="note">A fix so the first read after a switch works is being tested.</div></td><td><span class="pill done">Done</span></td></tr>
 <tr><td>Gateway admin mode and user list</td><td>Owner manages who is allowed.</td><td><span class="pill done">Done</span></td></tr>
-<tr><td>Private gateways in your own mesh</td><td>Your own set of gateways with your own rules.<div class="note">Works with a fleet file and a whitelist. From the control screen an admin can now make a gateway public or private (at most two public). Setup is still by hand.</div></td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Many public gateways, switch without restart</td><td>One machine can run up to four public gateways, paired. The app reads one shared list of them and picks one. A gateway switches between public and private live, with no restart.<div class="note">Every mesh gateway needs a Cloudflare tunnel (cloudflared). Card KB-1659 with KB-1663, commit 57b57440. Live since 2026-11-24. Not yet measured: the full-gateway hand-off to another gateway for browser-to-browser links in this mode.</div></td><td><span class="pill done">Done</span></td></tr>
+<tr><td>Private gateways in your own mesh</td><td>Your own set of gateways with your own rules.<div class="note">Works with a fleet file and a whitelist. From the control screen an admin can now make a gateway public or private (up to four public). Setup is still by hand.</div></td><td><span class="pill part">Partly</span></td></tr>
 <tr><td>Public gateway mesh across networks</td><td>Anyone starts a gateway, switches it to public, and it links to a few other public gateways to form one public mesh, even across home networks.<div class="note">Planned: card KB-1665 (Ready on the task board) and its written design. Every mesh gateway needs a Cloudflare tunnel.</div></td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Private gateway meshes (request + approve)</td><td>Keep a gateway private, name it, ask to link to another private gateway; its owner approves and the two form a private mesh.<div class="note">Planned: card KB-1665 (Ready on the task board) and its written design. Replaces fleet files.</div></td><td><span class="pill plan">Planned</span></td></tr>
 <tr><td>Roles and groups on your gateway</td><td>Edit roles and groups from the control screen.<div class="note">Screen works, and the gateway owner can now also give or take away single permissions for one person from the Users screen. Not yet enforced everywhere.</div></td><td><span class="pill part">Partly</span></td></tr>
