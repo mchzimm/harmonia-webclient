@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-25T19:45:45Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-25T20:01:17Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-25T19:45:45Z";
+const UPDATED = "2026-11-25T20:01:17Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -105,8 +105,9 @@ const NODES = [
  {id:"history",label:"History pull between gateways",cat:"core",status:"done",cards:["KB-1739","KB-1771"],summary:"A gateway answers history requests only from verified members.",update:"Done; follow-ups are under data safety and gates.",eta_utc:null},
  {id:"presence",label:"Presence over the mesh",cat:"core",status:"done",cards:["KB-1723"],summary:"Signed presence passes between gateways, replacing the old shared roster lookup.",update:"Merged; not yet switched on live (mesh off).",eta_utc:null},
  {id:"g1873",label:"Gossip flood limit",cat:"core",status:"queued",cards:["KB-1873"],summary:"One gateway could flood presence records; cap them before cutover.",update:"Queued; needs KB-1723.",eta_utc:null},
- {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"done",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"done: clean start, 0 warnings",eta_utc:null},
- {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"done",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"done: clean start, 0 warnings",eta_utc:null},
+ {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"wip",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"reopened: an error still appears about 20 min after start; fix tracked in KB-1933",eta_utc:"2026-11-25T21:30:00Z"},
+ {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"wip",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"reopened: an error still appears about 20 min after start; fix tracked in KB-1933",eta_utc:"2026-11-25T21:30:00Z"},
+ {id:"k1933",label:"Memory server start-up error (KB-1933)",cat:"core",status:"wip",cards:["KB-1933"],summary:"A start-up error from the memory server appears about 20 min after each gateway start",update:"diagnosis running",eta_utc:"2026-11-25T21:30:00Z"},
  {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"wip",cards:["KB-1857"],summary:"Signed checks use the presence verify function.",update:"Design done and reviewed; building gateway id + key pin first, person-to-gateway binding second.",eta_utc:"2026-11-26T04:00:00Z"},
  {id:"route",label:"Send/route without old roster",cat:"core",status:"wip",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"wave 1 live: mesh mode no longer uses the old shared lookup; wave 2 next",eta_utc:"2026-11-26T04:00Z"},
  {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"blocked",cards:["KB-1855","KB-1699","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"KB-1855: needs KB-1723, then KB-1699, plus KB-1853 and a tunnel tool on the second host.",eta_utc:null},
@@ -165,7 +166,7 @@ const NODES = [
 const EDGES = [
  ["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
- ["presence","route"],["route","r2b"],["carrier","t5"],["t5","k1917"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
+ ["presence","route"],["route","r2b"],["carrier","t5"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
