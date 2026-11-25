@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-25T22:08:54Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-25T23:15:36Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-25T22:08:54Z";
+const UPDATED = "2026-11-25T23:15:36Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -153,7 +153,7 @@ const NODES = [
  {id:"g1803",label:"Link limits sizing",cat:"gates",status:"queued",cards:["KB-1803"],summary:"Size gateway-to-gateway limits against real traffic.",update:"Queued.",eta_utc:null},
  {id:"g1805",label:"Replay cache limits",cat:"gates",status:"wip",cards:["KB-1805"],summary:"Security class: fresh identities can fill the history replay cache.",update:"Security fix designed; a few checks run first, building after the KB-1699 merge.",eta_utc:"2026-11-26T04:00:00Z"},
  {id:"k1927",label:"Presence flood guard (KB-1927)",cat:"gates",status:"queued",cards:["KB-1927"],summary:"Security gate before cutover.",update:"Filed: security gate before cutover; details private until fixed.",eta_utc:""},
- {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"wip",cards:["KB-1929"],summary:"Security gate before cutover.",update:"safety checks passed review; waiting to go live until the MemPalace checks finish",eta_utc:"2026-11-26T02:00:00Z"},
+ {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"wip",cards:["KB-1929"],summary:"Security gate before cutover.",update:"first safety step is live and checked; next step is W2; log cleanup is in progress",eta_utc:"2026-11-26T02:00:00Z"},
  {id:"g1793",label:"Old join key proof",cat:"gates",status:"queued",cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued; needs KB-1783.",eta_utc:null},
  {id:"g1809",label:"Mixed versions",cat:"gates",status:"queued",cards:["KB-1809"],summary:"Every gateway needs the new build before any enters mesh mode.",update:"Queued; runbook line.",eta_utc:null},
  {id:"g1783",label:"Desktop app attach",cat:"gates",status:"queued",cards:["KB-1783"],summary:"Desktop and non-gateway servers must still attach to gateways.",update:"Queued; waits on peer work, KB-1789 and KB-1791.",eta_utc:null},
