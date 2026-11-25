@@ -4,7 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Harmonia</title>
-    <link rel="stylesheet" href="/harmonia-webclient/style-7879270cfb3a2656.css" integrity="sha384-ZTKSbGsDkn2jk24NUOUgIHzoekolbdZHQz1Dpo8sUGoGiDvPSij8PPluC8F8BcAH"/>
+    
+<script type="module">
+import init, * as bindings from '/harmonia-webclient/harmonia-ui-5907a60c54edb48a.js';
+const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-5907a60c54edb48a_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+    <!-- KB-1811: onboarding blockie preview derive runs in this Web Worker (off the main thread). -->
+    
+    <link rel="stylesheet" href="/harmonia-webclient/style-42b29b9208688e7c.css" integrity="sha384-VIxUFYuhWLad4WQ9vX1UZvRNRKDfwRm3Xny8WiOhus9d2KBKv4kat435GptnFWBD"/>
     <!-- KB-295: brand header image, copied verbatim into the bundle by
          trunk's asset-copy directive; referenced by the header component
          via `/harmonia-header-1.jpg` at runtime. -->
@@ -22,17 +36,6 @@
         }
       })();
     </script>
-  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-846ac6851f98d9c8.js" crossorigin="anonymous" integrity="sha384-eLkS3rD5nMELaPmfg94su3LTRaBgG55gywGBS7TNAXLa43BGo+Ib4rSjDQlYODV7"><link rel="preload" href="/harmonia-webclient/harmonia-ui-846ac6851f98d9c8_bg.wasm" crossorigin="anonymous" integrity="sha384-1ypIfqDqz91T9DMkde12vSO2Q5yrwRpIwwHJKAavPu3UY6antiRhjb9KJxEwjfvS" as="fetch" type="application/wasm"></head>
-  <body>
-<script type="module">
-import init, * as bindings from '/harmonia-webclient/harmonia-ui-846ac6851f98d9c8.js';
-const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-846ac6851f98d9c8_bg.wasm' });
-
-
-window.wasmBindings = bindings;
-
-
-dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
-
-</script></body>
+  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-5907a60c54edb48a.js" crossorigin="anonymous" integrity="sha384-smU9TGzqyRq30XUB9cVmQNa3ddUSky8DqB/9uV5UTkVHBd/23OamTTLsrAUyZ+AI"><link rel="preload" href="/harmonia-webclient/harmonia-ui-5907a60c54edb48a_bg.wasm" crossorigin="anonymous" integrity="sha384-duZcQjSfyDach+fTkFr0+kqAVizsKlzFc0TTubtrJjfBcYZZQZT6Ct94uzmhmSan" as="fetch" type="application/wasm"></head>
+  <body></body>
 </html>
