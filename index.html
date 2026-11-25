@@ -6,8 +6,8 @@
     <title>Harmonia</title>
     
 <script type="module">
-import init, * as bindings from '/harmonia-webclient/harmonia-ui-5907a60c54edb48a.js';
-const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-5907a60c54edb48a_bg.wasm' });
+import init, * as bindings from '/harmonia-webclient/harmonia-ui-4453147941fe6557.js';
+const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-4453147941fe6557_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -18,7 +18,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 </script>
     <!-- KB-1811: onboarding blockie preview derive runs in this Web Worker (off the main thread). -->
     
-    <link rel="stylesheet" href="/harmonia-webclient/style-42b29b9208688e7c.css" integrity="sha384-VIxUFYuhWLad4WQ9vX1UZvRNRKDfwRm3Xny8WiOhus9d2KBKv4kat435GptnFWBD"/>
+    <link rel="stylesheet" href="/harmonia-webclient/style-9ad73f480f18a03f.css" integrity="sha384-6qTDqB6paPDO/rs0Xczd7qcxOMIXWZ3b5rTeTM6cE019ksghVhR+dtc5ahcjJvut"/>
     <!-- KB-295: brand header image, copied verbatim into the bundle by
          trunk's asset-copy directive; referenced by the header component
          via `/harmonia-header-1.jpg` at runtime. -->
@@ -36,6 +36,6 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         }
       })();
     </script>
-  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-5907a60c54edb48a.js" crossorigin="anonymous" integrity="sha384-smU9TGzqyRq30XUB9cVmQNa3ddUSky8DqB/9uV5UTkVHBd/23OamTTLsrAUyZ+AI"><link rel="preload" href="/harmonia-webclient/harmonia-ui-5907a60c54edb48a_bg.wasm" crossorigin="anonymous" integrity="sha384-duZcQjSfyDach+fTkFr0+kqAVizsKlzFc0TTubtrJjfBcYZZQZT6Ct94uzmhmSan" as="fetch" type="application/wasm"></head>
+  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-4453147941fe6557.js" crossorigin="anonymous" integrity="sha384-EQY3i/5RQqyZj4g6l8ui4a/1he+AwfzL3d27vQua3eriv4QSBO5CCNpk822pNOca"><link rel="preload" href="/harmonia-webclient/harmonia-ui-4453147941fe6557_bg.wasm" crossorigin="anonymous" integrity="sha384-AzZa13kUpFyjh6TFX89O4qCfkMAJtiSX6CQ/P828f+esShra3rtjNYOSZeBVsHDU" as="fetch" type="application/wasm"></head>
   <body></body>
 </html>
