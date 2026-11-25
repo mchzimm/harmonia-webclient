@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-25T14:14:00Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-25T14:59:00Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-25T14:14:00Z";
+const UPDATED = "2026-11-25T14:59:00Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -98,14 +98,15 @@ const NODES = [
  {id:"tooling",label:"Fleet import + rollback",cat:"life",status:"done",cards:["KB-1763","KB-1765"],summary:"A tool copies fleet gateways into a mesh. A rollback drill went back to the fleet.",update:"Both Done on a scratch rig.",eta_utc:null},
 
  {id:"ids",label:"Mesh ids + link cap (R0)",cat:"core",status:"done",cards:["KB-1665"],summary:"Ids like name.xxx-xxx. Link cap of 3 picked by simulation.",update:"R0.1 done. R0.2 done: pick not locked; rerun at the R4 gate.",eta_utc:null},
- {id:"carrier",label:"Tunnel carrier (R2a)",cat:"core",status:"wip",cards:["KB-1665","KB-1853"],summary:"Gateways talk over tunnel websockets, not raw sockets.",update:"Merged T0 to T4. Exit metric test missing: KB-1853, queued.",eta_utc:null},
+ {id:"carrier",label:"Tunnel carrier (R2a)",cat:"core",status:"wip",cards:["KB-1665","KB-1853"],summary:"Gateways talk over tunnel websockets, not raw sockets.",update:"Merged T0 to T4. Exit metric test done (KB-1853); link checks queued (KB-1917).",eta_utc:null},
  {id:"guard",label:"Mesh-only dial guard",cat:"core",status:"done",cards:["KB-1695","KB-1697","KB-1707"],summary:"In mesh mode a gateway dials only known mesh peers.",update:"Merged and deployed 2026-11-24.",eta_utc:null},
  {id:"peering",label:"Join, liveness, re-peer",cat:"core",status:"done",cards:["KB-1709","KB-1717","KB-1719"],summary:"Seed join with retry, per-carrier timings, re-peer after a lost link.",update:"All Done.",eta_utc:null},
  {id:"trust",label:"Trust guards (R3.2-R3.5)",cat:"core",status:"done",cards:["KB-1703","KB-1739","KB-1741","KB-1743","KB-1745","KB-1771"],summary:"Signed history requests, link rate limits, scoped announcements.",update:"R3.2 to R3.5 Done. R3.1 is queued as KB-1857.",eta_utc:null},
  {id:"history",label:"History pull between gateways",cat:"core",status:"done",cards:["KB-1739","KB-1771"],summary:"A gateway answers history requests only from verified members.",update:"Done; follow-ups are under data safety and gates.",eta_utc:null},
  {id:"presence",label:"Presence over the mesh",cat:"core",status:"done",cards:["KB-1723"],summary:"Signed presence passes between gateways, replacing the old shared roster lookup.",update:"Merged; not yet switched on live (mesh off).",eta_utc:null},
  {id:"g1873",label:"Gossip flood limit",cat:"core",status:"queued",cards:["KB-1873"],summary:"One gateway could flood presence records; cap them before cutover.",update:"Queued; needs KB-1723.",eta_utc:null},
- {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"queued",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"Queued.",eta_utc:null},
+ {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"done",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"Two gateways talk only over the websocket link: 100 of 100 messages each way, none lost",eta_utc:null},
+ {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"queued",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"Remaining link checks: test counts, old path unchanged with the new mode off",eta_utc:"2026-11-25T20:00:00Z"},
  {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"queued",cards:["KB-1857"],summary:"Signed checks use the presence verify function.",update:"Queued; needs KB-1723.",eta_utc:null},
  {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Blocked; key source is KB-1723.",eta_utc:null},
  {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"blocked",cards:["KB-1855","KB-1699","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"KB-1855: needs KB-1723, then KB-1699, plus KB-1853 and a tunnel tool on the second host.",eta_utc:null},
@@ -120,7 +121,7 @@ const NODES = [
  {id:"d1851",label:"Read check on deleted channels",cat:"safe",status:"wip",cards:["KB-1851"],summary:"Security class: leftover messages of a deleted channel need a membership check.",update:"Not clean: 5 warnings since restart, all host CPU stalls; cause is KB-1903.",eta_utc:null},
  {id:"d1871",label:"Channel list privacy fix",cat:"safe",status:"done",cards:["KB-1871"],summary:"Each user's channel list must contain only their own channels.",update:"Channel list now per caller; live on all gateways.",eta_utc:null},
  {id:"d1877",label:"Memory store overload",cat:"safe",status:"done",cards:["KB-1877"],summary:"Storage server too slow under gateway load; blocks clean starts.",update:"Test pings no longer stored; memory store unblocked.",eta_utc:null},
- {id:"d1903",label:"Warning counted per browser",cat:"safe",status:"wip",cards:["KB-1903"],summary:"A connection warning counts per browser, not per tab; blocks the zero-warnings gate.",update:"Fix being built; ETA ~07:00 PST.",eta_utc:"2026-11-25T15:00:00Z"},
+ {id:"d1903",label:"Warning counted per browser",cat:"safe",status:"wip",cards:["KB-1903"],summary:"A connection warning counts per browser, not per tab; blocks the zero-warnings gate.",update:"Fix is live in v1.0.339; checking that warnings now count per tab",eta_utc:"2026-11-25T17:00:00Z"},
  {id:"d1883",label:"Access check audit (1)",cat:"safe",status:"queued",cards:["KB-1883"],summary:"Security class: access check audit.",update:"Queued; blocks cutover.",eta_utc:null},
  {id:"d1889",label:"Access check audit (2)",cat:"safe",status:"queued",cards:["KB-1889"],summary:"Security class: access check audit across endpoints.",update:"Queued; before cutover.",eta_utc:null},
  {id:"g1897",label:"Test tool: send as test tab",cat:"gates",status:"queued",cards:["KB-1897"],summary:"Agents need a safe way to send as a test tab for live checks.",update:"Queued.",eta_utc:null},
@@ -160,7 +161,7 @@ const NODES = [
 const EDGES = [
  ["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
- ["presence","route"],["route","r2b"],["carrier","t5"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
+ ["presence","route"],["route","r2b"],["carrier","t5"],["t5","k1917"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
