@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-25T18:01:35Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-25T18:16:01Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-25T18:01:35Z";
+const UPDATED = "2026-11-25T18:16:01Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -108,7 +108,7 @@ const NODES = [
  {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"wip",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"Merged and checked; final close waits for a clean-start warning check",eta_utc:null},
  {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"wip",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"Merged and checked; final close waits for a clean-start warning check",eta_utc:"2026-11-26T02:00:00Z"},
  {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"queued",cards:["KB-1857"],summary:"Signed checks use the presence verify function.",update:"Queued; needs KB-1723.",eta_utc:null},
- {id:"route",label:"Send/route without old roster",cat:"core",status:"wip",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Started: mesh finds a person's gateway from signed presence, not the old shared list",eta_utc:"2026-11-25T20:00:00Z"},
+ {id:"route",label:"Send/route without old roster",cat:"core",status:"wip",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Design done; wave 1 building: mesh mode stops reading the old shared list for keys and person lookups. Wave 2 (mesh-native lookup) after KB-1857.",eta_utc:"2026-11-25T22:20:00Z"},
  {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"blocked",cards:["KB-1855","KB-1699","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"KB-1855: needs KB-1723, then KB-1699, plus KB-1853 and a tunnel tool on the second host.",eta_utc:null},
  {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"blocked",cards:["KB-1859"],summary:"Public gateways announce, find each other, cap links at 3.",update:"KB-1859: needs R2b and R3.1.",eta_utc:null},
  {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
@@ -127,7 +127,7 @@ const NODES = [
  {id:"g1897",label:"Test tool: send as test tab",cat:"gates",status:"queued",cards:["KB-1897"],summary:"Agents need a safe way to send as a test tab for live checks.",update:"Queued.",eta_utc:null},
  {id:"g1899",label:"Nicknames follow user",cat:"gates",status:"queued",cards:["KB-1899"],summary:"Nicknames must follow a user to a new gateway.",update:"Queued; blocks cutover.",eta_utc:null},
  {id:"d1869",label:"Row-less write path + boot order (KB-1851 follow-up)",cat:"safe",status:"queued",cards:["KB-1869"],summary:"Follow-up to the read check: the write path for channels with no row, and startup order.",update:"Queued.",eta_utc:null},
- {id:"d1843",label:"DM history kept on rehome",cat:"safe",status:"wip",cards:["KB-1843"],summary:"When a member moves gateways, the new one also pulls from the old one.",update:"Safety check rerunning; checks history hand-off vs non-member filter",eta_utc:"2026-11-26T02:00:00Z"},
+ {id:"d1843",label:"DM history kept on rehome",cat:"safe",status:"wip",cards:["KB-1843"],summary:"When a member moves gateways, the new one also pulls from the old one.",update:"v1 check found an access gap in kept copies; v2 being built (removal changes access only, messages kept until handoff confirmed).",eta_utc:"2026-11-25T21:20:00Z"},
  {id:"k1921",label:"Other delete paths (KB-1921)",cat:"safe",status:"queued",cards:["KB-1921"],summary:"Delete paths that skip the new handoff check.",update:"Other delete paths must use the safe handoff.",eta_utc:null},
  {id:"k1923",label:"Group owner copy (KB-1923)",cat:"safe",status:"queued",cards:["KB-1923"],summary:"Group owner target and resend cost.",update:"Group owner gets a copy; avoid repeated resends.",eta_utc:null},
  {id:"d1907",label:"Kept history copies expire",cat:"safe",status:"queued",cards:["KB-1907"],summary:"Time limit for kept history copies.",update:"Queued; follows KB-1843.",eta_utc:null},
