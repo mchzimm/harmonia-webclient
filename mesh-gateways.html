@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-25T09:57:14Z";
+const UPDATED = "2026-11-25T10:05:29Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -103,7 +103,7 @@ const NODES = [
  {id:"peering",label:"Join, liveness, re-peer",cat:"core",status:"done",cards:["KB-1709","KB-1717","KB-1719"],summary:"Seed join with retry, per-carrier timings, re-peer after a lost link.",update:"All Done.",eta_utc:null},
  {id:"trust",label:"Trust guards (R3.2-R3.5)",cat:"core",status:"done",cards:["KB-1703","KB-1739","KB-1741","KB-1743","KB-1745","KB-1771"],summary:"Signed history requests, link rate limits, scoped announcements.",update:"R3.2 to R3.5 Done. R3.1 is queued as KB-1857.",eta_utc:null},
  {id:"history",label:"History pull between gateways",cat:"core",status:"done",cards:["KB-1739","KB-1771"],summary:"A gateway answers history requests only from verified members.",update:"Done; follow-ups are under data safety and gates.",eta_utc:null},
- {id:"presence",label:"Presence over the mesh",cat:"core",status:"wip",cards:["KB-1723"],summary:"Signed presence passes between gateways, replacing the old shared roster lookup.",update:"W1 started 09:55Z. Build underway.",eta_utc:"2026-11-25T11:35:00Z"},
+ {id:"presence",label:"Presence over the mesh",cat:"core",status:"wip",cards:["KB-1723"],summary:"Signed presence passes between gateways, replacing the old shared roster lookup.",update:"Part 1 (signed presence record + shared check) built; independent check running. Part 2 (routing uses it) next.",eta_utc:"2026-11-25T13:30:00Z"},
  {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"queued",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"Queued.",eta_utc:null},
  {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"queued",cards:["KB-1857"],summary:"Signed checks use the presence verify function.",update:"Queued; needs KB-1723.",eta_utc:null},
  {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Blocked; key source is KB-1723.",eta_utc:null},
@@ -114,7 +114,8 @@ const NODES = [
 
  {id:"d1835",label:"Stray rejects traced",cat:"safe",status:"done",cards:["KB-1835"],summary:"Non-member rejects after a pull fix were traced to a cause.",update:"Done; merged a5c1a042, live read 2026-11-25.",eta_utc:null},
  {id:"d1841",label:"Delete needs owner signature",cat:"safe",status:"done",cards:["KB-1841"],summary:"A stale push can no longer delete a DM copy.",update:"Done; merged a5c1a042.",eta_utc:null},
- {id:"d1837",label:"Stale home after refused update",cat:"safe",status:"wip",cards:["KB-1837"],summary:"A third gateway keeps an old home after it refuses a relayed update.",update:"In progress.",eta_utc:"2026-11-25T11:00:00Z"},
+ {id:"d1837",label:"Stale home after refused update",cat:"safe",status:"done",cards:["KB-1837"],summary:"A third gateway keeps an old home after it refuses a relayed update.",update:"Live: 1 false refusal after a restart, 1 stale; both fixed themselves within 10 min. Small follow-up KB-1867 queued.",eta_utc:null},
+ {id:"d1867",label:"Restart-window refusal trim",cat:"safe",status:"queued",cards:["KB-1867"],summary:"Low priority: trim false refusals right after a gateway restart.",update:"Queued; low priority.",eta_utc:null},
  {id:"d1851",label:"Read check on deleted channels",cat:"safe",status:"wip",cards:["KB-1851"],summary:"Security class: leftover messages of a deleted channel need a membership check.",update:"Implemented; verifier running.",eta_utc:"2026-11-25T11:00:00Z"},
  {id:"d1843",label:"DM history kept on rehome",cat:"safe",status:"queued",cards:["KB-1843"],summary:"When a member moves gateways, the new one also pulls from the old one.",update:"Queued; red repro test exists.",eta_utc:"2026-11-25T14:00:00Z"},
  {id:"d1845",label:"Unowned channel copy claim",cat:"safe",status:"queued",cards:["KB-1845"],summary:"Security class: a copy with no recorded owner can be claimed by a peer.",update:"Queued; probe confirmed.",eta_utc:null},
@@ -151,10 +152,10 @@ const EDGES = [
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
  ["presence","route"],["route","r2b"],["carrier","t5"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
- ["presence","d1837"],["d1837","d1843"],
+ ["presence","d1837"],["d1837","d1843"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
  ["launcher","g1779"],["trust","g1803"],["trust","g1805"],["trust","g1793"],["history","g1809"],["peering","g1783"],
- ["tooling","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
+ ["tooling","ucut"],["r6","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
  ["ucut","udel"],["udel","usoak"]
 ];
 // ===== END DATA =====
