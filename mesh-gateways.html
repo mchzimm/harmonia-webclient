@@ -9,10 +9,11 @@
   color-scheme: dark;
   --bg:#0d1118; --surface:#161c27; --surface2:#1e2634; --line:#34415a;
   --text:#e9edf4; --muted:#a8b3c7; --accent:#7fc8ff; --accent2:#ffd479;
-  --st-done:#3fd07a; --st-wip:#f0b92e; --st-blocked:#ff6b73;
+  --st-done:#3fd07a; --st-wip:#f0b92e; --st-blocked:#ff6b73; --st-queued:#9aa6ba;
   --done-bg:#12351f; --done-fg:#8ef0ad;
   --wip-bg:#3a3010; --wip-fg:#ffd979;
   --block-bg:#45171c; --block-fg:#ffa3a8;
+  --queued-bg:#2a3140; --queued-fg:#c9d2e2;
   --edge:#5d7396; --edge-hi:#7fc8ff;
 }
 *{box-sizing:border-box}
@@ -26,11 +27,12 @@ a{color:var(--accent)}
 .bar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:14px 0}
 .chip{display:inline-flex;align-items:center;gap:7px;font-size:.9rem;color:var(--text)}
 .sw{display:inline-block;width:18px;height:12px;border-radius:4px;border:3px solid var(--line);background:var(--surface2)}
-.sw.done{border-color:var(--st-done)} .sw.wip{border-color:var(--st-wip)} .sw.blocked{border-color:var(--st-blocked)}
+.sw.done{border-color:var(--st-done)} .sw.wip{border-color:var(--st-wip)} .sw.blocked{border-color:var(--st-blocked)} .sw.queued{border-color:var(--st-queued)}
 .pill{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:700;font-size:.82rem;white-space:nowrap}
 .pill.done{background:var(--done-bg);color:var(--done-fg)}
 .pill.wip{background:var(--wip-bg);color:var(--wip-fg)}
 .pill.blocked{background:var(--block-bg);color:var(--block-fg)}
+.pill.queued{background:var(--queued-bg);color:var(--queued-fg)}
 #diagram{position:relative;margin:16px 0}
 #edges{position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
 #edges path{fill:none;stroke:var(--edge);stroke-width:1.5;opacity:.5}
@@ -41,7 +43,7 @@ a{color:var(--accent)}
 .cat h2{font-size:1rem;margin:0 0 10px;color:var(--accent2)}
 .cat .nodes{display:flex;flex-wrap:wrap;gap:12px 10px}
 .node{position:relative;z-index:2;background:var(--surface2);color:var(--text);border:3px solid var(--line);border-radius:9px;padding:6px 10px;font-size:.85rem;line-height:1.3;cursor:pointer;max-width:100%;text-align:left;font-family:inherit}
-.node.done{border-color:var(--st-done)} .node.wip{border-color:var(--st-wip)} .node.blocked{border-color:var(--st-blocked)}
+.node.done{border-color:var(--st-done)} .node.wip{border-color:var(--st-wip)} .node.blocked{border-color:var(--st-blocked)} .node.queued{border-color:var(--st-queued)}
 .node:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .node.sel{background:#2a3548}
 #tip{position:fixed;z-index:10;display:none;width:min(360px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:12px 14px;box-shadow:0 8px 28px rgba(0,0,0,.6);font-size:.9rem;line-height:1.45}
@@ -61,10 +63,11 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-25T09:44:36Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-25T09:57:14Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
+<span class="chip"><span class="sw queued"></span>Queued, not started <b id="c-queued">0</b></span>
 <span class="chip"><span class="sw blocked"></span>Blocked <b id="c-blocked">0</b></span>
 <span class="chip" id="c-total"></span>
 </div>
@@ -76,8 +79,8 @@ a{color:var(--accent)}
 </main>
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
-// ===== DATA: edit here. status: done|wip|blocked. q:true = queued, not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-25T09:44:36Z";
+// ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
+const UPDATED = "2026-11-25T09:57:14Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -94,49 +97,51 @@ const NODES = [
  {id:"ident",label:"Identity + launcher env",cat:"life",status:"done",cards:["KB-1777","KB-1785","KB-1787"],summary:"A new mesh gateway makes its own identity at first start.",update:"All three cards Done.",eta_utc:null},
  {id:"tooling",label:"Fleet import + rollback",cat:"life",status:"done",cards:["KB-1763","KB-1765"],summary:"A tool copies fleet gateways into a mesh. A rollback drill went back to the fleet.",update:"Both Done on a scratch rig.",eta_utc:null},
 
- {id:"ids",label:"Mesh ids + link cap (R0)",cat:"core",status:"done",cards:["KB-1665"],summary:"Ids like name.xxx-xxx. Link cap of 3 picked by simulation.",update:"R0.2 passed the plan gate: boot join 100%, split 0%.",eta_utc:null},
- {id:"carrier",label:"Tunnel carrier (R2a)",cat:"core",status:"done",cards:["KB-1665"],summary:"Gateways talk over tunnel websockets, not raw sockets.",update:"Merged and deployed 2026-11-24.",eta_utc:null},
+ {id:"ids",label:"Mesh ids + link cap (R0)",cat:"core",status:"done",cards:["KB-1665"],summary:"Ids like name.xxx-xxx. Link cap of 3 picked by simulation.",update:"R0.1 done. R0.2 done: pick not locked; rerun at the R4 gate.",eta_utc:null},
+ {id:"carrier",label:"Tunnel carrier (R2a)",cat:"core",status:"wip",cards:["KB-1665","KB-1853"],summary:"Gateways talk over tunnel websockets, not raw sockets.",update:"Merged T0 to T4. Exit metric test missing: KB-1853, queued.",eta_utc:null},
  {id:"guard",label:"Mesh-only dial guard",cat:"core",status:"done",cards:["KB-1695","KB-1697","KB-1707"],summary:"In mesh mode a gateway dials only known mesh peers.",update:"Merged and deployed 2026-11-24.",eta_utc:null},
  {id:"peering",label:"Join, liveness, re-peer",cat:"core",status:"done",cards:["KB-1709","KB-1717","KB-1719"],summary:"Seed join with retry, per-carrier timings, re-peer after a lost link.",update:"All Done.",eta_utc:null},
- {id:"trust",label:"Trust guards (R3)",cat:"core",status:"done",cards:["KB-1703","KB-1739","KB-1741","KB-1743","KB-1745","KB-1771"],summary:"Signed history requests, link rate limits, scoped announcements.",update:"All R3 cards Done.",eta_utc:null},
+ {id:"trust",label:"Trust guards (R3.2-R3.5)",cat:"core",status:"done",cards:["KB-1703","KB-1739","KB-1741","KB-1743","KB-1745","KB-1771"],summary:"Signed history requests, link rate limits, scoped announcements.",update:"R3.2 to R3.5 Done. R3.1 is queued as KB-1857.",eta_utc:null},
  {id:"history",label:"History pull between gateways",cat:"core",status:"done",cards:["KB-1739","KB-1771"],summary:"A gateway answers history requests only from verified members.",update:"Done; follow-ups are under data safety and gates.",eta_utc:null},
- {id:"presence",label:"Presence over the mesh",cat:"core",status:"wip",q:true,cards:["KB-1723"],summary:"Signed presence passes between gateways, replacing the old shared roster lookup.",update:"Plan written; build queued.",eta_utc:null},
- {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Blocked; waits on KB-1723.",eta_utc:null},
- {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"blocked",cards:["KB-1665","KB-1699","KB-1723"],summary:"Two real networks join through tunnels.",update:"Waits on KB-1699 and KB-1723.",eta_utc:null},
- {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"blocked",cards:["KB-1665"],summary:"Public gateways announce, find each other, cap links at 3.",update:"Not started, no card yet; follows R2b.",eta_utc:null},
- {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1665"],summary:"Ask a private gateway to link; the target approves.",update:"Not started, no card yet; follows R4.",eta_utc:null},
- {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1665"],summary:"Webclients find gateways and pin the id they trust.",update:"Not started, no card yet; follows R5.",eta_utc:null},
+ {id:"presence",label:"Presence over the mesh",cat:"core",status:"wip",cards:["KB-1723"],summary:"Signed presence passes between gateways, replacing the old shared roster lookup.",update:"W1 started 09:55Z. Build underway.",eta_utc:"2026-11-25T11:35:00Z"},
+ {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"queued",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"Queued.",eta_utc:null},
+ {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"queued",cards:["KB-1857"],summary:"Signed checks use the presence verify function.",update:"Queued; needs KB-1723.",eta_utc:null},
+ {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Blocked; key source is KB-1723.",eta_utc:null},
+ {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"blocked",cards:["KB-1855","KB-1699","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"KB-1855: needs KB-1723, then KB-1699, plus KB-1853 and a tunnel tool on the second host.",eta_utc:null},
+ {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"blocked",cards:["KB-1859"],summary:"Public gateways announce, find each other, cap links at 3.",update:"KB-1859: needs R2b and R3.1.",eta_utc:null},
+ {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
+ {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1863"],summary:"Webclients find gateways and pin the id they trust.",update:"KB-1863: needs R3.1 and R4.",eta_utc:null},
 
  {id:"d1835",label:"Stray rejects traced",cat:"safe",status:"done",cards:["KB-1835"],summary:"Non-member rejects after a pull fix were traced to a cause.",update:"Done; merged a5c1a042, live read 2026-11-25.",eta_utc:null},
  {id:"d1841",label:"Delete needs owner signature",cat:"safe",status:"done",cards:["KB-1841"],summary:"A stale push can no longer delete a DM copy.",update:"Done; merged a5c1a042.",eta_utc:null},
  {id:"d1837",label:"Stale home after refused update",cat:"safe",status:"wip",cards:["KB-1837"],summary:"A third gateway keeps an old home after it refuses a relayed update.",update:"In progress.",eta_utc:"2026-11-25T11:00:00Z"},
  {id:"d1851",label:"Read check on deleted channels",cat:"safe",status:"wip",cards:["KB-1851"],summary:"Security class: leftover messages of a deleted channel need a membership check.",update:"Implemented; verifier running.",eta_utc:"2026-11-25T11:00:00Z"},
- {id:"d1843",label:"DM history kept on rehome",cat:"safe",status:"wip",cards:["KB-1843"],summary:"When a member moves gateways, the new one also pulls from the old one.",update:"In progress; red repro test exists.",eta_utc:"2026-11-25T14:00:00Z"},
- {id:"d1845",label:"Unowned channel copy claim",cat:"safe",status:"wip",q:true,cards:["KB-1845"],summary:"Security class: a copy with no recorded owner can be claimed by a peer.",update:"Queued; probe confirmed.",eta_utc:null},
- {id:"d1847",label:"Non-owner member removal",cat:"safe",status:"wip",q:true,cards:["KB-1847"],summary:"Check whether policy lets a non-owner remove a member.",update:"Queued; verify first.",eta_utc:null},
- {id:"d1849",label:"Old signed roster replay",cat:"safe",status:"wip",q:true,cards:["KB-1849"],summary:"Security class: an old signed roster can be replayed. Needs a freshness check.",update:"Queued.",eta_utc:null},
- {id:"d1831",label:"Partial history served as whole",cat:"safe",status:"wip",q:true,cards:["KB-1831"],summary:"While a gateway still loads, it may answer with partial history.",update:"Queued; read-only check first.",eta_utc:null},
- {id:"d1795",label:"DM history split across gateways",cat:"safe",status:"wip",cards:["KB-1795"],summary:"Two gateways hold different DM history; a failing-over tab sees a different past.",update:"In design.",eta_utc:null},
+ {id:"d1843",label:"DM history kept on rehome",cat:"safe",status:"queued",cards:["KB-1843"],summary:"When a member moves gateways, the new one also pulls from the old one.",update:"Queued; red repro test exists.",eta_utc:"2026-11-25T14:00:00Z"},
+ {id:"d1845",label:"Unowned channel copy claim",cat:"safe",status:"queued",cards:["KB-1845"],summary:"Security class: a copy with no recorded owner can be claimed by a peer.",update:"Queued; probe confirmed.",eta_utc:null},
+ {id:"d1847",label:"Non-owner member removal",cat:"safe",status:"queued",cards:["KB-1847"],summary:"Check whether policy lets a non-owner remove a member.",update:"Queued; verify first.",eta_utc:null},
+ {id:"d1849",label:"Old signed roster replay",cat:"safe",status:"queued",cards:["KB-1849"],summary:"Security class: an old signed roster can be replayed. Needs a freshness check.",update:"Queued.",eta_utc:null},
+ {id:"d1831",label:"Partial history served as whole",cat:"safe",status:"queued",cards:["KB-1831"],summary:"While a gateway still loads, it may answer with partial history.",update:"Queued; read-only check first.",eta_utc:null},
+ {id:"d1795",label:"DM history split across gateways",cat:"safe",status:"queued",cards:["KB-1795"],summary:"Two gateways hold different DM history; a failing-over tab sees a different past.",update:"Queued; design first.",eta_utc:null},
 
- {id:"b1747",label:"Bindings + whitelists",cat:"r7",status:"blocked",cards:["KB-1747"],summary:"Per-mesh user bindings and whitelists.",update:"Needs R4 and R5.",eta_utc:null},
- {id:"b1749",label:"Push claim, once only",cat:"r7",status:"blocked",cards:["KB-1749"],summary:"Only one gateway sends each push notice.",update:"Needs R4 and R5.",eta_utc:null},
- {id:"b1751",label:"e2e-mcp local ports",cat:"r7",status:"blocked",cards:["KB-1751"],summary:"Test tooling reads local mesh ports from a file.",update:"Needs R4 and R5.",eta_utc:null},
- {id:"b1753",label:"Entity users, fixed port",cat:"r7",status:"blocked",cards:["KB-1753"],summary:"Entity users sit on a stable local private gateway.",update:"Needs R4 and R5.",eta_utc:null},
- {id:"b1755",label:"Drain + failover",cat:"r7",status:"blocked",cards:["KB-1755"],summary:"Steer tabs from mesh link health across hosts.",update:"Needs R4 and R5.",eta_utc:null},
- {id:"b1757",label:"TUI + admin",cat:"r7",status:"blocked",cards:["KB-1757"],summary:"Gateway screen and admin tools without a fleet file.",update:"R7 round; follows R4 and R5.",eta_utc:null},
- {id:"b1759",label:"Private gateway hiding",cat:"r7",status:"blocked",cards:["KB-1759"],summary:"Private gateways stay out of public listings.",update:"R7 round; follows R4 and R5.",eta_utc:null},
- {id:"b1761",label:"Tunnel config discovery",cat:"r7",status:"blocked",cards:["KB-1761","KB-1669"],summary:"Agent clients find any gateway from the tunnel index.",update:"R7 round; follows R4 and R5.",eta_utc:null},
+ {id:"b1747",label:"Bindings + whitelists",cat:"r7",status:"blocked",cards:["KB-1747"],summary:"Per-mesh user bindings and whitelists.",update:"Blocked; needs R4 and R5.",eta_utc:null},
+ {id:"b1749",label:"Push claim, once only",cat:"r7",status:"blocked",cards:["KB-1749"],summary:"Only one gateway sends each push notice.",update:"Blocked; needs R4 and R5.",eta_utc:null},
+ {id:"b1751",label:"e2e-mcp local ports",cat:"r7",status:"blocked",cards:["KB-1751"],summary:"Test tooling reads local mesh ports from a file.",update:"Blocked; needs R4 and R5.",eta_utc:null},
+ {id:"b1753",label:"Entity users, fixed port",cat:"r7",status:"blocked",cards:["KB-1753"],summary:"Entity users sit on a stable local private gateway.",update:"Blocked; needs R4 and R5.",eta_utc:null},
+ {id:"b1755",label:"Drain + failover",cat:"r7",status:"blocked",cards:["KB-1755"],summary:"Steer tabs from mesh link health across hosts.",update:"Blocked; needs R4 and R5.",eta_utc:null},
+ {id:"b1757",label:"TUI + admin",cat:"r7",status:"blocked",cards:["KB-1757"],summary:"Gateway screen and admin tools without a fleet file.",update:"Blocked; needs R4 and R5.",eta_utc:null},
+ {id:"b1759",label:"Private gateway hiding",cat:"r7",status:"blocked",cards:["KB-1759"],summary:"Private gateways stay out of public listings.",update:"Blocked; needs R5.",eta_utc:null},
+ {id:"b1761",label:"Tunnel config discovery",cat:"r7",status:"blocked",cards:["KB-1761","KB-1669"],summary:"Agent clients find any gateway from the tunnel index.",update:"Card names no dependency, but the plan puts R7 after R4 and R5.",eta_utc:null},
  {id:"b1781",label:"Load steering decision",cat:"r7",status:"done",cards:["KB-1781"],summary:"Load steering is dropped in mesh mode until R7.",update:"Decided 2026-11-25; Done.",eta_utc:null},
- {id:"b1693",label:"Fleet-to-mesh hygiene",cat:"r7",status:"wip",q:true,cards:["KB-1693"],summary:"Docs and readback steps stop naming only fleet slot files.",update:"Queued.",eta_utc:null},
+ {id:"b1693",label:"Fleet-to-mesh hygiene",cat:"r7",status:"queued",cards:["KB-1693"],summary:"Docs and readback steps stop naming only fleet slot files.",update:"Queued.",eta_utc:null},
 
- {id:"g1779",label:"Auth-on drill",cat:"gates",status:"wip",q:true,cards:["KB-1779"],summary:"Run a scratch mesh with auth on; live launcher has it off.",update:"Queued.",eta_utc:null},
- {id:"g1803",label:"Link limits sizing",cat:"gates",status:"wip",q:true,cards:["KB-1803"],summary:"Size gateway-to-gateway limits against real traffic.",update:"Queued.",eta_utc:null},
- {id:"g1805",label:"Replay cache limits",cat:"gates",status:"wip",q:true,cards:["KB-1805"],summary:"Security class: fresh identities can fill the history replay cache.",update:"Queued.",eta_utc:null},
- {id:"g1793",label:"Old join key proof",cat:"gates",status:"wip",q:true,cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued.",eta_utc:null},
- {id:"g1809",label:"Mixed versions",cat:"gates",status:"wip",q:true,cards:["KB-1809"],summary:"Every gateway needs the new build before any enters mesh mode.",update:"Queued; runbook line.",eta_utc:null},
- {id:"g1783",label:"Desktop app attach",cat:"gates",status:"blocked",cards:["KB-1783"],summary:"Desktop and non-gateway servers must still attach to gateways.",update:"Waits on peer node.rs work (KB-1789, KB-1791).",eta_utc:null},
+ {id:"g1779",label:"Auth-on drill",cat:"gates",status:"queued",cards:["KB-1779"],summary:"Run a scratch mesh with auth on; live launcher has it off.",update:"Queued.",eta_utc:null},
+ {id:"g1803",label:"Link limits sizing",cat:"gates",status:"queued",cards:["KB-1803"],summary:"Size gateway-to-gateway limits against real traffic.",update:"Queued.",eta_utc:null},
+ {id:"g1805",label:"Replay cache limits",cat:"gates",status:"queued",cards:["KB-1805"],summary:"Security class: fresh identities can fill the history replay cache.",update:"Queued.",eta_utc:null},
+ {id:"g1793",label:"Old join key proof",cat:"gates",status:"queued",cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued; needs KB-1783.",eta_utc:null},
+ {id:"g1809",label:"Mixed versions",cat:"gates",status:"queued",cards:["KB-1809"],summary:"Every gateway needs the new build before any enters mesh mode.",update:"Queued; runbook line.",eta_utc:null},
+ {id:"g1783",label:"Desktop app attach",cat:"gates",status:"queued",cards:["KB-1783"],summary:"Desktop and non-gateway servers must still attach to gateways.",update:"Queued; waits on peer work, KB-1789 and KB-1791.",eta_utc:null},
 
- {id:"ucut",label:"Live cutover (R8)",cat:"user",status:"blocked",cards:["KB-1665"],summary:"Move the live fleet to the mesh.",update:"Waits for user.",eta_utc:null},
+ {id:"ucut",label:"Live cutover (R8)",cat:"user",status:"blocked",cards:["KB-1865"],summary:"Move the live fleet to the mesh.",update:"KB-1865: your go; needs R0 to R7.",eta_utc:null},
  {id:"udel",label:"Delete fleet code",cat:"user",status:"blocked",cards:["KB-1665"],summary:"Remove the old fleet launcher and files.",update:"Waits for user.",eta_utc:null},
  {id:"usoak",label:"7-day soak",cat:"user",status:"blocked",cards:["KB-1665"],summary:"Run the mesh a week before removing rollback.",update:"Waits for user.",eta_utc:null}
 ];
@@ -144,17 +149,17 @@ const NODES = [
 const EDGES = [
  ["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
- ["presence","route"],["route","r2b"],["carrier","r2b"],["r2b","r4"],["r4","r5"],["r5","r6"],["r6","clients","discovery"],
+ ["presence","route"],["route","r2b"],["carrier","t5"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["presence","d1837"],["d1837","d1843"],
- ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["b1747","b1759"],["tunnel","b1761"],["launcher","b1693"],["peering","b1781"],
+ ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
  ["launcher","g1779"],["trust","g1803"],["trust","g1805"],["trust","g1793"],["history","g1809"],["peering","g1783"],
- ["tooling","ucut"],["r6","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
+ ["tooling","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
  ["ucut","udel"],["udel","usoak"]
 ];
 // ===== END DATA =====
 
-const STATUS_LABEL = {done:"Done", wip:"In progress", blocked:"Blocked"};
+const STATUS_LABEL = {done:"Done", wip:"In progress", queued:"Queued, not started", blocked:"Blocked"};
 const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
 
 function fmtLocal(iso, withZone){
@@ -181,7 +186,7 @@ function build(){
     }
     cats.appendChild(box);
   }
-  const cnt = {done:0, wip:0, blocked:0};
+  const cnt = {done:0, wip:0, queued:0, blocked:0};
   NODES.forEach(n => cnt[n.status]++);
   for (const k in cnt) document.getElementById("c-" + k).textContent = cnt[k];
   document.getElementById("c-total").textContent = NODES.length + " parts, " + EDGES.length + " links, " + CATS.length + " groups";
@@ -228,7 +233,7 @@ function showTip(el){
     const past = new Date(n.eta_utc).getTime() < Date.now();
     eta = esc(fmtLocal(n.eta_utc, true)) + (past ? " (passed)" : "") + '<span class="k">' + esc(n.eta_utc) + '</span>';
   } else eta = "not scheduled";
-  const stateLabel = STATUS_LABEL[n.status] + (n.q ? " (queued, not started)" : "");
+  const stateLabel = STATUS_LABEL[n.status];
   tip.innerHTML = '<h3>' + esc(n.label) + '</h3>' +
     '<div class="row"><span class="pill ' + n.status + '">' + esc(stateLabel) + '</span></div>' +
     '<div class="row"><span class="k">Cards</span>' + (n.cards.length ? n.cards.map(c => '<code>' + esc(c) + '</code>').join(" ") : "none") + '</div>' +
