@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-26T13:38:49Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-26T13:48:08Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -146,7 +146,7 @@ const NODES = [
  {id:"d1981",label:"Discovery publish warning (KB-1981)",cat:"safe",status:"done",cards:["KB-1981"],summary:"A discovery publish warning shows in some gateway start windows.",update:"Done; live in v1.0.343 start. Zero start warnings on all four gateways.",eta_utc:null},
  {id:"d1989",label:"DM history pull repeats (KB-1989)",cat:"safe",status:"wip",cards:["KB-1989"],summary:"The DM history pull repeats every cycle with the same reply.",update:"Cause of the repeated DM history pull still open; not fixed by the v1.0.343 batch.",eta_utc:null},
  {id:"k2015",label:"Tunnel start retry (KB-2015)",cat:"gates",status:"queued",cards:["KB-2015"],summary:"A gateway start can show a tunnel warning on the first try.",update:"First start of one gateway had 2 tunnel warnings; relaunch was clean. Retry with backoff not built yet.",eta_utc:null},
- {id:"k2009",label:"Memory store recovery lag (KB-2009)",cat:"safe",status:"wip",cards:["KB-2009","KB-1963"],summary:"After a memory store outage the gateway waits too long before retrying.",update:"Fix checked and passes; not merged yet, merge at the next restart.",eta_utc:null},
+ {id:"k2009",label:"Memory store recovery lag (KB-2009)",cat:"safe",status:"wip",cards:["KB-2009","KB-1963"],summary:"After a memory store outage the gateway waits too long before retrying.",update:"merged aad2c125; live restart 13:46Z, grade pending",eta_utc:"2026-11-26T14:20:00Z"},
  {id:"k2011",label:"Memory store outages (KB-2011)",cat:"safe",status:"wip",cards:["KB-2011"],summary:"The memory store goes down about twice an hour.",update:"With the store owner.",eta_utc:null},
  {id:"k2017",label:"Live observability (KB-2017)",cat:"gates",status:"queued",cards:["KB-2017"],summary:"More live counters for the v1.0.343 checks.",update:"Queued.",eta_utc:null},
 
