@@ -6,8 +6,8 @@
     <title>Harmonia</title>
     
 <script type="module">
-import init, * as bindings from '/harmonia-webclient/harmonia-ui-c7851f181c77a7d2.js';
-const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-c7851f181c77a7d2_bg.wasm' });
+import init, * as bindings from '/harmonia-webclient/harmonia-ui-c1e70bfbd911383a.js';
+const wasm = await init({ module_or_path: '/harmonia-webclient/harmonia-ui-c1e70bfbd911383a_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -36,6 +36,6 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         }
       })();
     </script>
-  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-c7851f181c77a7d2.js" crossorigin="anonymous" integrity="sha384-Wt/Mc+FcU5ZkKi3IazViwBVxSaPagzAaXPV6AKwC7HaNBIPfsli94iPMLZQH4qxX"><link rel="preload" href="/harmonia-webclient/harmonia-ui-c7851f181c77a7d2_bg.wasm" crossorigin="anonymous" integrity="sha384-+fnXuOOwNnPu7v1HjWhyxH3xgZLdqygTECNQCkgFPlSUCobcJDrKRczrMk9ygqgM" as="fetch" type="application/wasm"></head>
+  <link rel="modulepreload" href="/harmonia-webclient/harmonia-ui-c1e70bfbd911383a.js" crossorigin="anonymous" integrity="sha384-fPlvog1SRCCXeDbAR0VRw0hV38BPiGnSesdK9Vg/8Fqn3WHdkmvW3ukjLJrgHiGw"><link rel="preload" href="/harmonia-webclient/harmonia-ui-c1e70bfbd911383a_bg.wasm" crossorigin="anonymous" integrity="sha384-xphaxxp0WXCO3uz5VVCfd78GXxw2lFrXpEss42RUE2tx35oQjYYSnNSgNX+kz9DN" as="fetch" type="application/wasm"></head>
   <body></body>
 </html>
