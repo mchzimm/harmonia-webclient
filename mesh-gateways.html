@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T20:40:12Z";
+const UPDATED = "2026-11-26T20:42:09Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -182,7 +182,7 @@ const NODES = [
 ];
 // [from, to, label?]
 const EDGES = [
- ["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
+ ["r31","park"],["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
  ["presence","route"],["route","r2b"],["carrier","t5"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
