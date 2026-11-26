@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-26T02:26:21Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-26T04:21:51Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T02:26:21Z";
+const UPDATED = "2026-11-26T04:21:51Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -122,13 +122,15 @@ const NODES = [
  {id:"d1851",label:"Read check on deleted channels",cat:"safe",status:"wip",cards:["KB-1851"],summary:"Security class: leftover messages of a deleted channel need a membership check.",update:"Not clean: 5 warnings since restart, all host CPU stalls; cause is KB-1903.",eta_utc:null},
  {id:"d1871",label:"Channel list privacy fix",cat:"safe",status:"done",cards:["KB-1871"],summary:"Each user's channel list must contain only their own channels.",update:"Channel list now per caller; live on all gateways.",eta_utc:null},
  {id:"d1877",label:"Memory store overload",cat:"safe",status:"done",cards:["KB-1877"],summary:"Storage server too slow under gateway load; blocks clean starts.",update:"Test pings no longer stored; memory store unblocked.",eta_utc:null},
- {id:"d1903",label:"Warning counted per browser",cat:"safe",status:"queued",cards:["KB-1903"],summary:"A connection warning counts per browser, not per tab; blocks the zero-warnings gate.",update:"Start-warning fixes: 2 verified (announcements, park), 2 in second check, 1 in round 2; merge + restart after KB-1815",eta_utc:null},
+ {id:"d1903",label:"Warning counted per browser",cat:"safe",status:"queued",cards:["KB-1903"],summary:"A connection warning counts per browser, not per tab; blocks the zero-warnings gate.",update:"Start-warning fixes: 2 verified (announcements, park), 2 in second check, 1 in round 2; KB-1815 is live; merge + restart next",eta_utc:null},
  {id:"d1883",label:"Access check audit (1)",cat:"safe",status:"queued",cards:["KB-1883"],summary:"Security class: access check audit.",update:"Queued; blocks cutover.",eta_utc:null},
  {id:"d1889",label:"Access check audit (2)",cat:"safe",status:"queued",cards:["KB-1889"],summary:"Security class: access check audit across endpoints.",update:"Queued; before cutover.",eta_utc:null},
  {id:"g1897",label:"Test tool: send as test tab",cat:"gates",status:"queued",cards:["KB-1897"],summary:"Agents need a safe way to send as a test tab for live checks.",update:"Queued.",eta_utc:null},
  {id:"g1899",label:"Nicknames follow user",cat:"gates",status:"queued",cards:["KB-1899"],summary:"Nicknames must follow a user to a new gateway.",update:"Queued; blocks cutover.",eta_utc:null},
  {id:"d1869",label:"Row-less write path + boot order (KB-1851 follow-up)",cat:"safe",status:"queued",cards:["KB-1869"],summary:"Follow-up to the read check: the write path for channels with no row, and startup order.",update:"Queued.",eta_utc:null},
  {id:"d1843",label:"DM history kept on rehome",cat:"safe",status:"wip",cards:["KB-1843"],summary:"When a member moves gateways, the new one also pulls from the old one.",update:"Fix passed its checks, but a security review found two more ways a removed member could get back in; merge on hold until those are closed.",eta_utc:"2026-11-26T02:00:00Z"},
+ {id:"d1815",label:"Delete own user (KB-1815)",cat:"safe",status:"done",cards:["KB-1815"],summary:"A user can delete their own account; peer gateways get the signed removal.",update:"Live: client v1.0.341, gateway build deployed 2026-11-26 04:18 UTC. Follow-ups KB-1971, KB-1973, KB-1975.",eta_utc:null},
+ {id:"k1971",label:"Routed message inner check (KB-1971)",cat:"safe",status:"queued",cards:["KB-1971"],summary:"Security class: routed messages lack an inner signature check, all payload kinds.",update:"Filed from KB-1815; backlog.",eta_utc:null},
  {id:"k1921",label:"Other delete paths (KB-1921)",cat:"safe",status:"queued",cards:["KB-1921"],summary:"Delete paths that skip the new handoff check.",update:"Other delete paths must use the safe handoff.",eta_utc:null},
  {id:"k1923",label:"Group owner copy (KB-1923)",cat:"safe",status:"queued",cards:["KB-1923"],summary:"Group owner target and resend cost.",update:"Group owner gets a copy; avoid repeated resends.",eta_utc:null},
  {id:"d1907",label:"Kept history copies expire",cat:"safe",status:"queued",cards:["KB-1907"],summary:"Time limit for kept history copies.",update:"Queued; follows KB-1843.",eta_utc:null},
@@ -153,7 +155,7 @@ const NODES = [
  {id:"g1803",label:"Link limits sizing",cat:"gates",status:"queued",cards:["KB-1803"],summary:"Size gateway-to-gateway limits against real traffic.",update:"Queued.",eta_utc:null},
  {id:"g1805",label:"Replay cache limits",cat:"gates",status:"wip",cards:["KB-1805"],summary:"Security class: fresh identities can fill the history replay cache.",update:"Security fix designed; a few checks run first, building after the KB-1699 merge.",eta_utc:"2026-11-26T04:00:00Z"},
  {id:"k1927",label:"Presence flood guard (KB-1927)",cat:"gates",status:"queued",cards:["KB-1927"],summary:"Security gate before cutover.",update:"Filed: security gate before cutover; details private until fixed.",eta_utc:""},
- {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"wip",cards:["KB-1929"],summary:"Security gate before cutover.",update:"W2 round 3: replay gap closed + missing test added; second check running; merge after KB-1815",eta_utc:"2026-11-26T02:00:00Z"},
+ {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"wip",cards:["KB-1929"],summary:"Security gate before cutover.",update:"W2 round 3: replay gap closed + missing test added; second check running; KB-1815 live, merge unblocked",eta_utc:"2026-11-26T02:00:00Z"},
  {id:"g1793",label:"Old join key proof",cat:"gates",status:"queued",cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued; needs KB-1783.",eta_utc:null},
  {id:"g1809",label:"Mixed versions",cat:"gates",status:"queued",cards:["KB-1809"],summary:"Every gateway needs the new build before any enters mesh mode.",update:"Queued; runbook line.",eta_utc:null},
  {id:"g1783",label:"Desktop app attach",cat:"gates",status:"queued",cards:["KB-1783"],summary:"Desktop and non-gateway servers must still attach to gateways.",update:"Queued; waits on peer work, KB-1789 and KB-1791.",eta_utc:null},
@@ -168,7 +170,7 @@ const EDGES = [
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
  ["presence","route"],["route","r2b"],["carrier","t5"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
- ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["d1843","k1923"],["d1837","d1867"],
+ ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["presence","d1815"],["d1815","k1971"],["k1971","ucut"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
  ["launcher","g1779"],["trust","g1803"],["trust","g1805"],["trust","g1793"],["history","g1809"],["peering","g1783"],
  ["tooling","ucut"],["r6","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["k1927","ucut"],["k1929","ucut"],["k1929","d1843"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
