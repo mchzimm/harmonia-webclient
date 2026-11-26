@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-26T19:31:01Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-26T21:00:41Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T20:42:09Z";
+const UPDATED = "2026-11-26T21:00:41Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -108,7 +108,7 @@ const NODES = [
  {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"wip",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"reopened: an error still appears about 20 min after start; fix tracked in KB-1933; ETA unknown, re-planned.",eta_utc:null},
  {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"wip",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"reopened: an error still appears about 20 min after start; fix tracked in KB-1933; ETA unknown, re-planned.",eta_utc:null},
  {id:"k1933",label:"Memory server start-up error (KB-1933)",cat:"core",status:"wip",cards:["KB-1933"],summary:"A start-up error from the memory server appears about 20 min after each gateway start",update:"fix merged and live; 30-minute check did not pass, no clear effect yet; extra logging next; ETA unknown, re-planned.",eta_utc:null},
- {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"wip",cards:["KB-1857","KB-2057","KB-2059","KB-2065"],summary:"Signed checks use the presence verify function.",update:"Wave A + KB-2057/2059 follow-ups merged, restarted 20:06Z; restart grade FAIL: 2 WARN on gw-a (transport reset, cause open, KB-2065). Cards stay In Progress; re-grade at KB-2063 restart. Wave B owed.",eta_utc:null},
+ {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"wip",cards:["KB-1857","KB-2057","KB-2059","KB-2065"],summary:"Signed checks use the presence verify function.",update:"Wave A + KB-2057/2059 follow-ups merged, restarted 20:06Z; restart grade FAIL: 2 WARN on gw-a (transport reset, cause open). KB-2065 merged 6b4ab7c9e: wss tunnel log lines now carry client_tag; the tag takes effect at the next restart. Cards stay In Progress; re-grade at KB-2063 restart. Wave B owed.",eta_utc:null},
  {id:"park",label:"Park table source quotas (KB-2055)",cat:"core",status:"wip",cards:["KB-2055","KB-2063"],summary:"Park quotas keyed on authenticated source.",update:"KB-2055 merged but dormant until KB-2063 (in progress) wires an authenticated source.",eta_utc:null},
  {id:"route",label:"Send/route without old roster",cat:"core",status:"wip",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Wave 2 design scout done (docs/plans/KB-1699-wave2-scout.md); needs KB-1857 pin book first; scope likely reduces to participant->node discovery via pin book, option A pull query recommended",eta_utc:null},
  {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"blocked",cards:["KB-1855","KB-1699","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"KB-1855: needs KB-1723, then KB-1699, plus KB-1853 and a tunnel tool on the second host.",eta_utc:null},
