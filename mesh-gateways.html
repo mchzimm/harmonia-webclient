@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-26T14:41:59Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-26T15:27:48Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T14:41:59Z";
+const UPDATED = "2026-11-26T15:27:48Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -164,6 +164,11 @@ const NODES = [
  {id:"g1779",label:"Auth-on drill",cat:"gates",status:"queued",cards:["KB-1779"],summary:"Run a scratch mesh with auth on; live launcher has it off.",update:"Queued.",eta_utc:null},
  {id:"g1803",label:"Link limits sizing",cat:"gates",status:"queued",cards:["KB-1803"],summary:"Size gateway-to-gateway limits against real traffic.",update:"Queued.",eta_utc:null},
  {id:"g1805",label:"Replay cache limits",cat:"gates",status:"done",cards:["KB-1805"],summary:"Security class: fresh identities can fill the history replay cache.",update:"Done; fresh identities can no longer fill the cache. A member filling it is tracked as KB-2019.",eta_utc:null},
+ {id:"g1947",label:"Gate park store eviction (KB-1947)",cat:"gates",status:"wip",cards:["KB-1947"],summary:"Security class: the gate's park store evicts the busiest signer first and refuses new parks when all are tied.",update:"Merged to main (6c5a5067), falsified by a separate verifier. Live after the next batched restart and a zero-warning grade.",eta_utc:"2026-11-26T16:15:00Z"},
+ {id:"g1949",label:"Parked post flush guard (KB-1949)",cat:"gates",status:"wip",cards:["KB-1949"],summary:"Security class: a parked post is flushed only to its author's host, the one it was parked for.",update:"Merged to main (5c85acde); 11 of 11 stubs went red. Live after the next batched restart and a zero-warning grade.",eta_utc:"2026-11-26T16:15:00Z"},
+ {id:"k2025",label:"Creator proof, first-seen private rows (KB-2025)",cat:"gates",status:"queued",cards:["KB-2025"],summary:"A first-seen private channel row needs proof of its creator.",update:"Queued; design needed.",eta_utc:null},
+ {id:"k2027",label:"Parked post cap and expiry (KB-2027)",cat:"gates",status:"queued",cards:["KB-2027"],summary:"Parked posts need a size cap and a time limit.",update:"Queued.",eta_utc:null},
+ {id:"k2031",label:"Re-flush on non-new rows (KB-2031)",cat:"gates",status:"queued",cards:["KB-2031"],summary:"Parked posts should flush again when a row is not new.",update:"Queued.",eta_utc:null},
  {id:"k1927",label:"Presence flood guard (KB-1927)",cat:"gates",status:"queued",cards:["KB-1927"],summary:"Security gate before cutover.",update:"Filed: security gate before cutover; details private until fixed.",eta_utc:""},
  {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"wip",cards:["KB-1929"],summary:"Security gate before cutover.",update:"Live; start window clean in v1.0.343 (0 warnings). KB-1961 blocked by KB-1983.",eta_utc:null},
  {id:"g1793",label:"Old join key proof",cat:"gates",status:"queued",cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued; needs KB-1783.",eta_utc:null},
@@ -182,8 +187,8 @@ const EDGES = [
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["presence","d1815"],["d1815","k1971"],["k1971","ucut"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
- ["launcher","g1779"],["trust","g1803"],["trust","g1805"],["trust","g1793"],["history","g1809"],["peering","g1783"],
- ["tooling","ucut"],["r6","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["k1927","ucut"],["k1929","ucut"],["k2015","ucut"],["k2017","ucut"],["k2011","k2009"],["k2009","ucut"],["k1929","d1843"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
+ ["launcher","g1779"],["trust","g1803"],["trust","g1805"],["trust","g1947"],["g1947","g1949"],["g1949","k2025"],["g1949","k2027"],["g1949","k2031"],["trust","g1793"],["history","g1809"],["peering","g1783"],
+ ["tooling","ucut"],["r6","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["g1947","ucut"],["g1949","ucut"],["k1927","ucut"],["k1929","ucut"],["k2015","ucut"],["k2017","ucut"],["k2011","k2009"],["k2009","ucut"],["k1929","d1843"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
  ["ucut","udel"],["udel","usoak"]
 ];
 // ===== END DATA =====
