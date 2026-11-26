@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-26T19:00:43Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-26T19:31:01Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T19:00:43Z";
+const UPDATED = "2026-11-26T19:31:01Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -104,7 +104,7 @@ const NODES = [
  {id:"trust",label:"Trust guards (R3.2-R3.5)",cat:"core",status:"done",cards:["KB-1703","KB-1739","KB-1741","KB-1743","KB-1745","KB-1771"],summary:"Signed history requests, link rate limits, scoped announcements.",update:"R3.2 to R3.5 Done. R3.1 is queued as KB-1857.",eta_utc:null},
  {id:"history",label:"History pull between gateways",cat:"core",status:"done",cards:["KB-1739","KB-1771"],summary:"A gateway answers history requests only from verified members.",update:"Done; follow-ups are under data safety and gates.",eta_utc:null},
  {id:"presence",label:"Presence over the mesh",cat:"core",status:"done",cards:["KB-1723"],summary:"Signed presence passes between gateways, replacing the old shared roster lookup.",update:"Merged; not yet switched on live (mesh off).",eta_utc:null},
- {id:"g1873",label:"Gossip flood limit",cat:"core",status:"wip",cards:["KB-1873"],summary:"One gateway could flood presence records; cap them before cutover.",update:"merged 81ad9780a, awaiting batched restart + clean-window grade",eta_utc:null},
+ {id:"g1873",label:"Gossip flood limit",cat:"core",status:"done",cards:["KB-1873"],summary:"One gateway could flood presence records; cap them before cutover.",update:"Done: per-sender quota cap/4 + heaviest-introducer eviction live since 19:00Z restart; clean window 0 WARN/0 ERROR on 4 gateways. Residuals KB-2045/2047/2049.",eta_utc:null},
  {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"wip",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"reopened: an error still appears about 20 min after start; fix tracked in KB-1933; ETA unknown, re-planned.",eta_utc:null},
  {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"wip",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"reopened: an error still appears about 20 min after start; fix tracked in KB-1933; ETA unknown, re-planned.",eta_utc:null},
  {id:"k1933",label:"Memory server start-up error (KB-1933)",cat:"core",status:"wip",cards:["KB-1933"],summary:"A start-up error from the memory server appears about 20 min after each gateway start",update:"fix merged and live; 30-minute check did not pass, no clear effect yet; extra logging next; ETA unknown, re-planned.",eta_utc:null},
