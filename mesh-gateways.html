@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T13:38:49Z";
+const UPDATED = "2026-11-26T14:19:05Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -146,7 +146,7 @@ const NODES = [
  {id:"d1981",label:"Discovery publish warning (KB-1981)",cat:"safe",status:"done",cards:["KB-1981"],summary:"A discovery publish warning shows in some gateway start windows.",update:"Done; live in v1.0.343 start. Zero start warnings on all four gateways.",eta_utc:null},
  {id:"d1989",label:"DM history pull repeats (KB-1989)",cat:"safe",status:"wip",cards:["KB-1989"],summary:"The DM history pull repeats every cycle with the same reply.",update:"Cause of the repeated DM history pull still open; not fixed by the v1.0.343 batch.",eta_utc:null},
  {id:"k2015",label:"Tunnel start retry (KB-2015)",cat:"gates",status:"queued",cards:["KB-2015"],summary:"A gateway start can show a tunnel warning on the first try.",update:"First start of one gateway had 2 tunnel warnings; relaunch was clean. Retry with backoff not built yet.",eta_utc:null},
- {id:"k2009",label:"Memory store recovery lag (KB-2009)",cat:"safe",status:"wip",cards:["KB-2009","KB-1963"],summary:"After a memory store outage the gateway waits too long before retrying.",update:"merged aad2c125; live restart 13:46Z, grade pending",eta_utc:"2026-11-26T14:20:00Z"},
+ {id:"k2009",label:"Memory store recovery lag (KB-2009)",cat:"safe",status:"done",cards:["KB-2009","KB-1963"],summary:"After a memory store outage the gateway waits too long before retrying.",update:"Done; live restart 13:46Z, 0 warnings and 0 errors on all four gateways in the start window",eta_utc:null},
  {id:"k2011",label:"Memory store outages (KB-2011)",cat:"safe",status:"wip",cards:["KB-2011"],summary:"The memory store goes down about twice an hour.",update:"With the store owner.",eta_utc:null},
  {id:"k2017",label:"Live observability (KB-2017)",cat:"gates",status:"queued",cards:["KB-2017"],summary:"More live counters for the v1.0.343 checks.",update:"Queued.",eta_utc:null},
 
@@ -163,7 +163,7 @@ const NODES = [
 
  {id:"g1779",label:"Auth-on drill",cat:"gates",status:"queued",cards:["KB-1779"],summary:"Run a scratch mesh with auth on; live launcher has it off.",update:"Queued.",eta_utc:null},
  {id:"g1803",label:"Link limits sizing",cat:"gates",status:"queued",cards:["KB-1803"],summary:"Size gateway-to-gateway limits against real traffic.",update:"Queued.",eta_utc:null},
- {id:"g1805",label:"Replay cache limits",cat:"gates",status:"wip",cards:["KB-1805"],summary:"Security class: fresh identities can fill the history replay cache.",update:"Security fix designed; a few checks run first, building after the KB-1699 merge.",eta_utc:"2026-11-26T04:00:00Z"},
+ {id:"g1805",label:"Replay cache limits",cat:"gates",status:"done",cards:["KB-1805"],summary:"Security class: fresh identities can fill the history replay cache.",update:"Done; fresh identities can no longer fill the cache. A member filling it is tracked as KB-2019.",eta_utc:null},
  {id:"k1927",label:"Presence flood guard (KB-1927)",cat:"gates",status:"queued",cards:["KB-1927"],summary:"Security gate before cutover.",update:"Filed: security gate before cutover; details private until fixed.",eta_utc:""},
  {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"wip",cards:["KB-1929"],summary:"Security gate before cutover.",update:"Live; start window clean in v1.0.343 (0 warnings). KB-1961 blocked by KB-1983.",eta_utc:null},
  {id:"g1793",label:"Old join key proof",cat:"gates",status:"queued",cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued; needs KB-1783.",eta_utc:null},
