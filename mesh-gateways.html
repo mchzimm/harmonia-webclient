@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-26T04:59:18Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-26T05:30:12Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T04:59:18Z";
+const UPDATED = "2026-11-26T05:30:12Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -130,7 +130,7 @@ const NODES = [
  {id:"d1869",label:"Row-less write path + boot order (KB-1851 follow-up)",cat:"safe",status:"queued",cards:["KB-1869"],summary:"Follow-up to the read check: the write path for channels with no row, and startup order.",update:"Queued.",eta_utc:null},
  {id:"d1843",label:"DM history kept on rehome",cat:"safe",status:"wip",cards:["KB-1843"],summary:"When a member moves gateways, the new one also pulls from the old one.",update:"Fix passed its checks, but a security review found two more ways a removed member could get back in; merge on hold until those are closed.",eta_utc:"2026-11-26T02:00:00Z"},
  {id:"d1815",label:"Delete own user (KB-1815)",cat:"safe",status:"done",cards:["KB-1815"],summary:"A user can delete their own account; peer gateways get the signed removal.",update:"Live: client v1.0.341, gateway build deployed 2026-11-26 04:18 UTC. Follow-ups KB-1971, KB-1973, KB-1975.",eta_utc:null},
- {id:"k1971",label:"Routed message inner check (KB-1971)",cat:"safe",status:"queued",cards:["KB-1971"],summary:"Security class: routed messages lack an inner signature check, all payload kinds.",update:"Filed from KB-1815; backlog.",eta_utc:null},
+ {id:"k1971",label:"Routed message inner check (KB-1971)",cat:"safe",status:"wip",cards:["KB-1971"],summary:"Security class: routed messages lack an inner signature check, all payload kinds.",update:"KB-1971: gateways now check that every passed-along message was really signed by its sender (all 21 kinds). Round 1 verified; round 2 adds a direct-path test + browser tests. Ships with webclient v1.0.342.",eta_utc:"2026-11-26T06:30:00Z"},
  {id:"k1921",label:"Other delete paths (KB-1921)",cat:"safe",status:"queued",cards:["KB-1921"],summary:"Delete paths that skip the new handoff check.",update:"Other delete paths must use the safe handoff.",eta_utc:null},
  {id:"k1923",label:"Group owner copy (KB-1923)",cat:"safe",status:"queued",cards:["KB-1923"],summary:"Group owner target and resend cost.",update:"Group owner gets a copy; avoid repeated resends.",eta_utc:null},
  {id:"d1907",label:"Kept history copies expire",cat:"safe",status:"queued",cards:["KB-1907"],summary:"Time limit for kept history copies.",update:"Queued; follows KB-1843.",eta_utc:null},
