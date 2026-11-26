@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-26T07:32:59Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-26T13:38:49Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T07:32:59Z";
+const UPDATED = "2026-11-26T13:38:49Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -91,7 +91,7 @@ const CATS = [
   {id:"user", label:"Reserved for the user"}
 ];
 const NODES = [
- {id:"clients",label:"Browsers + apps",cat:"clients",status:"done",cards:[],summary:"Tabs and apps reach a gateway through its tunnel.",update:"Live tabs run v1.0.336.",eta_utc:null},
+ {id:"clients",label:"Browsers + apps",cat:"clients",status:"done",cards:[],summary:"Tabs and apps reach a gateway through its tunnel.",update:"Live tabs run v1.0.343.",eta_utc:null},
  {id:"tunnel",label:"Tunnel per gateway",cat:"life",status:"done",cards:["KB-1667","KB-1709"],summary:"Every mesh gateway gets its own tunnel. Its own secure address comes from it.",update:"Done; address wiring deployed 2026-11-24.",eta_utc:null},
  {id:"launcher",label:"./gateway private start",cat:"life",status:"done",cards:["KB-1665"],summary:"With no gateway running, start a private one with no fleet file.",update:"R1.1 and R1.2 merged.",eta_utc:null},
  {id:"ident",label:"Identity + launcher env",cat:"life",status:"done",cards:["KB-1777","KB-1785","KB-1787"],summary:"A new mesh gateway makes its own identity at first start.",update:"All three cards Done.",eta_utc:null},
@@ -139,12 +139,16 @@ const NODES = [
  {id:"d1849",label:"Old signed roster replay",cat:"safe",status:"queued",cards:["KB-1849"],summary:"Security class: an old signed roster can be replayed. Needs a freshness check.",update:"Queued.",eta_utc:null},
  {id:"d1831",label:"Partial history served as whole",cat:"safe",status:"queued",cards:["KB-1831"],summary:"While a gateway still loads, it may answer with partial history.",update:"Queued; read-only check first.",eta_utc:null},
  {id:"d1795",label:"DM history split across gateways",cat:"safe",status:"queued",cards:["KB-1795"],summary:"Two gateways hold different DM history; a failing-over tab sees a different past.",update:"Queued; design first.",eta_utc:null},
- {id:"d1969",label:"Replay gate: non-roster fields (KB-1969)",cat:"safe",status:"wip",cards:["KB-1969"],summary:"Security class: the replay gate does not cover channel fields outside the roster.",update:"verified, ready; ships in second restart batch after DM fix",eta_utc:null},
- {id:"d1945",label:"Ownerless private channel removal (KB-1945)",cat:"safe",status:"wip",cards:["KB-1945"],summary:"Security class: removing a member from an ownerless private channel must be refused.",update:"verified, ready; ships in second restart batch after DM fix",eta_utc:null},
+ {id:"d1969",label:"Replay gate: non-roster fields (KB-1969)",cat:"safe",status:"done",cards:["KB-1969"],summary:"Security class: the replay gate does not cover channel fields outside the roster.",update:"Done; live in v1.0.343.",eta_utc:null},
+ {id:"d1945",label:"Ownerless private channel removal (KB-1945)",cat:"safe",status:"done",cards:["KB-1945"],summary:"Security class: removing a member from an ownerless private channel must be refused.",update:"Done; live in v1.0.343.",eta_utc:null},
  {id:"d1991",label:"DM not shown between gateways (KB-1991)",cat:"safe",status:"wip",cards:["KB-1991"],summary:"A DM between gateways does not reach the recipient; the cause sits in a security gate.",update:"cause found; fix in progress",eta_utc:null},
- {id:"d1409",label:"Startup warnings on some boots (KB-1409)",cat:"safe",status:"wip",cards:["KB-1409"],summary:"Some gateway boots show startup warnings; the zero-warning gate needs them gone.",update:"shipping in first restart batch (in progress)",eta_utc:null},
- {id:"d1981",label:"Discovery publish warning (KB-1981)",cat:"safe",status:"wip",cards:["KB-1981"],summary:"A discovery publish warning shows in some gateway start windows.",update:"shipping in first restart batch (in progress)",eta_utc:null},
- {id:"d1989",label:"DM history pull repeats (KB-1989)",cat:"safe",status:"wip",cards:["KB-1989"],summary:"The DM history pull repeats every cycle with the same reply.",update:"shipping in first restart batch (in progress)",eta_utc:null},
+ {id:"d1409",label:"Startup warnings on some boots (KB-1409)",cat:"safe",status:"done",cards:["KB-1409"],summary:"Some gateway boots show startup warnings; the zero-warning gate needs them gone.",update:"Done; live in v1.0.343 start. Zero start warnings on all four gateways.",eta_utc:null},
+ {id:"d1981",label:"Discovery publish warning (KB-1981)",cat:"safe",status:"done",cards:["KB-1981"],summary:"A discovery publish warning shows in some gateway start windows.",update:"Done; live in v1.0.343 start. Zero start warnings on all four gateways.",eta_utc:null},
+ {id:"d1989",label:"DM history pull repeats (KB-1989)",cat:"safe",status:"wip",cards:["KB-1989"],summary:"The DM history pull repeats every cycle with the same reply.",update:"Cause of the repeated DM history pull still open; not fixed by the v1.0.343 batch.",eta_utc:null},
+ {id:"k2015",label:"Tunnel start retry (KB-2015)",cat:"gates",status:"queued",cards:["KB-2015"],summary:"A gateway start can show a tunnel warning on the first try.",update:"First start of one gateway had 2 tunnel warnings; relaunch was clean. Retry with backoff not built yet.",eta_utc:null},
+ {id:"k2009",label:"Memory store recovery lag (KB-2009)",cat:"safe",status:"wip",cards:["KB-2009","KB-1963"],summary:"After a memory store outage the gateway waits too long before retrying.",update:"Fix checked and passes; not merged yet, merge at the next restart.",eta_utc:null},
+ {id:"k2011",label:"Memory store outages (KB-2011)",cat:"safe",status:"wip",cards:["KB-2011"],summary:"The memory store goes down about twice an hour.",update:"With the store owner.",eta_utc:null},
+ {id:"k2017",label:"Live observability (KB-2017)",cat:"gates",status:"queued",cards:["KB-2017"],summary:"More live counters for the v1.0.343 checks.",update:"Queued.",eta_utc:null},
 
  {id:"b1747",label:"Bindings + whitelists",cat:"r7",status:"blocked",cards:["KB-1747"],summary:"Per-mesh user bindings and whitelists.",update:"Blocked; needs R4 and R5.",eta_utc:null},
  {id:"b1749",label:"Push claim, once only",cat:"r7",status:"blocked",cards:["KB-1749"],summary:"Only one gateway sends each push notice.",update:"Blocked; needs R4 and R5.",eta_utc:null},
@@ -161,7 +165,7 @@ const NODES = [
  {id:"g1803",label:"Link limits sizing",cat:"gates",status:"queued",cards:["KB-1803"],summary:"Size gateway-to-gateway limits against real traffic.",update:"Queued.",eta_utc:null},
  {id:"g1805",label:"Replay cache limits",cat:"gates",status:"wip",cards:["KB-1805"],summary:"Security class: fresh identities can fill the history replay cache.",update:"Security fix designed; a few checks run first, building after the KB-1699 merge.",eta_utc:"2026-11-26T04:00:00Z"},
  {id:"k1927",label:"Presence flood guard (KB-1927)",cat:"gates",status:"queued",cards:["KB-1927"],summary:"Security gate before cutover.",update:"Filed: security gate before cutover; details private until fixed.",eta_utc:""},
- {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"wip",cards:["KB-1929"],summary:"Security gate before cutover.",update:"merged 16f6d398 live; start window had 2 non-target WARNs (KB-1409, KB-1981); KB-1961 line loop under check (KB-1983)",eta_utc:"2026-11-26T09:00:00Z"},
+ {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"wip",cards:["KB-1929"],summary:"Security gate before cutover.",update:"Live; start window clean in v1.0.343 (0 warnings). KB-1961 blocked by KB-1983.",eta_utc:null},
  {id:"g1793",label:"Old join key proof",cat:"gates",status:"queued",cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued; needs KB-1783.",eta_utc:null},
  {id:"g1809",label:"Mixed versions",cat:"gates",status:"queued",cards:["KB-1809"],summary:"Every gateway needs the new build before any enters mesh mode.",update:"Queued; runbook line.",eta_utc:null},
  {id:"g1783",label:"Desktop app attach",cat:"gates",status:"queued",cards:["KB-1783"],summary:"Desktop and non-gateway servers must still attach to gateways.",update:"Queued; waits on peer work, KB-1789 and KB-1791.",eta_utc:null},
@@ -179,7 +183,7 @@ const EDGES = [
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["presence","d1815"],["d1815","k1971"],["k1971","ucut"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
  ["launcher","g1779"],["trust","g1803"],["trust","g1805"],["trust","g1793"],["history","g1809"],["peering","g1783"],
- ["tooling","ucut"],["r6","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["k1927","ucut"],["k1929","ucut"],["k1929","d1843"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
+ ["tooling","ucut"],["r6","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["k1927","ucut"],["k1929","ucut"],["k2015","ucut"],["k2017","ucut"],["k2011","k2009"],["k2009","ucut"],["k1929","d1843"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
  ["ucut","udel"],["udel","usoak"]
 ];
 // ===== END DATA =====
