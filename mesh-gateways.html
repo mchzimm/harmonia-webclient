@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-27T16:53:13Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T17:09:56Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-27T16:53:13Z";
+const UPDATED = "2026-11-27T17:09:56Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -125,8 +125,9 @@ const NODES = [
  {id:"k2105",label:"Interim announce tightening (KB-2105)",cat:"core",status:"queued",cards:["KB-2105"],summary:"Interim hardening of the old announce path before R4.",update:"Filed; re-scoped, ships with the KB-2097 design.",eta_utc:null},
  {id:"k2107",label:"Two-sided edges (KB-2107)",cat:"core",status:"queued",cards:["KB-2107"],summary:"A gateway edge counts only when both ends confirm it.",update:"Filed; R4 prerequisite.",eta_utc:null},
  {id:"k2109",label:"Periodic re-announce (KB-2109)",cat:"core",status:"queued",cards:["KB-2109"],summary:"Gateways re-announce their own links on a timer.",update:"Filed; R4 prerequisite.",eta_utc:null},
- {id:"k2111",label:"Simulation score fix (KB-2111)",cat:"core",status:"wip",cards:["KB-2111"],summary:"The R0.2 simulation score must count only the right links.",update:"In progress, started 2026-11-27 16:40Z; R4 prerequisite. Rerun the R0.2 checks after the fix.",eta_utc:"2026-11-27T18:40:00Z"},
- {id:"k2113",label:"Per-gateway trust simulation (KB-2113)",cat:"core",status:"wip",cards:["KB-2113"],summary:"Simulate each gateway trusting only a few keys of its own.",update:"In progress, started 2026-11-27 16:40Z; R4 prerequisite. The R0.2 pass so far assumes one shared trust list; feeds the KB-2099 decision.",eta_utc:"2026-11-27T18:40:00Z"},
+ {id:"k2111",label:"Simulation score fix (KB-2111)",cat:"core",status:"wip",cards:["KB-2111"],summary:"The R0.2 simulation score must count only the right links.",update:"Measured; independent check running. Admission options measured; needs an owner decision.",eta_utc:"2026-11-27T18:40:00Z"},
+ {id:"k2113",label:"Per-gateway trust simulation (KB-2113)",cat:"core",status:"wip",cards:["KB-2113"],summary:"Simulate each gateway trusting only a few keys of its own.",update:"Measured; independent check running. Admission options measured; needs an owner decision.",eta_utc:"2026-11-27T18:40:00Z"},
+ {id:"k2121",label:"More admission options (KB-2121)",cat:"core",status:"wip",cards:["KB-2121"],summary:"Measuring more admission options (simulation)",update:"In progress, started 2026-11-27 17:02Z. Simulation only; evidence for the owner's decision (KB-2099).",eta_utc:"2026-11-27T18:25:00Z"},
  {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
  {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1863"],summary:"Webclients find gateways and pin the id they trust.",update:"KB-1863: needs R3.1 and R4.",eta_utc:null},
 
@@ -205,7 +206,7 @@ const NODES = [
 const EDGES = [
  ["r31","park"],["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
- ["presence","route"],["carrier","t5"],["carrier","r2b"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["k2093","r4"],["k2095","r4"],["k2097","r4"],["k2105","r4"],["k2107","r4"],["k2109","r4"],["k2111","r4"],["k2113","r4"],["k2093","r2b"],["k2101","r4"],["k2103","r4"],["k2099","r4"],["k2115","carrier"],["k2101","k2117"],["k2101","k2119"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
+ ["presence","route"],["carrier","t5"],["carrier","r2b"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["k2093","r4"],["k2095","r4"],["k2097","r4"],["k2105","r4"],["k2107","r4"],["k2109","r4"],["k2111","r4"],["k2113","r4"],["k2121","r4"],["k2113","k2121"],["k2121","k2099"],["k2093","r2b"],["k2101","r4"],["k2103","r4"],["k2099","r4"],["k2115","carrier"],["k2101","k2117"],["k2101","k2119"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["presence","d1815"],["d1815","k1971"],["k1971","ucut"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
