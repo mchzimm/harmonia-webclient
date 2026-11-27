@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-27T18:25:04Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T18:49:01Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-27T18:25:04Z";
+const UPDATED = "2026-11-27T18:49:01Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -112,11 +112,11 @@ const NODES = [
  {id:"park",label:"Park table hardening (KB-2055)",cat:"core",status:"wip",cards:["KB-2055","KB-2063"],summary:"Hardening step for the park table.",update:"KB-2063 Done (wiring only). KB-2055 stays open: follow-ups KB-2067 and KB-2069 remain.",eta_utc:null},
  {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Wave 1 merged and live. Wave 2 needed the KB-1857 pin book, which is now merged and live (inactive, mesh mode off); a pull query is the recommended option.",eta_utc:null},
  {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"wip",cards:["KB-1855","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"Cross-network run done between the two machines (through a purpose-built test, not the two gateway programs): 100 of 100 posts delivered each way; relink after a tunnel address change on the receiving side took 11.3 to 15.5 s (limit 60). The reconnect check is confirmed by a second agent (3 of 3). Still open: startup warnings on the test gateways, and the speed read, which does not count because the machines were busy.",eta_utc:"2026-11-27T19:36:27Z"},
- {id:"k2093",label:"Warning-free scratch gateway start (KB-2093)",cat:"core",status:"wip",cards:["KB-2093"],summary:"Test gateways need a supported isolated start that logs no errors or warnings.",update:"Check found cleanup problems in the test launcher; fixes before merge.",eta_utc:"2026-11-27T19:36:00Z"},
+ {id:"k2093",label:"Warning-free scratch gateway start (KB-2093)",cat:"core",status:"wip",cards:["KB-2093"],summary:"Test gateways need a supported isolated start that logs no errors or warnings.",update:"Fixes for the test launcher are in on a branch (not merged); independent check running.",eta_utc:"2026-11-27T19:36:00Z"},
  {id:"k2095",label:"Slow fresh join (KB-2095)",cat:"core",status:"wip",cards:["KB-2095"],summary:"A fresh or restarted gateway takes too long to join the mesh.",update:"In progress, started 2026-11-27 16:40Z. Cause confirmed in a test rig (stage inferred); fix being built. A fresh join took about 140 s in 3 reads, against a 60 s bound. Blocks the start of R4. A gateway whose address is published late must also rejoin within 60 s. ETA is an estimate.",eta_utc:"2026-11-27T19:58:00Z"},
  {id:"r2bprobe",label:"R2b prerequisite probe",cat:"core",status:"done",cards:[],summary:"Checks needed before the cross-network leg can start.",update:"Done. The second machine needs the tunnel tool installed and a fresh checkout. The test gets its own launcher.",eta_utc:null},
  {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"wip",cards:["KB-1859"],summary:"Public gateways announce, find each other, cap links at 3.",update:"Admission rules are being measured; the choice needs an owner decision (KB-2099). R0.2 check passed 4 of 4. R4 build still waits on KB-1855 (R2c), KB-2095, the KB-2097 step and KB-2099. Prerequisites filed: KB-2105 (interim announce tightening), KB-2107 (link record hardening), KB-2109 (periodic re-announce), KB-2111 (simulation score) and KB-2113 (per-gateway trust simulation).",eta_utc:null},
- {id:"k2097",label:"Gateway announcement hardening (KB-2097)",cat:"core",status:"wip",cards:["KB-2097"],summary:"Hardening step for gateway-to-gateway announcements.",update:"test gaps closed on a branch; separate check next",eta_utc:"2026-11-27T20:30:00Z"},
+ {id:"k2097",label:"Gateway announcement hardening (KB-2097)",cat:"core",status:"wip",cards:["KB-2097"],summary:"Hardening step for gateway-to-gateway announcements.",update:"Test gaps closed on a branch (not merged); independent check running.",eta_utc:"2026-11-27T20:30:00Z"},
  {id:"k2101",label:"Gateway link limits (KB-2101)",cat:"core",status:"done",cards:["KB-2101"],summary:"Hardening step for limits on gateway links.",update:"Done: merged (fde2de0ac) and live since the 15:52 UTC restart on 2026-11-27; mesh mode only, off live. Follow-ups listed in the progress doc.",eta_utc:null},
  {id:"k2115",label:"Forced-trigger scratch test (KB-2115)",cat:"core",status:"queued",cards:["KB-2115"],summary:"Scratch test that forces the start-up condition for round R2a.",update:"Queued. Whether it counts toward closing R2a is decided before any run.",eta_utc:null},
  {id:"k2117",label:"Peer admission follow-ups (KB-2117)",cat:"core",status:"queued",cards:["KB-2117"],summary:"Peer admission follow-ups.",update:"Queued.",eta_utc:null},
@@ -127,10 +127,13 @@ const NODES = [
  {id:"k2109",label:"Periodic re-announce (KB-2109)",cat:"core",status:"queued",cards:["KB-2109"],summary:"Gateways re-announce their own links on a timer.",update:"Filed; R4 prerequisite.",eta_utc:null},
  {id:"k2111",label:"Simulation score update (KB-2111)",cat:"core",status:"done",cards:["KB-2111"],summary:"Update to the R0.2 simulation score.",update:"measured, independently checked and merged; target not met (follow-up study queued).",eta_utc:null},
  {id:"k2113",label:"Per-gateway trust simulation (KB-2113)",cat:"core",status:"done",cards:["KB-2113"],summary:"Simulate each gateway trusting only a few keys of its own.",update:"measured, independently checked and merged; target not met (follow-up study queued).",eta_utc:null},
- {id:"k2121",label:"More admission options (KB-2121)",cat:"core",status:"wip",cards:["KB-2121"],summary:"More admission options (simulation).",update:"Admission options measured; none reaches the target alone; independent check running; owner decision pending (KB-2099).",eta_utc:"2026-11-27T18:24:00Z"},
- {id:"k2123",label:"Further admission study (KB-2123)",cat:"core",status:"queued",cards:["KB-2123"],summary:"Further study of admission options (simulation).",update:"Queued: further admission option study; starts after the check of KB-2121.",eta_utc:null},
+ {id:"k2121",label:"More admission options (KB-2121)",cat:"core",status:"done",cards:["KB-2121"],summary:"More admission options (simulation).",update:"Done, result: FAIL. Simulation only (option evidence): no admission option met the target. An independent check reproduced the numbers. The join ceiling applies to the model’s start-up rule only, not to real gateways. Merged. Follow-up KB-2123; owner decision pending (KB-2099).",eta_utc:null},
+ {id:"k2123",label:"Further admission study (KB-2123)",cat:"core",status:"queued",cards:["KB-2123"],summary:"Compare seed-first and pinned-first start-up in the simulation.",update:"Queued, not started. Released to start now that KB-2121 is merged; rescoped to compare seed-first and pinned-first start-up in the simulation, then further admission options.",eta_utc:null},
  {id:"k2125",label:"Announcement follow-up (KB-2125)",cat:"core",status:"queued",cards:["KB-2125"],summary:"Small follow-up to the gateway announcement step (KB-2097).",update:"Queued: small follow-up after the related change merges.",eta_utc:null},
  {id:"k2127",label:"Unsteady security test (KB-2127)",cat:"core",status:"queued",cards:["KB-2127"],summary:"A security test does not give a steady result.",update:"filed; not started",eta_utc:null},
+ {id:"k2129",label:"Busy storage test (KB-2129)",cat:"core",status:"queued",cards:["KB-2129"],summary:"An intermittent test about a busy storage service (round R2a area).",update:"Queued; cause not established.",eta_utc:null},
+ {id:"k2131",label:"Discovery hardening (KB-2131)",cat:"core",status:"queued",cards:["KB-2131"],summary:"Hardening of gateway discovery.",update:"Queued.",eta_utc:null},
+ {id:"k2133",label:"Discovery code cleanup (KB-2133)",cat:"core",status:"queued",cards:["KB-2133"],summary:"Small cleanup in gateway discovery code.",update:"Queued; low priority.",eta_utc:null},
  {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
  {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1863"],summary:"Webclients find gateways and pin the id they trust.",update:"KB-1863: needs R3.1 and R4.",eta_utc:null},
 
@@ -209,7 +212,7 @@ const NODES = [
 const EDGES = [
  ["r31","park"],["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
- ["presence","route"],["carrier","t5"],["carrier","r2b"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["k2093","r4"],["k2095","r4"],["k2097","r4"],["k2105","r4"],["k2107","r4"],["k2109","r4"],["k2111","r4"],["k2113","r4"],["k2121","r4"],["k2127","r4"],["k2113","k2121"],["k2121","k2099"],["k2121","k2123"],["k2123","k2099"],["k2097","k2125"],["k2093","r2b"],["k2101","r4"],["k2103","r4"],["k2099","r4"],["k2115","carrier"],["k2101","k2117"],["k2101","k2119"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
+ ["presence","route"],["carrier","t5"],["carrier","r2b"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["k2093","r4"],["k2095","r4"],["k2097","r4"],["k2105","r4"],["k2107","r4"],["k2109","r4"],["k2111","r4"],["k2113","r4"],["k2121","r4"],["k2127","r4"],["k2113","k2121"],["k2121","k2099"],["k2121","k2123"],["k2123","k2099"],["k2097","k2125"],["k2093","r2b"],["k2101","r4"],["k2103","r4"],["k2099","r4"],["k2115","carrier"],["k2129","k2115"],["k2131","r4"],["k2133","r4"],["k2101","k2117"],["k2101","k2119"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["presence","d1815"],["d1815","k1971"],["k1971","ucut"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
