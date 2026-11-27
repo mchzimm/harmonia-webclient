@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-27T17:37:17Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T17:42:37Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-27T17:37:17Z";
+const UPDATED = "2026-11-27T17:42:37Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -125,8 +125,8 @@ const NODES = [
  {id:"k2105",label:"Interim announce tightening (KB-2105)",cat:"core",status:"queued",cards:["KB-2105"],summary:"Interim hardening of the old announce path before R4.",update:"Filed; re-scoped, ships with the KB-2097 design.",eta_utc:null},
  {id:"k2107",label:"Link record hardening (KB-2107)",cat:"core",status:"queued",cards:["KB-2107"],summary:"Hardening step for gateway links.",update:"Filed; R4 prerequisite.",eta_utc:null},
  {id:"k2109",label:"Periodic re-announce (KB-2109)",cat:"core",status:"queued",cards:["KB-2109"],summary:"Gateways re-announce their own links on a timer.",update:"Filed; R4 prerequisite.",eta_utc:null},
- {id:"k2111",label:"Simulation score update (KB-2111)",cat:"core",status:"wip",cards:["KB-2111"],summary:"Update to the R0.2 simulation score.",update:"Measured and independently checked; result: target not met; being merged.",eta_utc:"2026-11-27T18:40:00Z"},
- {id:"k2113",label:"Per-gateway trust simulation (KB-2113)",cat:"core",status:"wip",cards:["KB-2113"],summary:"Simulate each gateway trusting only a few keys of its own.",update:"Measured and independently checked; result: target not met; being merged.",eta_utc:"2026-11-27T18:40:00Z"},
+ {id:"k2111",label:"Simulation score update (KB-2111)",cat:"core",status:"done",cards:["KB-2111"],summary:"Update to the R0.2 simulation score.",update:"measured, independently checked and merged; target not met (follow-up study queued).",eta_utc:null},
+ {id:"k2113",label:"Per-gateway trust simulation (KB-2113)",cat:"core",status:"done",cards:["KB-2113"],summary:"Simulate each gateway trusting only a few keys of its own.",update:"measured, independently checked and merged; target not met (follow-up study queued).",eta_utc:null},
  {id:"k2121",label:"More admission options (KB-2121)",cat:"core",status:"wip",cards:["KB-2121"],summary:"More admission options (simulation).",update:"Admission options measured; none reaches the target alone; independent check running; owner decision pending (KB-2099).",eta_utc:"2026-11-27T18:24:00Z"},
  {id:"k2123",label:"Further admission study (KB-2123)",cat:"core",status:"queued",cards:["KB-2123"],summary:"Further study of admission options (simulation).",update:"Queued: further admission option study; starts after the check of KB-2121.",eta_utc:null},
  {id:"k2125",label:"Announcement follow-up (KB-2125)",cat:"core",status:"queued",cards:["KB-2125"],summary:"Small follow-up to the gateway announcement step (KB-2097).",update:"Queued: small follow-up after the related change merges.",eta_utc:null},
