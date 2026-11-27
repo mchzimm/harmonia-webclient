@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-27T16:44:29Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T16:53:13Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-27T16:44:29Z";
+const UPDATED = "2026-11-27T16:53:13Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -116,7 +116,7 @@ const NODES = [
  {id:"k2095",label:"Slow fresh join (KB-2095)",cat:"core",status:"wip",cards:["KB-2095"],summary:"A fresh or restarted gateway takes too long to join the mesh.",update:"In progress, started 2026-11-27 16:40Z. A fresh join took about 140 s in 3 reads, against a 60 s bound. The cause is guessed (name lookup caching), not measured. Blocks the start of R4. A gateway whose address is published late must also rejoin within 60 s.",eta_utc:"2026-11-27T17:40:00Z"},
  {id:"r2bprobe",label:"R2b prerequisite probe",cat:"core",status:"done",cards:[],summary:"Checks needed before the cross-network leg can start.",update:"Done. The second machine needs the tunnel tool installed and a fresh checkout. The existing launch script enables no tunnel and isolates nothing, so the test gets its own launcher.",eta_utc:null},
  {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"wip",cards:["KB-1859"],summary:"Public gateways announce, find each other, cap links at 3.",update:"Safety simulation: an open network fails the bar without a trusted list; the admission decision is the owner's (KB-2099). R0.2 check passed 4 of 4. R4 build still waits on KB-1855 (R2c), KB-2095, the KB-2097 step and KB-2099. Prerequisites filed: KB-2105 (interim announce tightening), KB-2107 (two-sided edges), KB-2109 (periodic re-announce), KB-2111 (simulation score) and KB-2113 (per-gateway trust simulation).",eta_utc:null},
- {id:"k2097",label:"Gateway announcement hardening (KB-2097)",cat:"core",status:"wip",cards:["KB-2097"],summary:"Hardening step for gateway-to-gateway announcements.",update:"Design reviewed (approve with changes, revision 3). Build: parts 1 and 2 done on a branch (mesh tests: 412 passed, 0 failed), independent check running; part 3 running. Not merged. Must be done before R4 is merged.",eta_utc:null},
+ {id:"k2097",label:"Gateway announcement hardening (KB-2097)",cat:"core",status:"wip",cards:["KB-2097"],summary:"Hardening step for gateway-to-gateway announcements.",update:"Code written, independent check running.",eta_utc:"2026-11-27T19:00:00Z"},
  {id:"k2101",label:"Gateway link limits (KB-2101)",cat:"core",status:"done",cards:["KB-2101"],summary:"Hardening step for limits on gateway links.",update:"Done: merged (fde2de0ac) and live since the 15:52 UTC restart on 2026-11-27; mesh mode only, off live. Follow-ups listed in the progress doc.",eta_utc:null},
  {id:"k2115",label:"Forced-trigger scratch test (KB-2115)",cat:"core",status:"queued",cards:["KB-2115"],summary:"Scratch test that forces the start-up condition for round R2a.",update:"Queued. Whether it counts toward closing R2a is decided before any run.",eta_utc:null},
  {id:"k2117",label:"Peer admission follow-ups (KB-2117)",cat:"core",status:"queued",cards:["KB-2117"],summary:"Peer admission follow-ups.",update:"Queued.",eta_utc:null},
