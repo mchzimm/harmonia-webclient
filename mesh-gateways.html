@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-27T14:12:24Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T14:17:20Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-27T14:12:24Z";
+const UPDATED = "2026-11-27T14:17:20Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -97,7 +97,7 @@ const NODES = [
  {id:"ident",label:"Identity + launcher env",cat:"life",status:"done",cards:["KB-1777","KB-1785","KB-1787"],summary:"A new mesh gateway makes its own identity at first start.",update:"All three cards Done.",eta_utc:null},
  {id:"tooling",label:"Fleet import + rollback",cat:"life",status:"done",cards:["KB-1763","KB-1765"],summary:"A tool copies fleet gateways into a mesh. A rollback drill went back to the fleet.",update:"Both Done on a scratch rig.",eta_utc:null},
 
- {id:"ids",label:"Mesh ids + link cap (R0)",cat:"core",status:"done",cards:["KB-1665"],summary:"Ids like name.xxx-xxx. Link cap of 3 picked by simulation.",update:"R0.1 and R0.2 done; pick not locked. A harder rerun of R0.2 (precondition for R4) is underway.",eta_utc:null},
+ {id:"ids",label:"Mesh ids + link cap (R0)",cat:"core",status:"done",cards:["KB-1665"],summary:"Ids like name.xxx-xxx. Link cap of 3 picked by simulation.",update:"R0.1 and R0.2 done; pick not locked. The harder rerun of R0.2 is done and a second check is running; see R4.",eta_utc:null},
  {id:"carrier",label:"Tunnel carrier (R2a)",cat:"core",status:"wip",cards:["KB-1665","KB-1853"],summary:"Gateways talk over tunnel websockets, not raw sockets.",update:"Built and deployed, inert while mesh mode is off. Close re-grade on 2026-11-27 failed; held on the start-window check (KB-1933). ETA unknown.",eta_utc:null},
  {id:"guard",label:"Mesh-only dial guard",cat:"core",status:"done",cards:["KB-1695","KB-1697","KB-1707"],summary:"In mesh mode a gateway dials only known mesh peers.",update:"Merged and deployed 2026-11-24.",eta_utc:null},
  {id:"peering",label:"Join, liveness, re-peer",cat:"core",status:"done",cards:["KB-1709","KB-1717","KB-1719"],summary:"Seed join with retry, per-carrier timings, re-peer after a lost link.",update:"All Done.",eta_utc:null},
@@ -112,11 +112,13 @@ const NODES = [
  {id:"park",label:"Park table source quotas (KB-2055)",cat:"core",status:"wip",cards:["KB-2055","KB-2063"],summary:"Park quotas keyed on authenticated source.",update:"KB-2063 Done: authenticated source wired (wiring only, live exposure unchanged). KB-2055 stays open: per-local-client source (KB-2067) and a security follow-up (KB-2069) remain.",eta_utc:null},
  {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Wave 1 merged and live. Wave 2 waits on KB-1857 wave B (pin book); a pull query is the recommended option.",eta_utc:null},
  {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"wip",cards:["KB-1855","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"Cross-network run done between the two machines (through a purpose-built test, not the two gateway programs): 100 of 100 posts delivered each way; relink after a tunnel address change on the receiving side took 11.3 to 15.5 s (limit 60). The reconnect check is confirmed by a second agent (3 of 3). Still open: startup warnings on the test gateways, and the speed read, which does not count because the machines were busy.",eta_utc:"2026-11-27T19:36:27Z"},
- {id:"k2093",label:"Warning-free scratch gateway start (KB-2093)",cat:"core",status:"queued",cards:["KB-2093"],summary:"Test gateways need a supported isolated start that logs no errors or warnings.",update:"Queued. The cross-network run logged 289 error and warning lines on scratch gateways. Needed before the zero-warning rule can pass for R2b, R4, R5 and the cutover drill. The test gateway must also listen on the local machine only.",eta_utc:null},
+ {id:"k2093",label:"Warning-free scratch gateway start (KB-2093)",cat:"core",status:"wip",cards:["KB-2093"],summary:"Test gateways need a supported isolated start that logs no errors or warnings.",update:"Started: the test launch script part, on a branch. Other parts wait for an earlier merge. The cross-network run logged 289 error and warning lines on test gateways. Needed before the zero-warning rule can pass for R2b, R4, R5 and the cutover drill. Includes a listener hardening step for test gateways.",eta_utc:null},
  {id:"k2095",label:"Slow fresh join (KB-2095)",cat:"core",status:"queued",cards:["KB-2095"],summary:"A fresh or restarted gateway takes too long to join the mesh.",update:"Queued. A fresh join took about 140 s in 3 reads, against a 60 s bound. The cause is guessed (name lookup caching), not measured. Blocks the start of R4. A gateway whose address is published late must also rejoin within 60 s.",eta_utc:null},
  {id:"r2bprobe",label:"R2b prerequisite probe",cat:"core",status:"done",cards:[],summary:"Checks needed before the cross-network leg can start.",update:"Done. The second machine needs the tunnel tool installed and a fresh checkout. The existing launch script enables no tunnel and isolates nothing, so the test gets its own launcher.",eta_utc:null},
  {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"wip",cards:["KB-1859"],summary:"Public gateways announce, find each other, cap links at 3.",update:"Simulation rerun done: a network that is open to anyone fails the safety bar. A fix works only with a list of trusted gateways, and that list does not exist yet. A second check is running. The decision on letting in new, unknown gateways is now the owner's (KB-2099); work that does not depend on it stays here. The R4 build waits on KB-1855 and KB-1857; KB-2095 also blocks its start, and KB-2097 must be done before R4 is merged.",eta_utc:null},
- {id:"k2097",label:"Gateway announcement proof (KB-2097)",cat:"core",status:"queued",cards:["KB-2097"],summary:"Gateway announcements do not yet prove which gateway they are about.",update:"Queued; fix not started.",eta_utc:null},
+ {id:"k2097",label:"Gateway announcement hardening (KB-2097)",cat:"core",status:"wip",cards:["KB-2097"],summary:"Hardening step for gateway-to-gateway announcements.",update:"Started: sizing and test.",eta_utc:null},
+ {id:"k2101",label:"Gateway link limits (KB-2101)",cat:"core",status:"queued",cards:["KB-2101"],summary:"Hardening step for limits on gateway links.",update:"Queued; not started.",eta_utc:null},
+ {id:"k2103",label:"Gateway link listener hardening (KB-2103)",cat:"core",status:"queued",cards:["KB-2103"],summary:"Hardening step for the gateway link listener.",update:"Queued; not started.",eta_utc:null},
  {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
  {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1863"],summary:"Webclients find gateways and pin the id they trust.",update:"KB-1863: needs R3.1 and R4.",eta_utc:null},
 
@@ -195,7 +197,7 @@ const NODES = [
 const EDGES = [
  ["r31","park"],["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
- ["presence","route"],["carrier","t5"],["carrier","r2b"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["k2093","r4"],["k2095","r4"],["k2093","r2b"],["k2097","r4"],["k2099","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
+ ["presence","route"],["carrier","t5"],["carrier","r2b"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["k2093","r4"],["k2095","r4"],["k2093","r2b"],["k2097","r4"],["k2101","r4"],["k2103","r4"],["k2099","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["presence","d1815"],["d1815","k1971"],["k1971","ucut"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
