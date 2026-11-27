@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-27T13:36:27Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T13:38:18Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-27T13:36:27Z";
+const UPDATED = "2026-11-27T13:38:18Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -107,7 +107,7 @@ const NODES = [
  {id:"g1873",label:"Gossip flood limit",cat:"core",status:"done",cards:["KB-1873"],summary:"One gateway could flood presence records; cap them before cutover.",update:"Done: per-sender quota cap/4 + heaviest-introducer eviction live since 19:00Z restart; clean window 0 WARN/0 ERROR on 4 gateways. Residuals KB-2045/2047/2049.",eta_utc:null},
  {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"wip",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"Metric test passed and merged (100 of 100 posts each way). Close re-grade on 2026-11-27 failed; held on the start-window check (KB-1933). ETA unknown.",eta_utc:null},
  {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"wip",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"Link checks passed and merged (KB-1917). Close re-grade on 2026-11-27 failed; held on the start-window check (KB-1933). ETA unknown.",eta_utc:null},
- {id:"k1933",label:"Memory server start-up error (KB-1933)",cat:"core",status:"wip",cards:["KB-1933","KB-1939"],summary:"After a gateway start the memory store can be slow to answer; earlier starts logged an error about 20 min in.",update:"Close re-grade on 2026-11-27 failed: in the latest window one write per gateway got no answer 45-67 s after start (pass line: zero), with 0 warnings and errors. Round R2a stays open. Trace and instrumentation started (KB-1939). Log growth that deleted older evidence is queued as KB-2091.",eta_utc:"2026-11-27T18:37:48Z"},
+ {id:"k1933",label:"Memory server start-up error (KB-1933)",cat:"core",status:"wip",cards:["KB-1933","KB-1939"],summary:"After a gateway start the memory store can be slow to answer; earlier starts logged an error about 20 min in.",update:"Close re-grade on 2026-11-27 failed: in the latest window one write per gateway got no answer 45-67 s after start (pass line: zero), with 0 warnings and errors. A delay fix is now built on a branch and its unit checks pass; the live check is pending. One gap (queued updates not re-sent after a restart) is being fixed before merge (KB-1939). Round R2a stays open. Log growth that deleted older evidence is queued as KB-2091.",eta_utc:"2026-11-27T18:37:48Z"},
  {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"wip",cards:["KB-1857","KB-2057","KB-2059","KB-2065"],summary:"Signed checks use the presence verify function.",update:"Wave A merged, inert until callers are wired. Wave B, the second half, is built on a branch and not merged; it acts only in mesh mode. A separate check is running; ETA is for wave B. KB-1857 stays open. KB-2057 and KB-2059 Done. KB-2065 client tag is live, but its root cause is still open (card in backlog).",eta_utc:"2026-11-27T16:20:28Z"},
  {id:"park",label:"Park table source quotas (KB-2055)",cat:"core",status:"wip",cards:["KB-2055","KB-2063"],summary:"Park quotas keyed on authenticated source.",update:"KB-2063 Done: authenticated source wired (wiring only, live exposure unchanged). KB-2055 stays open: per-local-client source (KB-2067) and a security follow-up (KB-2069) remain.",eta_utc:null},
  {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Wave 1 merged and live. Wave 2 waits on KB-1857 wave B (pin book); a pull query is the recommended option.",eta_utc:null},
