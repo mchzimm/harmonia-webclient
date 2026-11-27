@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-26T22:02:05Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T01:48:53Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-26T22:02:05Z";
+const UPDATED = "2026-11-27T01:48:53Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -170,6 +170,12 @@ const NODES = [
  {id:"k2025",label:"Creator proof, first-seen private rows (KB-2025)",cat:"gates",status:"queued",cards:["KB-2025"],summary:"A first-seen private channel row needs proof of its creator.",update:"Queued; design needed.",eta_utc:null},
  {id:"k2027",label:"Parked post cap and expiry (KB-2027)",cat:"gates",status:"queued",cards:["KB-2027"],summary:"Parked posts need a size cap and a time limit.",update:"Queued.",eta_utc:null},
  {id:"k2031",label:"Re-flush on non-new rows (KB-2031)",cat:"gates",status:"done",cards:["KB-2031"],summary:"Parked posts should flush again when a row is not new.",update:"Done. Merged and live on main b6175022; restart grade PASS.",eta_utc:null},
+ {id:"k2029",label:"Parked rows replay on discovery (KB-2029)",cat:"gates",status:"done",cards:["KB-2029"],summary:"A row parked for a participant is now replayed when that participant is learned by discovery.",update:"Done; merged and live, restart grade clean 2026-11-26.",eta_utc:null},
+ {id:"k2033",label:"Client transport warning (KB-2033)",cat:"safe",status:"done",cards:["KB-2033"],summary:"A client connection-timeout warning broke the zero-warnings grade.",update:"Done; restart grade clean (0 warnings). Root causes tracked in KB-2035 and KB-2037.",eta_utc:null},
+ {id:"k2073",label:"Participant query key proof (KB-2073)",cat:"gates",status:"done",cards:["KB-2073"],summary:"Security class: participant queries now carry a proof tied to the asker's key; old form refused in mesh mode.",update:"Done; merged and live after batched restart 2026-11-27 01:14Z, start window clean.",eta_utc:null},
+ {id:"k2079",label:"mDNS off in gateway WebRTC (KB-2079)",cat:"gates",status:"done",cards:["KB-2079"],summary:"The gateway WebRTC engine no longer uses mDNS, removing 24 start-window errors.",update:"Done; merged, live 2026-11-27 01:14Z. Stubs verified; browser pairing goes via relay; a remote browser behind NAT is untested (KB-2081).",eta_utc:null},
+ {id:"k2051",label:"Participant list info disclosure (KB-2051)",cat:"gates",status:"done",cards:["KB-2051"],summary:"Security class: the participant list answer had no trust gate.",update:"Class closed via KB-2073 and KB-2079.",eta_utc:null},
+ {id:"k2081",label:"Test for .local candidates (KB-2081)",cat:"gates",status:"queued",cards:["KB-2081"],summary:"A browser pairing test that really exercises discarded .local candidates.",update:"Queued in backlog; not started.",eta_utc:null},
  {id:"k1927",label:"Presence flood guard (KB-1927)",cat:"gates",status:"queued",cards:["KB-1927"],summary:"Security gate before cutover.",update:"Filed: security gate before cutover; details private until fixed.",eta_utc:""},
  {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"done",cards:["KB-1929"],summary:"Security gate before cutover.",update:"Done; live in v1.0.343, start window clean (0 warnings).",eta_utc:null},
  {id:"g1793",label:"Old join key proof",cat:"gates",status:"queued",cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued; needs KB-1783.",eta_utc:null},
@@ -190,6 +196,7 @@ const EDGES = [
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
  ["launcher","g1779"],["trust","g1803"],["trust","g1805"],["trust","g1947"],["g1947","g1949"],["g1949","k2025"],["g1949","k2027"],["g1949","k2031"],["trust","g1793"],["history","g1809"],["peering","g1783"],
  ["tooling","ucut"],["r6","ucut"],["g1779","ucut"],["g1803","ucut"],["g1805","ucut"],["g1947","ucut"],["g1949","ucut"],["k1927","ucut"],["k1929","ucut"],["k2015","ucut"],["k2017","ucut"],["k2011","k2009"],["k2009","ucut"],["k1929","d1843"],["g1793","ucut"],["g1809","ucut"],["g1783","ucut"],
+ ["presence","k2073"],["k2073","k2051"],["carrier","k2079"],["k2079","k2051"],["k2079","k2081"],["g1947","k2029"],["d1903","k2033"],["k2073","ucut"],["k2079","ucut"],["k2051","ucut"],
  ["ucut","udel"],["udel","usoak"]
 ];
 // ===== END DATA =====
