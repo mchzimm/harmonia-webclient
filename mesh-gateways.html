@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-27T01:56:46Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T12:27:38Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-27T03:17:25Z";
+const UPDATED = "2026-11-27T12:27:38Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -97,22 +97,23 @@ const NODES = [
  {id:"ident",label:"Identity + launcher env",cat:"life",status:"done",cards:["KB-1777","KB-1785","KB-1787"],summary:"A new mesh gateway makes its own identity at first start.",update:"All three cards Done.",eta_utc:null},
  {id:"tooling",label:"Fleet import + rollback",cat:"life",status:"done",cards:["KB-1763","KB-1765"],summary:"A tool copies fleet gateways into a mesh. A rollback drill went back to the fleet.",update:"Both Done on a scratch rig.",eta_utc:null},
 
- {id:"ids",label:"Mesh ids + link cap (R0)",cat:"core",status:"done",cards:["KB-1665"],summary:"Ids like name.xxx-xxx. Link cap of 3 picked by simulation.",update:"R0.1 done. R0.2 done: pick not locked; rerun at the R4 gate.",eta_utc:null},
- {id:"carrier",label:"Tunnel carrier (R2a)",cat:"core",status:"wip",cards:["KB-1665","KB-1853"],summary:"Gateways talk over tunnel websockets, not raw sockets.",update:"Merged T0 to T4. Exit metric test done (KB-1853); link checks queued (KB-1917).",eta_utc:null},
+ {id:"ids",label:"Mesh ids + link cap (R0)",cat:"core",status:"done",cards:["KB-1665"],summary:"Ids like name.xxx-xxx. Link cap of 3 picked by simulation.",update:"R0.1 and R0.2 done; pick not locked. A harder rerun of R0.2 (precondition for R4) is underway.",eta_utc:null},
+ {id:"carrier",label:"Tunnel carrier (R2a)",cat:"core",status:"wip",cards:["KB-1665","KB-1853"],summary:"Gateways talk over tunnel websockets, not raw sockets.",update:"Built and deployed, inert while mesh mode is off. Close re-grade underway; held on the start-window error check (KB-1933). ETA unknown.",eta_utc:null},
  {id:"guard",label:"Mesh-only dial guard",cat:"core",status:"done",cards:["KB-1695","KB-1697","KB-1707"],summary:"In mesh mode a gateway dials only known mesh peers.",update:"Merged and deployed 2026-11-24.",eta_utc:null},
  {id:"peering",label:"Join, liveness, re-peer",cat:"core",status:"done",cards:["KB-1709","KB-1717","KB-1719"],summary:"Seed join with retry, per-carrier timings, re-peer after a lost link.",update:"All Done.",eta_utc:null},
- {id:"trust",label:"Trust guards (R3.2-R3.5)",cat:"core",status:"done",cards:["KB-1703","KB-1739","KB-1741","KB-1743","KB-1745","KB-1771"],summary:"Signed history requests, link rate limits, scoped announcements.",update:"R3.2 to R3.5 Done. R3.1 is queued as KB-1857.",eta_utc:null},
+ {id:"trust",label:"Trust guards (R3.2-R3.5)",cat:"core",status:"done",cards:["KB-1703","KB-1739","KB-1741","KB-1743","KB-1745","KB-1771"],summary:"Signed history requests, link rate limits, scoped announcements.",update:"R3.2 to R3.5 Done. R3.1 (KB-1857) wave B is underway.",eta_utc:null},
  {id:"history",label:"History pull between gateways",cat:"core",status:"done",cards:["KB-1739","KB-1771"],summary:"A gateway answers history requests only from verified members.",update:"Done; follow-ups are under data safety and gates.",eta_utc:null},
  {id:"presence",label:"Presence over the mesh",cat:"core",status:"done",cards:["KB-1723"],summary:"Signed presence passes between gateways, replacing the old shared roster lookup.",update:"Merged; not yet switched on live (mesh off).",eta_utc:null},
  {id:"g1873",label:"Gossip flood limit",cat:"core",status:"done",cards:["KB-1873"],summary:"One gateway could flood presence records; cap them before cutover.",update:"Done: per-sender quota cap/4 + heaviest-introducer eviction live since 19:00Z restart; clean window 0 WARN/0 ERROR on 4 gateways. Residuals KB-2045/2047/2049.",eta_utc:null},
- {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"wip",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"reopened: an error still appears about 20 min after start; fix tracked in KB-1933; ETA unknown, re-planned.",eta_utc:null},
- {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"wip",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"reopened: an error still appears about 20 min after start; fix tracked in KB-1933; ETA unknown, re-planned.",eta_utc:null},
- {id:"k1933",label:"Memory server start-up error (KB-1933)",cat:"core",status:"wip",cards:["KB-1933"],summary:"A start-up error from the memory server appears about 20 min after each gateway start",update:"fix merged and live; 30-minute check did not pass, no clear effect yet; extra logging next; ETA unknown, re-planned.",eta_utc:null},
- {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"wip",cards:["KB-1857","KB-2057","KB-2059","KB-2065"],summary:"Signed checks use the presence verify function.",update:"KB-2057 and KB-2059 Done: batched restart 21:30Z, start window graded clean on 4 gateways (0 WARN, 0 ERROR, 0 panics, 0 build warnings). KB-2065 (client tag in log lines) is live; the WARN class did not recur, cause unattributed, stays open. Wave B owed; KB-1857 stays open.",eta_utc:null},
+ {id:"t5",label:"Exit metric test (R2a T5)",cat:"core",status:"wip",cards:["KB-1853"],summary:"The carrier round needs its exit metric test.",update:"Metric test passed and merged (100 of 100 posts each way). Close re-grade underway; held on the start-window error check (KB-1933). ETA unknown.",eta_utc:null},
+ {id:"k1917",label:"Remaining link checks (KB-1917)",cat:"core",status:"wip",cards:["KB-1917"],summary:"Last link checks for the carrier round.",update:"Link checks passed and merged (KB-1917). Close re-grade underway; held on the start-window error check (KB-1933). ETA unknown.",eta_utc:null},
+ {id:"k1933",label:"Memory server start-up error (KB-1933)",cat:"core",status:"wip",cards:["KB-1933"],summary:"A start-up error from the memory server appears about 20 min after each gateway start",update:"Fix merged and live; the 30-minute check on 2026-11-25 showed no clear effect. Close re-grade underway. ETA unknown.",eta_utc:null},
+ {id:"r31",label:"Verify fn guard (R3.1)",cat:"core",status:"wip",cards:["KB-1857","KB-2057","KB-2059","KB-2065"],summary:"Signed checks use the presence verify function.",update:"Wave A merged, inert until callers are wired. Wave B started 2026-11-27; ETA is for wave B. KB-1857 stays open. KB-2057 and KB-2059 Done. KB-2065 client tag is live, but its root cause is still open (card in backlog).",eta_utc:"2026-11-27T17:27:38Z"},
  {id:"park",label:"Park table source quotas (KB-2055)",cat:"core",status:"wip",cards:["KB-2055","KB-2063"],summary:"Park quotas keyed on authenticated source.",update:"KB-2063 Done: authenticated source wired (wiring only, live exposure unchanged). KB-2055 stays open: per-local-client source (KB-2067) and a security follow-up (KB-2069) remain.",eta_utc:null},
- {id:"route",label:"Send/route without old roster",cat:"core",status:"wip",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Wave 2 design scout done (docs/plans/KB-1699-wave2-scout.md); needs KB-1857 pin book first; scope likely reduces to participant->node discovery via pin book, option A pull query recommended",eta_utc:null},
- {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"blocked",cards:["KB-1855","KB-1699","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"KB-1855: needs KB-1723, then KB-1699, plus KB-1853 and a tunnel tool on the second host.",eta_utc:null},
- {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"blocked",cards:["KB-1859"],summary:"Public gateways announce, find each other, cap links at 3.",update:"KB-1859: needs R2b and R3.1.",eta_utc:null},
+ {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Wave 1 merged and live. Wave 2 waits on KB-1857 wave B (pin book); a pull query is the recommended option.",eta_utc:null},
+ {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"blocked",cards:["KB-1855","KB-1699","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"Not started; KB-1855 stays queued. Waits on KB-1699 wave 2, the KB-1853 close and a tunnel tool on the second host. KB-1723 Done.",eta_utc:null},
+ {id:"r2bprobe",label:"R2b prerequisite probe",cat:"core",status:"wip",cards:[],summary:"Checks needed before the cross-network leg can start.",update:"Underway. The leg itself is not started (KB-1855 stays queued).",eta_utc:null},
+ {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"wip",cards:["KB-1859"],summary:"Public gateways announce, find each other, cap links at 3.",update:"Underway: R0.2 cap simulation rerun with a stale-gossip victim and lying joiners (precondition; ETA is for this rerun). The R4 build waits on KB-1855 and KB-1857.",eta_utc:"2026-11-27T15:27:38Z"},
  {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
  {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1863"],summary:"Webclients find gateways and pin the id they trust.",update:"KB-1863: needs R3.1 and R4.",eta_utc:null},
 
@@ -120,10 +121,10 @@ const NODES = [
  {id:"d1841",label:"Delete needs owner signature",cat:"safe",status:"done",cards:["KB-1841"],summary:"A stale push can no longer delete a DM copy.",update:"Done; merged a5c1a042.",eta_utc:null},
  {id:"d1837",label:"Stale home after refused update",cat:"safe",status:"done",cards:["KB-1837"],summary:"A third gateway keeps an old home after it refuses a relayed update.",update:"Live: 1 false refusal after a restart, 1 stale; both fixed themselves within 10 min. Small follow-up KB-1867 queued.",eta_utc:null},
  {id:"d1867",label:"Restart-window refusal trim",cat:"safe",status:"queued",cards:["KB-1867"],summary:"Low priority: trim false refusals right after a gateway restart.",update:"Queued; low priority.",eta_utc:null},
- {id:"d1851",label:"Read check on deleted channels",cat:"safe",status:"wip",cards:["KB-1851"],summary:"Security class: leftover messages of a deleted channel need a membership check.",update:"Not clean: 5 warnings since restart, all host CPU stalls; cause is KB-1903.",eta_utc:null},
+ {id:"d1851",label:"Read check on deleted channels",cat:"safe",status:"blocked",cards:["KB-1851"],summary:"Security class: leftover messages of a deleted channel need a membership check.",update:"Merged and live. Close held on the start-window error check (KB-1933).",eta_utc:null},
  {id:"d1871",label:"Channel list privacy fix",cat:"safe",status:"done",cards:["KB-1871"],summary:"Each user's channel list must contain only their own channels.",update:"Channel list now per caller; live on all gateways.",eta_utc:null},
  {id:"d1877",label:"Memory store overload",cat:"safe",status:"done",cards:["KB-1877"],summary:"Storage server too slow under gateway load; blocks clean starts.",update:"Test pings no longer stored; memory store unblocked.",eta_utc:null},
- {id:"d1903",label:"Warning counted per browser",cat:"safe",status:"wip",cards:["KB-1903"],summary:"A connection warning counts per browser, not per tab; blocks the zero-warnings gate.",update:"Start-warning fixes: 2 verified (announcements, park), 2 in second check, 1 in round 2; KB-1815 is live; merge + restart next",eta_utc:null},
+ {id:"d1903",label:"Warning counted per browser",cat:"safe",status:"queued",cards:["KB-1903"],summary:"A connection warning counts per browser, not per tab; blocks the zero-warnings gate.",update:"Fix not built yet. A zero-warning start window under build load was seen on 2026-11-26.",eta_utc:null},
  {id:"d1883",label:"Access check audit (1)",cat:"safe",status:"queued",cards:["KB-1883"],summary:"Security class: access check audit.",update:"Queued; blocks cutover.",eta_utc:null},
  {id:"d1889",label:"Access check audit (2)",cat:"safe",status:"queued",cards:["KB-1889"],summary:"Security class: access check audit across endpoints.",update:"Queued; before cutover.",eta_utc:null},
  {id:"g1897",label:"Test tool: send as test tab",cat:"gates",status:"queued",cards:["KB-1897"],summary:"Agents need a safe way to send as a test tab for live checks.",update:"Queued.",eta_utc:null},
@@ -145,10 +146,10 @@ const NODES = [
  {id:"d1991",label:"DM not shown between gateways (KB-1991)",cat:"safe",status:"done",cards:["KB-1991"],summary:"A DM between gateways does not reach the recipient; the cause sits in a security gate.",update:"Done; DM between gateways now reaches the recipient.",eta_utc:null},
  {id:"d1409",label:"Startup warnings on some boots (KB-1409)",cat:"safe",status:"done",cards:["KB-1409"],summary:"Some gateway boots show startup warnings; the zero-warning gate needs them gone.",update:"Done; live in v1.0.343 start. Zero start warnings on all four gateways.",eta_utc:null},
  {id:"d1981",label:"Discovery publish warning (KB-1981)",cat:"safe",status:"done",cards:["KB-1981"],summary:"A discovery publish warning shows in some gateway start windows.",update:"Done; live in v1.0.343 start. Zero start warnings on all four gateways.",eta_utc:null},
- {id:"d1989",label:"DM history pull repeats (KB-1989)",cat:"safe",status:"wip",cards:["KB-1989"],summary:"The DM history pull repeats every cycle with the same reply.",update:"Cause of the repeated DM history pull still open; not fixed by the v1.0.343 batch.",eta_utc:null},
+ {id:"d1989",label:"DM history pull repeats (KB-1989)",cat:"safe",status:"queued",cards:["KB-1989"],summary:"The DM history pull repeats every cycle with the same reply.",update:"Queued in backlog. Log tracing shipped in v1.0.343; cause of the repeated DM history pull is still open.",eta_utc:null},
  {id:"k2015",label:"Tunnel start retry (KB-2015)",cat:"gates",status:"queued",cards:["KB-2015"],summary:"A gateway start can show a tunnel warning on the first try.",update:"First start of one gateway had 2 tunnel warnings; relaunch was clean. Retry with backoff not built yet.",eta_utc:null},
  {id:"k2009",label:"Memory store recovery lag (KB-2009)",cat:"safe",status:"done",cards:["KB-2009","KB-1963"],summary:"After a memory store outage the gateway waits too long before retrying.",update:"Done; live restart 13:46Z, 0 warnings and 0 errors on all four gateways in the start window",eta_utc:null},
- {id:"k2011",label:"Memory store outages (KB-2011)",cat:"safe",status:"wip",cards:["KB-2011"],summary:"The memory store goes down about twice an hour.",update:"With the store owner.",eta_utc:null},
+ {id:"k2011",label:"Memory store outages (KB-2011)",cat:"safe",status:"queued",cards:["KB-2011"],summary:"The memory store goes down about twice an hour.",update:"Queued in backlog; with the store owner.",eta_utc:null},
  {id:"k2017",label:"Live observability (KB-2017)",cat:"gates",status:"queued",cards:["KB-2017"],summary:"More live counters for the v1.0.343 checks.",update:"Queued.",eta_utc:null},
 
  {id:"b1747",label:"Bindings + whitelists",cat:"r7",status:"blocked",cards:["KB-1747"],summary:"Per-mesh user bindings and whitelists.",update:"Blocked; needs R4 and R5.",eta_utc:null},
@@ -176,7 +177,7 @@ const NODES = [
  {id:"k2079",label:"mDNS off in gateway WebRTC (KB-2079)",cat:"gates",status:"done",cards:["KB-2079"],summary:"The gateway WebRTC engine skips mDNS and drops browser .local candidates itself, so start logs stay clean.",update:"Done. Graded window: 0 WARN, 0 ERROR, 0 panics on all 4 gateways. Proof is in-process with an injected .local candidate; a live or real-browser .local was not observed (KB-2081).",eta_utc:null},
  {id:"k2051",label:"Participant list info disclosure (KB-2051)",cat:"gates",status:"done",cards:["KB-2051"],summary:"Security class: the participant list answer had no trust gate.",update:"Done: key-binding proof (KB-2073) plus a clean graded start window (KB-2079).",eta_utc:null},
  {id:"k2081",label:"Test for .local candidates (KB-2081)",cat:"gates",status:"queued",cards:["KB-2081"],summary:"A browser pairing test that really exercises discarded .local candidates.",update:"Queued in backlog; not started.",eta_utc:null},
- {id:"k1927",label:"Presence flood guard (KB-1927)",cat:"gates",status:"queued",cards:["KB-1927"],summary:"Security gate before cutover.",update:"Filed: security gate before cutover; details private until fixed.",eta_utc:""},
+ {id:"k1927",label:"Presence flood guard (KB-1927)",cat:"gates",status:"done",cards:["KB-1927"],summary:"Security gate before cutover.",update:"Done: merged and live since 2026-11-26 19:00Z restart; clean start window. Follow-ups KB-2045, KB-2047, KB-2049.",eta_utc:null},
  {id:"k1929",label:"Member-list guard (KB-1929)",cat:"gates",status:"done",cards:["KB-1929"],summary:"Security gate before cutover.",update:"Done; live in v1.0.343, start window clean (0 warnings).",eta_utc:null},
  {id:"g1793",label:"Old join key proof",cat:"gates",status:"queued",cards:["KB-1793"],summary:"Security class: legacy client join binds an identity without a key proof.",update:"Queued; needs KB-1783.",eta_utc:null},
  {id:"g1809",label:"Mixed versions",cat:"gates",status:"queued",cards:["KB-1809"],summary:"Every gateway needs the new build before any enters mesh mode.",update:"Queued; runbook line.",eta_utc:null},
@@ -190,7 +191,7 @@ const NODES = [
 const EDGES = [
  ["r31","park"],["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
- ["presence","route"],["route","r2b"],["carrier","t5"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
+ ["presence","route"],["route","r2b"],["carrier","t5"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["presence","d1815"],["d1815","k1971"],["k1971","ucut"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
@@ -206,7 +207,7 @@ const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
 
 function fmtLocal(iso, withZone){
   const d = new Date(iso);
-  const o = {year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit", hour12:false, hourCycle:"h23"};
+  const o = {year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit", hourCycle:"h23"};
   if (withZone) o.timeZoneName = "short";
   return new Intl.DateTimeFormat(undefined, o).format(d);
 }
