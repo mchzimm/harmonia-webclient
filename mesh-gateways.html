@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-27T17:42:37Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-27T18:08:21Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-27T17:42:37Z";
+const UPDATED = "2026-11-27T18:08:21Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -112,7 +112,7 @@ const NODES = [
  {id:"park",label:"Park table hardening (KB-2055)",cat:"core",status:"wip",cards:["KB-2055","KB-2063"],summary:"Hardening step for the park table.",update:"KB-2063 Done (wiring only). KB-2055 stays open: follow-ups KB-2067 and KB-2069 remain.",eta_utc:null},
  {id:"route",label:"Send/route without old roster",cat:"core",status:"blocked",cards:["KB-1699"],summary:"Mesh sends still resolve owners through the legacy roster.",update:"Wave 1 merged and live. Wave 2 needed the KB-1857 pin book, which is now merged and live (inactive, mesh mode off); a pull query is the recommended option.",eta_utc:null},
  {id:"r2b",label:"Cross-network leg (R2b)",cat:"core",status:"wip",cards:["KB-1855","KB-1723","KB-1853"],summary:"Two real networks join through tunnels.",update:"Cross-network run done between the two machines (through a purpose-built test, not the two gateway programs): 100 of 100 posts delivered each way; relink after a tunnel address change on the receiving side took 11.3 to 15.5 s (limit 60). The reconnect check is confirmed by a second agent (3 of 3). Still open: startup warnings on the test gateways, and the speed read, which does not count because the machines were busy.",eta_utc:"2026-11-27T19:36:27Z"},
- {id:"k2093",label:"Warning-free scratch gateway start (KB-2093)",cat:"core",status:"wip",cards:["KB-2093"],summary:"Test gateways need a supported isolated start that logs no errors or warnings.",update:"Parts 1 and 2 merged (0659385f3) and live since the 15:52 UTC restart on 2026-11-27 (inactive, mesh mode off); part 3 still on a branch. Scratch gateway start is quiet: 11 error and 1 warning lines before, 0 after on a scratch rig. Unblocks the zero-warning gate for R2b.",eta_utc:null},
+ {id:"k2093",label:"Warning-free scratch gateway start (KB-2093)",cat:"core",status:"wip",cards:["KB-2093"],summary:"Test gateways need a supported isolated start that logs no errors or warnings.",update:"Check found cleanup problems in the test launcher; fixes before merge.",eta_utc:"2026-11-27T19:36:00Z"},
  {id:"k2095",label:"Slow fresh join (KB-2095)",cat:"core",status:"wip",cards:["KB-2095"],summary:"A fresh or restarted gateway takes too long to join the mesh.",update:"In progress, started 2026-11-27 16:40Z. Cause confirmed in a test rig (stage inferred); fix being built. A fresh join took about 140 s in 3 reads, against a 60 s bound. Blocks the start of R4. A gateway whose address is published late must also rejoin within 60 s. ETA is an estimate.",eta_utc:"2026-11-27T19:58:00Z"},
  {id:"r2bprobe",label:"R2b prerequisite probe",cat:"core",status:"done",cards:[],summary:"Checks needed before the cross-network leg can start.",update:"Done. The second machine needs the tunnel tool installed and a fresh checkout. The test gets its own launcher.",eta_utc:null},
  {id:"r4",label:"Public announce + discover (R4)",cat:"core",status:"wip",cards:["KB-1859"],summary:"Public gateways announce, find each other, cap links at 3.",update:"Admission rules are being measured; the choice needs an owner decision (KB-2099). R0.2 check passed 4 of 4. R4 build still waits on KB-1855 (R2c), KB-2095, the KB-2097 step and KB-2099. Prerequisites filed: KB-2105 (interim announce tightening), KB-2107 (link record hardening), KB-2109 (periodic re-announce), KB-2111 (simulation score) and KB-2113 (per-gateway trust simulation).",eta_utc:null},
