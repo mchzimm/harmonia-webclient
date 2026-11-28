@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-28T18:31:54Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-28T18:58:28Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-28T18:31:54Z";
+const UPDATED = "2026-11-28T18:58:28Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -140,9 +140,9 @@ const NODES = [
  {id:"k2135",label:"Edge-case hardening (KB-2135)",cat:"core",status:"queued",cards:["KB-2135"],summary:"Hardening of an edge case found by an independent check.",update:"Queued: repro test comes first.",eta_utc:null},
  {id:"k2137",label:"Test gaps (KB-2137)",cat:"core",status:"queued",cards:["KB-2137"],summary:"Close test gaps found by independent checks.",update:"Queued; not started.",eta_utc:null},
  {id:"k2139",label:"Fresh-join follow-ups (KB-2139)",cat:"core",status:"queued",cards:["KB-2139"],summary:"Follow-up items after the fresh-join fix.",update:"Queued; not started.",eta_utc:null},
- {id:"k2141",label:"Flaky tests (KB-2141)",cat:"core",status:"queued",cards:["KB-2141"],summary:"A test fails now and then under heavy load but passes alone.",update:"Queued; not started. Another timing test failed under load during the KB-2131 merge; a failure-rate comparison is pending.",eta_utc:null},
+ {id:"k2141",label:"Flaky tests (KB-2141)",cat:"core",status:"queued",cards:["KB-2141"],summary:"A test fails now and then under heavy load but passes alone.",update:"Queued; not started. Another timing test failed under load during the KB-2131 merge. Before/after comparison (16 pairs): 3 failures each, no difference measured (low power); failures came from the test setup.",eta_utc:null},
  {id:"k2129",label:"Busy storage test (KB-2129)",cat:"core",status:"queued",cards:["KB-2129"],summary:"An intermittent test about a busy storage service (round R2a area).",update:"Queued; cause not established.",eta_utc:null},
- {id:"k2131",label:"Discovery hardening (KB-2131)",cat:"core",status:"wip",cards:["KB-2131"],summary:"Hardening of gateway discovery.",update:"Verified, merged and live on the four gateways since 17:44 UTC on 2026-11-28; all gateway pairs reconnected. The 25-minute check showed 4 warnings; the cause was found and a fix is planned (KB-2161), so the card stays open. A failure-rate comparison for one timing test is also pending.",eta_utc:null},
+ {id:"k2131",label:"Discovery hardening (KB-2131)",cat:"core",status:"wip",cards:["KB-2131"],summary:"Hardening of gateway discovery.",update:"Verified, merged and live on the four gateways since 17:44 UTC on 2026-11-28; all gateway pairs reconnected. The 25-minute check showed 4 warnings; the cause was found and a fix is planned (KB-2161), so the card stays open. A latency test comparison (16 pairs) showed 3 failures before and 3 after: no difference measured (low power), failures in the test setup. The card still waits on KB-2161.",eta_utc:null},
  {id:"k2157",label:"Discovery follow-up (KB-2157)",cat:"core",status:"queued",cards:["KB-2157"],summary:"Follow-up hardening of gateway discovery, found during the KB-2131 check.",update:"Queued; not started.",eta_utc:null},
  {id:"k2159",label:"Discovery follow-up (KB-2159)",cat:"core",status:"queued",cards:["KB-2159"],summary:"Follow-up robustness work on gateway discovery, found during the KB-2131 check.",update:"Queued; not started.",eta_utc:null},
  {id:"k2161",label:"History reply warnings (KB-2161)",cat:"core",status:"wip",cards:["KB-2161"],summary:"Cause found: a reply waited behind a large history sync; fix planned.",update:"Design read done. No build until the quiet recount is graded. ETA unknown.",eta_utc:null},
