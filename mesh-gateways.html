@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-28T17:57:56Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-28T18:17:43Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-28T17:57:56Z";
+const UPDATED = "2026-11-28T18:17:43Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -142,9 +142,10 @@ const NODES = [
  {id:"k2139",label:"Fresh-join follow-ups (KB-2139)",cat:"core",status:"queued",cards:["KB-2139"],summary:"Follow-up items after the fresh-join fix.",update:"Queued; not started.",eta_utc:null},
  {id:"k2141",label:"Flaky tests (KB-2141)",cat:"core",status:"queued",cards:["KB-2141"],summary:"A test fails now and then under heavy load but passes alone.",update:"Queued; not started. Another timing test failed under load during the KB-2131 merge; a failure-rate comparison is pending.",eta_utc:null},
  {id:"k2129",label:"Busy storage test (KB-2129)",cat:"core",status:"queued",cards:["KB-2129"],summary:"An intermittent test about a busy storage service (round R2a area).",update:"Queued; cause not established.",eta_utc:null},
- {id:"k2131",label:"Discovery hardening (KB-2131)",cat:"core",status:"wip",cards:["KB-2131"],summary:"Hardening of gateway discovery.",update:"Verified, merged and live on the four gateways since 17:44 UTC on 2026-11-28; all gateway pairs reconnected. Not done yet: waits on the 25-minute warning check and a failure-rate comparison for one timing test.",eta_utc:null},
+ {id:"k2131",label:"Discovery hardening (KB-2131)",cat:"core",status:"wip",cards:["KB-2131"],summary:"Hardening of gateway discovery.",update:"Verified, merged and live on the four gateways since 17:44 UTC on 2026-11-28; all gateway pairs reconnected. The 25-minute check showed 4 warnings; the cause is being checked (KB-2161), so the card stays open. A failure-rate comparison for one timing test is also pending.",eta_utc:null},
  {id:"k2157",label:"Discovery follow-up (KB-2157)",cat:"core",status:"queued",cards:["KB-2157"],summary:"Follow-up hardening of gateway discovery, found during the KB-2131 check.",update:"Queued; not started.",eta_utc:null},
  {id:"k2159",label:"Discovery follow-up (KB-2159)",cat:"core",status:"queued",cards:["KB-2159"],summary:"Follow-up robustness work on gateway discovery, found during the KB-2131 check.",update:"Queued; not started.",eta_utc:null},
+ {id:"k2161",label:"History reply warnings (KB-2161)",cat:"core",status:"queued",cards:["KB-2161"],summary:"History reply warnings seen after the restart; being checked.",update:"Queued; being checked.",eta_utc:null},
  {id:"k2133",label:"Discovery code cleanup (KB-2133)",cat:"core",status:"queued",cards:["KB-2133"],summary:"Small cleanup in gateway discovery code.",update:"Queued; low priority.",eta_utc:null},
  {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
  {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1863"],summary:"Webclients find gateways and pin the id they trust.",update:"KB-1863: needs R3.1 and R4.",eta_utc:null},
@@ -224,7 +225,7 @@ const NODES = [
 const EDGES = [
  ["r31","park"],["clients","tunnel"],["tunnel","launcher"],["ident","launcher"],["launcher","ids"],["ids","carrier"],
  ["carrier","guard"],["guard","peering"],["peering","trust"],["trust","history"],["peering","presence"],
- ["presence","route"],["carrier","t5"],["carrier","r2b"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["k2093","r4"],["k2095","r4"],["k2097","r4"],["k2135","r4"],["k2137","r4"],["k2139","r4"],["k2141","r4"],["k2105","r4"],["k2107","r4"],["k2109","r4"],["k2111","r4"],["k2113","r4"],["k2121","r4"],["k2127","r4"],["k2113","k2121"],["k2121","k2099"],["k2121","k2123"],["k2123","k2099"],["k2097","k2125"],["k2093","r2b"],["k2101","r4"],["k2103","r4"],["k2099","r4"],["k2115","carrier"],["k2129","k2115"],["k2131","r4"],["k2131","k2157"],["k2131","k2159"],["k2133","r4"],["k2101","k2117"],["k2101","k2119"],["k2117","k2119"],["k2093","k2143"],["k2143","r4"],["k2145","k2093"],["k2153","k2093"],["k2117","k2147"],["k2117","k2149"],["k2149","r4"],["k2093","k2151"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
+ ["presence","route"],["carrier","t5"],["carrier","r2b"],["t5","k1917"],["k1933","k1917"],["t5","r2b"],["presence","r31"],["r2bprobe","r2b"],["r2b","r4"],["r31","r4"],["k2093","r4"],["k2095","r4"],["k2097","r4"],["k2135","r4"],["k2137","r4"],["k2139","r4"],["k2141","r4"],["k2105","r4"],["k2107","r4"],["k2109","r4"],["k2111","r4"],["k2113","r4"],["k2121","r4"],["k2127","r4"],["k2113","k2121"],["k2121","k2099"],["k2121","k2123"],["k2123","k2099"],["k2097","k2125"],["k2093","r2b"],["k2101","r4"],["k2103","r4"],["k2099","r4"],["k2115","carrier"],["k2129","k2115"],["k2131","r4"],["k2131","k2157"],["k2131","k2159"],["k2131","k2161"],["k2133","r4"],["k2101","k2117"],["k2101","k2119"],["k2117","k2119"],["k2093","k2143"],["k2143","r4"],["k2145","k2093"],["k2153","k2093"],["k2117","k2147"],["k2117","k2149"],["k2149","r4"],["k2093","k2151"],["r4","r5"],["r31","r6"],["r4","r6"],["r6","clients","discovery"],
  ["history","d1795"],["history","d1831"],["d1835","d1841"],["d1841","d1851"],["d1851","d1871"],["d1877","d1851"],["d1877","ucut"],["d1851","d1869"],["presence","g1873"],["g1873","ucut"],["d1841","d1845"],["d1841","d1847"],["d1841","d1849"],
  ["d1903","d1851"],["d1883","ucut"],["d1889","ucut"],["g1897","ucut"],["g1899","ucut"],["presence","d1837"],["d1837","d1843"],["d1843","k1921"],["presence","d1815"],["d1815","k1971"],["k1971","ucut"],["d1843","k1923"],["d1837","d1867"],
  ["r4","b1747"],["r5","b1747"],["b1747","b1749"],["b1747","b1751"],["b1747","b1753"],["r5","b1755"],["r5","b1757"],["r5","b1759"],["r5","b1761"],["launcher","b1693"],["b1747","g1779"],["peering","b1781"],
