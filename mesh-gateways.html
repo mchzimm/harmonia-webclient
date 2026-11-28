@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-28T12:05:16Z";
+const UPDATED = "2026-11-28T12:28:55Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -141,7 +141,7 @@ const NODES = [
  {id:"k2139",label:"Fresh-join follow-ups (KB-2139)",cat:"core",status:"queued",cards:["KB-2139"],summary:"Follow-up items after the fresh-join fix.",update:"Queued; not started.",eta_utc:null},
  {id:"k2141",label:"Flaky tests (KB-2141)",cat:"core",status:"queued",cards:["KB-2141"],summary:"A test fails now and then under heavy load but passes alone.",update:"Queued; not started.",eta_utc:null},
  {id:"k2129",label:"Busy storage test (KB-2129)",cat:"core",status:"queued",cards:["KB-2129"],summary:"An intermittent test about a busy storage service (round R2a area).",update:"Queued; cause not established.",eta_utc:null},
- {id:"k2131",label:"Discovery hardening (KB-2131)",cat:"core",status:"wip",cards:["KB-2131"],summary:"Hardening of gateway discovery.",update:"Hardening check in progress; the first step is a test only.",eta_utc:"2026-11-28T13:33:00Z"},
+ {id:"k2131",label:"Discovery hardening (KB-2131)",cat:"core",status:"wip",cards:["KB-2131"],summary:"Hardening of gateway discovery.",update:"Hardening check done on a test setup; the fix is in progress.",eta_utc:"2026-11-28T16:30:00Z"},
  {id:"k2133",label:"Discovery code cleanup (KB-2133)",cat:"core",status:"queued",cards:["KB-2133"],summary:"Small cleanup in gateway discovery code.",update:"Queued; low priority.",eta_utc:null},
  {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
  {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1863"],summary:"Webclients find gateways and pin the id they trust.",update:"KB-1863: needs R3.1 and R4.",eta_utc:null},
