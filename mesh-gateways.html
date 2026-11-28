@@ -63,7 +63,7 @@ a{color:var(--accent)}
 <main>
 <h1>Harmonia Mesh Gateways</h1>
 <p class="sub">Gateways link into a mesh, public or private, instead of a fixed fleet. Hover or tap a box for details.</p>
-<p class="stamp">Updated <span id="upd">2026-11-28T18:17:43Z</span></p>
+<p class="stamp">Updated <span id="upd">2026-11-28T18:22:11Z</span></p>
 <div class="bar" id="legend">
 <span class="chip"><span class="sw done"></span>Done <b id="c-done">0</b></span>
 <span class="chip"><span class="sw wip"></span>In progress <b id="c-wip">0</b></span>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <div id="tip" role="dialog" aria-live="polite"></div>
 <script>
 // ===== DATA: edit here. status: done|wip|queued|blocked. wip = work really underway; queued = not started. eta_utc: ISO UTC or null. =====
-const UPDATED = "2026-11-28T18:17:43Z";
+const UPDATED = "2026-11-28T18:22:11Z";
 const CATS = [
   {id:"clients", label:"Clients"},
   {id:"life", label:"Gateway lifecycle"},
@@ -145,7 +145,7 @@ const NODES = [
  {id:"k2131",label:"Discovery hardening (KB-2131)",cat:"core",status:"wip",cards:["KB-2131"],summary:"Hardening of gateway discovery.",update:"Verified, merged and live on the four gateways since 17:44 UTC on 2026-11-28; all gateway pairs reconnected. The 25-minute check showed 4 warnings; the cause is being checked (KB-2161), so the card stays open. A failure-rate comparison for one timing test is also pending.",eta_utc:null},
  {id:"k2157",label:"Discovery follow-up (KB-2157)",cat:"core",status:"queued",cards:["KB-2157"],summary:"Follow-up hardening of gateway discovery, found during the KB-2131 check.",update:"Queued; not started.",eta_utc:null},
  {id:"k2159",label:"Discovery follow-up (KB-2159)",cat:"core",status:"queued",cards:["KB-2159"],summary:"Follow-up robustness work on gateway discovery, found during the KB-2131 check.",update:"Queued; not started.",eta_utc:null},
- {id:"k2161",label:"History reply warnings (KB-2161)",cat:"core",status:"queued",cards:["KB-2161"],summary:"History reply warnings seen after the restart; being checked.",update:"Queued; being checked.",eta_utc:null},
+ {id:"k2161",label:"History reply warnings (KB-2161)",cat:"core",status:"wip",cards:["KB-2161"],summary:"History reply warnings seen after the restart; being checked.",update:"design read in progress, no build until quiet recount graded",eta_utc:null},
  {id:"k2133",label:"Discovery code cleanup (KB-2133)",cat:"core",status:"queued",cards:["KB-2133"],summary:"Small cleanup in gateway discovery code.",update:"Queued; low priority.",eta_utc:null},
  {id:"r5",label:"Private request + approve (R5)",cat:"core",status:"blocked",cards:["KB-1861"],summary:"Ask a private gateway to link; the target approves.",update:"KB-1861: needs R4.",eta_utc:null},
  {id:"r6",label:"Client discovery + id pin (R6)",cat:"core",status:"blocked",cards:["KB-1863"],summary:"Webclients find gateways and pin the id they trust.",update:"KB-1863: needs R3.1 and R4.",eta_utc:null},
